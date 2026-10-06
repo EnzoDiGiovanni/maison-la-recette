@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -41,6 +43,25 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'settings' => fn (): array => $this->settings(),
         ];
+    }
+
+    /**
+     * Site settings edited in the back office, with the about photo as a URL.
+     *
+     * @return array<string, string|null>
+     */
+    protected function settings(): array
+    {
+        $settings = Setting::values();
+
+        $settings['about_photo_url'] = filled($settings['about_photo'] ?? null)
+            ? Storage::disk('public')->url($settings['about_photo'])
+            : null;
+
+        unset($settings['about_photo']);
+
+        return $settings;
     }
 }
