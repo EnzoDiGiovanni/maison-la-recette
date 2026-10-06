@@ -1,12 +1,5 @@
 # maison-la-recette
 
-## Filament
+## Filament create user to acces BO
 
-### Name
-enzo
-
-### Email
-enzo@dev.com
-
-### Password
-enzo
+run : `php artisan make:filament-user`
