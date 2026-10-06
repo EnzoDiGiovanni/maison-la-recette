@@ -66,11 +66,21 @@ export default function PodcastsIndex({ podcasts }: Props) {
                             .filter((podcast) => podcast.season === season)
                             .map((podcast) => (
                                 <li key={podcast.id}>
+                                    {podcast.image_url && (
+                                        <img src={podcast.image_url} alt="" />
+                                    )}
                                     <Link href={show.url(podcast)}>
                                         {podcast.number !== null &&
                                             `#${podcast.number} `}
                                         {podcast.title}
                                     </Link>
+                                    {podcast.speaker && (
+                                        <p>
+                                            {podcast.speaker.name}
+                                            {podcast.speaker.role &&
+                                                `, ${podcast.speaker.role}`}
+                                        </p>
+                                    )}
                                     {podcast.published_at && (
                                         <time dateTime={podcast.published_at}>
                                             {formatDate(podcast.published_at)}

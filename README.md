@@ -14,7 +14,7 @@ php artisan db:seed
 php artisan storage:link
 ```
 
-- `migrate` creates the tables (podcasts, experiences, sessions, bookings, inquiries, testimonials, posts, settings).
+- `migrate` creates the tables (podcasts, speakers, experiences, sessions, bookings, inquiries, testimonials, posts, settings).
 - `db:seed` fills every back-office resource with demo data. It can be run again : it creates no duplicates and never overwrites what was edited in the back office. It refuses to run in production.
 - `storage:link` is needed once so uploaded images are displayed.
 

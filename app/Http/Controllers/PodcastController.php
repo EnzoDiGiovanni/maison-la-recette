@@ -14,7 +14,7 @@ class PodcastController extends Controller
     {
         return Inertia::render('podcasts/index', [
             'podcasts' => PodcastResource::collection(
-                Podcast::query()->orderByDesc('season')->orderByDesc('number')->latest('published_at')->get(),
+                Podcast::query()->with('speaker')->orderByDesc('season')->orderByDesc('number')->latest('published_at')->get(),
             )->resolve($request),
         ]);
     }

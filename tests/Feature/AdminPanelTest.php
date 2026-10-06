@@ -17,6 +17,7 @@ use App\Filament\Resources\Inquiries\InquiryResource;
 use App\Filament\Resources\Podcasts\Pages\CreatePodcast;
 use App\Filament\Resources\Podcasts\PodcastResource;
 use App\Filament\Resources\Posts\PostResource;
+use App\Filament\Resources\Speakers\SpeakerResource;
 use App\Filament\Resources\Testimonials\TestimonialResource;
 use App\Models\Booking;
 use App\Models\Experience;
@@ -25,6 +26,7 @@ use App\Models\Inquiry;
 use App\Models\Podcast;
 use App\Models\Post;
 use App\Models\Setting;
+use App\Models\Speaker;
 use App\Models\Testimonial;
 use App\Models\User;
 use Filament\Forms\Components\Repeater;
@@ -58,7 +60,9 @@ beforeEach(function () {
     ]);
 
     $this->records = [
+        SpeakerResource::class => $speaker = Speaker::create(['name' => 'Charles Guirriec', 'role' => 'La pêche durable']),
         PodcastResource::class => Podcast::create([
+            'speaker_id' => $speaker->id,
             'title' => 'La pêche durable',
             'slug' => 'la-peche-durable',
             'season' => 3,
@@ -98,7 +102,7 @@ it('renders the list and edit pages of every resource', function () {
 });
 
 it('renders the create pages', function () {
-    foreach ([PodcastResource::class, ExperienceResource::class, ExperienceSessionResource::class, TestimonialResource::class, PostResource::class] as $resource) {
+    foreach ([PodcastResource::class, SpeakerResource::class, ExperienceResource::class, ExperienceSessionResource::class, TestimonialResource::class, PostResource::class] as $resource) {
         $this->get($resource::getUrl('create'))->assertOk();
     }
 });
@@ -137,12 +141,17 @@ it('creates a podcast from a link and an iframe', function () {
             'slug' => 'la-boulangerie-vegetale',
             'link' => 'https://podcast.ausha.co/la-recette/la-boulangerie-vegetale',
             'iframe' => '<iframe src="https://player.ausha.co/?podcastId=xyz"></iframe>',
+            'speaker_id' => $this->records[SpeakerResource::class]->id,
+            'quote' => 'Le pain, c\'est vivant.',
         ])
         ->call('create')
         ->assertHasNoFormErrors();
 
-    expect(Podcast::where('slug', 'la-boulangerie-vegetale')->firstOrFail()->iframe)
-        ->toBe('<iframe src="https://player.ausha.co/?podcastId=xyz"></iframe>');
+    $podcast = Podcast::where('slug', 'la-boulangerie-vegetale')->firstOrFail();
+
+    expect($podcast->iframe)->toBe('<iframe src="https://player.ausha.co/?podcastId=xyz"></iframe>')
+        ->and($podcast->speaker->name)->toBe('Charles Guirriec')
+        ->and($podcast->quote)->toBe('Le pain, c\'est vivant.');
 });
 
 it('counts only paid bookings against the session capacity', function () {
@@ -228,4 +237,10 @@ it('keeps the time typed in the back office as Paris time', function () {
     $session = ExperienceSession::latest('id')->firstOrFail();
 
     expect($session->starts_at->toIso8601String())->toBe('2027-07-01T18:30:00+02:00');
+});
+
+it('keeps the podcast when its intervenant is deleted', function () {
+    $this->records[SpeakerResource::class]->delete();
+
+    expect($this->records[PodcastResource::class]->fresh()->speaker_id)->toBeNull();
 });

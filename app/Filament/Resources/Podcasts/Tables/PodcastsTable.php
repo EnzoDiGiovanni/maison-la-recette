@@ -7,6 +7,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -17,6 +18,9 @@ class PodcastsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label('Image')
+                    ->disk('public'),
                 TextColumn::make('season')
                     ->label('Saison')
                     ->sortable(),
@@ -27,6 +31,10 @@ class PodcastsTable
                     ->label('Titre')
                     ->searchable()
                     ->wrap(),
+                TextColumn::make('speaker.name')
+                    ->label('Intervenant')
+                    ->searchable()
+                    ->placeholder('—'),
                 IconColumn::make('iframe')
                     ->label('Iframe')
                     ->boolean()

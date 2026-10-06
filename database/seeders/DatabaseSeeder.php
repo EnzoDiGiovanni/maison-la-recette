@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SettingSeeder::class,
+            SpeakerSeeder::class,
             PodcastSeeder::class,
             ExperienceSeeder::class,
             ExperienceSessionSeeder::class,

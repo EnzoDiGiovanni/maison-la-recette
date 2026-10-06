@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\Podcasts\Schemas;
 
+use App\Filament\Resources\Speakers\Schemas\SpeakerForm;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -29,6 +32,11 @@ class PodcastForm
                             ->label('Iframe')
                             ->helperText('Code d\'intégration du lecteur (<iframe …>), à copier depuis la plateforme d\'hébergement.')
                             ->rows(4),
+                        FileUpload::make('image')
+                            ->label('Image')
+                            ->image()
+                            ->disk('public')
+                            ->directory('podcasts'),
                     ]),
                 Section::make('Présentation')
                     ->columns(2)
@@ -56,6 +64,13 @@ class PodcastForm
                             ->label('Numéro')
                             ->numeric()
                             ->minValue(1),
+                        Select::make('speaker_id')
+                            ->label('Intervenant')
+                            ->relationship('speaker', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->createOptionForm(SpeakerForm::components())
+                            ->columnSpanFull(),
                         DatePicker::make('published_at')
                             ->label('Date de publication'),
                         Toggle::make('is_featured')
@@ -64,6 +79,11 @@ class PodcastForm
                         Textarea::make('summary')
                             ->label('Résumé')
                             ->rows(8)
+                            ->columnSpanFull(),
+                        Textarea::make('quote')
+                            ->label('Citation')
+                            ->helperText('Une phrase marquante de l\'intervenant, sans les guillemets.')
+                            ->rows(3)
                             ->columnSpanFull(),
                     ]),
             ]);

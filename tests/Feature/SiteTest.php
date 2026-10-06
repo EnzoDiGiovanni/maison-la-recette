@@ -8,6 +8,7 @@ use App\Models\Inquiry;
 use App\Models\Podcast;
 use App\Models\Post;
 use App\Models\Testimonial;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 beforeEach(fn () => $this->seed());
@@ -27,17 +28,25 @@ it('renders the home page with featured podcasts, experiences, testimonials and 
 
 it('lists the podcasts and shows one with its link and iframe', function () {
     $podcast = Podcast::firstOrFail();
-    $podcast->update(['iframe' => '<iframe src="https://player.ausha.co/?podcastId=abc"></iframe>']);
+    $podcast->update([
+        'iframe' => '<iframe src="https://player.ausha.co/?podcastId=abc"></iframe>',
+        'image' => 'podcasts/peche.jpg',
+    ]);
 
     $this->get(route('podcasts.index'))
-        ->assertInertia(fn (Assert $page) => $page->component('podcasts/index')->has('podcasts', 6));
+        ->assertInertia(fn (Assert $page) => $page->component('podcasts/index')->has('podcasts', 6)->has('podcasts.0.speaker.name'));
 
     $this->get(route('podcasts.show', $podcast))
         ->assertInertia(fn (Assert $page) => $page
             ->component('podcasts/show')
             ->where('podcast.slug', $podcast->slug)
             ->where('podcast.link', $podcast->link)
-            ->where('podcast.iframe', $podcast->iframe));
+            ->where('podcast.iframe', $podcast->iframe)
+            ->where('podcast.speaker.name', $podcast->speaker->name)
+            ->where('podcast.speaker.role', $podcast->speaker->role)
+            ->where('podcast.speaker.photo_url', null)
+            ->has('podcast.quote')
+            ->where('podcast.image_url', Storage::disk('public')->url('podcasts/peche.jpg')));
 
     $this->get(route('podcasts.offers'))
         ->assertInertia(fn (Assert $page) => $page->component('podcasts/offers'));
@@ -168,4 +177,11 @@ it('sends session times with the Paris offset', function () {
     $this->get(route('experiences.show', 'atelier-lactofermentation'))
         ->assertInertia(fn (Assert $page) => $page
             ->where('sessions.0.starts_at', fn (string $value) => (bool) preg_match('/T18:30:00\\+0[12]:00$/', $value)));
+});
+
+it('sends a null speaker for a podcast without intervenant', function () {
+    $podcast = Podcast::create(['title' => 'Hors-série', 'slug' => 'hors-serie', 'link' => 'https://smartlink.ausha.co/la-recette']);
+
+    $this->get(route('podcasts.show', $podcast))
+        ->assertInertia(fn (Assert $page) => $page->where('podcast.speaker', null)->where('podcast.quote', null));
 });

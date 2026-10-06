@@ -27,6 +27,8 @@ export default function PodcastsShow({ podcast }: Props) {
                     </time>
                 )}
 
+                {podcast.image_url && <img src={podcast.image_url} alt="" />}
+
                 {/* Lecteur collé dans le back-office par l'administratrice. */}
                 {podcast.iframe && (
                     <div dangerouslySetInnerHTML={{ __html: podcast.iframe }} />
@@ -38,6 +40,27 @@ export default function PodcastsShow({ podcast }: Props) {
                     podcast.summary
                         .split(/\n{2,}/)
                         .map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+
+                {podcast.quote && (
+                    <figure>
+                        <blockquote>{podcast.quote}</blockquote>
+                        {podcast.speaker && (
+                            <figcaption>{podcast.speaker.name}</figcaption>
+                        )}
+                    </figure>
+                )}
+
+                {podcast.speaker && (
+                    <section>
+                        <h2>L'intervenant·e</h2>
+                        {podcast.speaker.photo_url && (
+                            <img src={podcast.speaker.photo_url} alt="" />
+                        )}
+                        <p>{podcast.speaker.name}</p>
+                        {podcast.speaker.role && <p>{podcast.speaker.role}</p>}
+                        {podcast.speaker.bio && <p>{podcast.speaker.bio}</p>}
+                    </section>
+                )}
             </article>
         </SiteLayout>
     );
