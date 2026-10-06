@@ -1,4 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
+import ProseText from '@/components/prose-text';
 import SiteLayout from '@/layouts/site-layout';
 import { formatDate } from '@/lib/format';
 import { index } from '@/routes/podcasts';
@@ -36,31 +37,7 @@ export default function PodcastsShow({ podcast }: Props) {
 
                 <a href={podcast.link}>Écouter sur les plateformes</a>
 
-                {podcast.summary &&
-                    podcast.summary
-                        .split(/\n{2,}/)
-                        .map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-
-                {podcast.quote && (
-                    <figure>
-                        <blockquote>{podcast.quote}</blockquote>
-                        {podcast.speaker && (
-                            <figcaption>{podcast.speaker.name}</figcaption>
-                        )}
-                    </figure>
-                )}
-
-                {podcast.speaker && (
-                    <section>
-                        <h2>L'intervenant·e</h2>
-                        {podcast.speaker.photo_url && (
-                            <img src={podcast.speaker.photo_url} alt="" />
-                        )}
-                        <p>{podcast.speaker.name}</p>
-                        {podcast.speaker.role && <p>{podcast.speaker.role}</p>}
-                        {podcast.speaker.bio && <p>{podcast.speaker.bio}</p>}
-                    </section>
-                )}
+                <ProseText text={podcast.summary} />
             </article>
         </SiteLayout>
     );

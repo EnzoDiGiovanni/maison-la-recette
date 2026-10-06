@@ -1,0 +1,7 @@
+/* CSS variables */
+:root {
+    --primary-color: #5faf88;
+    --secondary-color: #90c55a;
+    --accent-color: #fff8eb;
+    --font: sans-serif;
+}

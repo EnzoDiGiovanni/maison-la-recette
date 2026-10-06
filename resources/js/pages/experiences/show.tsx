@@ -1,7 +1,9 @@
 import { Head, Link } from '@inertiajs/react';
+import QuoteSection from '@/components/quote-section';
+import SessionCard from '@/components/session-card';
+import TestimonialsSection from '@/components/testimonials-section';
 import SiteLayout from '@/layouts/site-layout';
-import { formatDateTime, formatPrice } from '@/lib/format';
-import { contact } from '@/routes';
+import { formatPrice } from '@/lib/format';
 import { index } from '@/routes/experiences';
 import type { Experience, ExperienceSession, Testimonial } from '@/types';
 
@@ -79,57 +81,27 @@ export default function ExperiencesShow({
                 ) : (
                     <ul>
                         {sessions.map((session) => (
-                            <li key={session.id}>
-                                <time dateTime={session.starts_at}>
-                                    {formatDateTime(session.starts_at)}
-                                </time>
-                                {session.location && <p>{session.location}</p>}
-                                <p>{formatPrice(session.price)} par personne</p>
-                                <p>
-                                    {session.remaining_seats > 0
-                                        ? `${session.remaining_seats} places restantes sur ${session.capacity}`
-                                        : 'Complet'}
-                                </p>
-                                {/* La réservation en ligne (Stripe) reste à brancher ici. */}
-                            </li>
+                            // La réservation en ligne (Stripe) reste à brancher sur la carte.
+                            <SessionCard key={session.id} session={session} />
                         ))}
                     </ul>
                 )}
             </section>
 
-            <section>
-                <h2>Pour votre équipe</h2>
+            <QuoteSection
+                title="Pour votre équipe"
+                query={{
+                    type: 'devis_experience',
+                    experience_type: experience.type.value,
+                }}
+            >
                 <p>
                     Date, nombre de participant·es, lieu : cette expérience
                     s'adapte à votre événement.
                 </p>
-                <Link
-                    href={contact.url({
-                        query: {
-                            type: 'devis_experience',
-                            experience_type: experience.type.value,
-                        },
-                    })}
-                >
-                    Demander un devis
-                </Link>
-            </section>
+            </QuoteSection>
 
-            <section>
-                <h2>Avis de nos client·es</h2>
-                <ul>
-                    {testimonials.map((testimonial) => (
-                        <li key={testimonial.id}>
-                            <blockquote>{testimonial.quote}</blockquote>
-                            <p>
-                                {testimonial.author_name}
-                                {testimonial.author_role &&
-                                    `, ${testimonial.author_role}`}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+            <TestimonialsSection testimonials={testimonials} />
         </SiteLayout>
     );
 }
