@@ -3,6 +3,15 @@ export type Option = {
     label: string;
 };
 
+export type Speaker = {
+    id: number;
+    name: string;
+    /** Fonction ou structure, par exemple « Cheffe étoilée ». */
+    role: string | null;
+    bio: string | null;
+    photo_url: string | null;
+};
+
 export type Podcast = {
     id: number;
     title: string;
@@ -13,7 +22,12 @@ export type Podcast = {
     link: string;
     /** Code HTML du lecteur à intégrer, collé depuis le back-office. */
     iframe: string | null;
+    image_url: string | null;
     summary: string | null;
+    /** Phrase marquante de l'intervenant, sans guillemets. */
+    quote: string | null;
+    /** Intervenant de l'épisode, null si non renseigné. */
+    speaker: Speaker | null;
     /** Date au format AAAA-MM-JJ. */
     published_at: string | null;
     is_featured: boolean;

@@ -63,6 +63,7 @@
     p,
     dl,
     blockquote,
+    figure,
     img,
     iframe {
         margin-block: 0.5rem;

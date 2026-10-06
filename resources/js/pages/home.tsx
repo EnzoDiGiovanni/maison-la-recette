@@ -41,9 +41,16 @@ export default function Home({
                 <ul>
                     {featuredPodcasts.map((podcast) => (
                         <li key={podcast.id}>
+                            {podcast.image_url && (
+                                <img src={podcast.image_url} alt="" />
+                            )}
                             <Link href={showPodcast.url(podcast)}>
                                 {podcast.title}
                             </Link>
+                            {podcast.quote && (
+                                <blockquote>{podcast.quote}</blockquote>
+                            )}
+                            {podcast.speaker && <p>{podcast.speaker.name}</p>}
                         </li>
                     ))}
                 </ul>
