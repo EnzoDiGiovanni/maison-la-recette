@@ -1,4 +1,6 @@
+import { Link } from '@inertiajs/react';
 import { useEffect, useRef } from 'react';
+import { login } from '@/routes';
 
 type Props = {
     open: boolean;
@@ -7,7 +9,7 @@ type Props = {
 
 /**
  * Fenêtre « compte chou » de la maquette : inscription / connexion.
- * Les boutons sont en attente : le compte auditeur n'existe pas encore.
+ * Les deux boutons e-mail mènent à la page de connexion ; Google reste en attente.
  */
 export default function AccountDialog({ open, onClose }: Props) {
     const dialogRef = useRef<HTMLDialogElement>(null);
@@ -51,12 +53,12 @@ export default function AccountDialog({ open, onClose }: Props) {
 
             <section className="account-dialog__section">
                 <h2>Inscrivez-vous</h2>
-                <button
-                    type="button"
+                <Link
+                    href={login.url()}
                     className="account-dialog__button account-dialog__button--green"
                 >
                     continuez avec une adresse mail
-                </button>
+                </Link>
                 <button
                     type="button"
                     className="account-dialog__button account-dialog__button--cream"
@@ -69,12 +71,12 @@ export default function AccountDialog({ open, onClose }: Props) {
 
             <section className="account-dialog__section">
                 <h2>Connectez-vous</h2>
-                <button
-                    type="button"
+                <Link
+                    href={login.url()}
                     className="account-dialog__button account-dialog__button--green"
                 >
                     Se connecter
-                </button>
+                </Link>
             </section>
         </dialog>
     );

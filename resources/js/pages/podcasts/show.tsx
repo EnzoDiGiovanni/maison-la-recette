@@ -1,4 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
+import FavoriteButton from '@/components/podcasts/favorite-button';
 import ProseText from '@/components/prose-text';
 import SiteLayout from '@/layouts/site-layout';
 import { formatDate } from '@/lib/format';
@@ -36,6 +37,8 @@ export default function PodcastsShow({ podcast }: Props) {
                 )}
 
                 <a href={podcast.link}>Écouter sur les plateformes</a>
+
+                <FavoriteButton podcast={podcast} withLabel />
 
                 <ProseText text={podcast.summary} />
             </article>

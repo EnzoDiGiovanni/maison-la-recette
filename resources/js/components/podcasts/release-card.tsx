@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import Cover from '@/components/podcasts/cover';
+import FavoriteButton from '@/components/podcasts/favorite-button';
 import { podcastGuest, podcastSubject, podcastTeaser } from '@/lib/podcast';
 import { show } from '@/routes/podcasts';
 import type { Podcast } from '@/types';
@@ -37,6 +38,7 @@ export default function ReleaseCard({ podcast, tone }: Props) {
                     <span className="release-card__guest">Avec {guest}</span>
                 )}
             </Link>
+            <FavoriteButton podcast={podcast} />
         </li>
     );
 }
