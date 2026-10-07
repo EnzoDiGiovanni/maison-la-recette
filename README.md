@@ -18,7 +18,17 @@ php artisan storage:link
 - `db:seed` fills every back-office resource with demo data. It can be run again : it creates no duplicates and never overwrites what was edited in the back office. It refuses to run in production.
 - `storage:link` is needed once so uploaded images are displayed.
 
-The seeder also creates a back-office account : `test@example.com` / `password`.
+The seeder also creates a back-office account : `test@example.com` / `password`, and two customer accounts (same password) : `particulier@example.com` (individual, with bookings) and `entreprise@example.com` (company, with a quote request). Their demo bookings and requests are only linked on an empty database (`migrate:fresh --seed`).
+
+## Customer accounts
+
+`users.role` is `admin` or `utilisateur` (the default for every new account) : only admins reach the back office (`/admin`) and see the « Back-office » button on their dashboard. To give the role to an account, for instance one made with `make:filament-user` : `php artisan user:admin her@email.fr`.
+
+`users.account_type` is `particulier` or `entreprise`. Visitors sign up on `/inscription` and find their account on `/dashboard`.
+
+- Individuals book a session from an experience page, then pay on `/sessions/{id}/paiement`. Prototype : the card form is a demo (any 16-digit number, e.g. 4242 4242 4242 4242), nothing is charged or stored, and the booking is saved as paid. It then shows on the dashboard.
+- Any signed-in account can save episodes with the bookmark on podcast cards (`podcast_user` table) ; they are listed under « À écouter plus tard » on the dashboard.
+- Companies cannot book online : they send quote requests, which they follow on their dashboard.
 
 To start again from an empty database : `php artisan migrate:fresh --seed` (this deletes all local data).
 
@@ -26,20 +36,25 @@ To start again from an empty database : `php artisan migrate:fresh --seed` (this
 
 Every public page already exists as an unstyled React component that receives its data from Laravel. Front developers only add markup and styles.
 
-| URL                   | Component (`resources/js/pages/`) | Props                                                                     |
-| --------------------- | --------------------------------- | ------------------------------------------------------------------------- |
-| `/`                   | `home.tsx`                        | `featuredPodcasts`, `experiences`, `testimonials`, `latestPosts`          |
-| `/podcasts`           | `podcasts/index.tsx`              | `podcasts`                                                                |
-| `/podcasts/{slug}`    | `podcasts/show.tsx`               | `podcast`                                                                 |
-| `/podcasts/offres`    | `podcasts/offers.tsx`             | none (static content)                                                     |
-| `/experiences`        | `experiences/index.tsx`           | `experiences`, `testimonials`                                             |
-| `/experiences/{slug}` | `experiences/show.tsx`            | `experience`, `sessions`, `testimonials`                                  |
-| `/blog`               | `posts/index.tsx`                 | `posts`                                                                   |
-| `/blog/{slug}`        | `posts/show.tsx`                  | `post`                                                                    |
-| `/a-propos`           | `about.tsx`                       | none (uses `settings`)                                                    |
-| `/contact`            | `contact.tsx`                     | `defaultType`, `defaultExperienceType`, `inquiryTypes`, `experienceTypes` |
+| URL                       | Component (`resources/js/pages/`) | Props                                                                     |
+| ------------------------- | --------------------------------- | ------------------------------------------------------------------------- |
+| `/`                       | `home.tsx`                        | `featuredPodcasts`, `experiences`, `testimonials`, `latestPosts`          |
+| `/podcasts`               | `podcasts/index.tsx`              | `podcasts`                                                                |
+| `/podcasts/{slug}`        | `podcasts/show.tsx`               | `podcast`                                                                 |
+| `/podcasts/offres`        | `podcasts/offers.tsx`             | none (static content)                                                     |
+| `/experiences`            | `experiences/index.tsx`           | `latestExperiences`, `pastEvents`                                         |
+| `/experiences/{slug}`     | `experiences/show.tsx`            | `experience`, `sessions`, `testimonials`                                  |
+| `/blog`                   | `posts/index.tsx`                 | `posts`                                                                   |
+| `/blog/{slug}`            | `posts/show.tsx`                  | `post`                                                                    |
+| `/a-propos`               | `about.tsx`                       | none (uses `settings`)                                                    |
+| `/contact`                | `contact.tsx`                     | `defaultType`, `defaultExperienceType`, `inquiryTypes`, `experienceTypes` |
+| `/connexion`              | `auth/login.tsx`                  | none                                                                      |
+| `/inscription`            | `auth/register.tsx`               | `accountTypes`                                                            |
+| `/sessions/{id}/paiement` | `bookings/checkout.tsx`           | `experience`, `session`, `seats`                                          |
+| `/dashboard`              | `dashboard.tsx`                   | `account`, `favoritePodcasts`, `bookings`, `inquiries`                    |
 
 - Prop types are in `resources/js/types/models.ts`.
+- The signed-in account (or `null`) is available on every page with `usePage().props.auth.user`.
 - `settings` (podcast figures, platform links, contact e-mail, about text) is available on every page with `usePage().props.settings`.
 - The header, footer and success message are in `resources/js/layouts/site-layout.tsx`.
 - Links use the generated route helpers in `@/routes` (regenerated by `npm run dev`).
