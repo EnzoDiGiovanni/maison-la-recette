@@ -6,6 +6,7 @@ import PodcastCta from '@/components/podcasts/podcast-cta';
 import PodcastTile from '@/components/podcasts/podcast-tile';
 import ReleaseCard from '@/components/podcasts/release-card';
 import SectionTitle from '@/components/section-title';
+import useReveal from '@/hooks/use-reveal';
 import SiteLayout from '@/layouts/site-layout';
 import { podcastGuest } from '@/lib/podcast';
 import type { Podcast } from '@/types';
@@ -18,6 +19,7 @@ type Guest = { name: string; photoUrl: string | null; podcast: Podcast };
 
 export default function PodcastsIndex({ podcasts }: Props) {
     const guestsRef = useRef<HTMLUListElement>(null);
+    useReveal();
 
     // Les plus écoutés : les épisodes mis en avant, complétés par les récents.
     const mostListened = [...podcasts]
@@ -73,7 +75,7 @@ export default function PodcastsIndex({ podcasts }: Props) {
             <div className="podcast-page">
                 <h1 className="sr-only">Le podcast La recette</h1>
 
-                <section>
+                <section className="reveal">
                     <SectionTitle>Les plus écoutés</SectionTitle>
                     <ul className="podcast-row">
                         {mostListened.map((podcast) => (
@@ -82,9 +84,11 @@ export default function PodcastsIndex({ podcasts }: Props) {
                     </ul>
                 </section>
 
-                <PodcastCta />
+                <div className="reveal">
+                    <PodcastCta />
+                </div>
 
-                <section>
+                <section className="reveal">
                     <SectionTitle>
                         {monthReleases.length > 0 ? (
                             <>
@@ -115,7 +119,7 @@ export default function PodcastsIndex({ podcasts }: Props) {
                     </ul>
                 </section>
 
-                <section>
+                <section className="reveal">
                     <SectionTitle>Les intervenants</SectionTitle>
                     <div className="guests">
                         <ul className="podcast-row" ref={guestsRef}>

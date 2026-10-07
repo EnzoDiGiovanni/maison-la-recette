@@ -256,18 +256,22 @@ main ul.podcast-row {
 /* Grille 2 × 2 « Les sorties du mois » */
 main ul.release-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* minmax(0, …) : sans quoi les items ne peuvent pas rétrécir
+       sous leur contenu minimal et la grille déborde de l'écran. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(1rem, 3vw, 2.75rem) clamp(1rem, 5.5vw, 5rem);
     margin: 0;
 }
 
 @media (max-width: 640px) {
     main ul.release-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
 .release-card {
+    min-width: 0;
+    overflow: hidden;
     border: 1px solid rgb(0 0 0 / 0.06);
     border-radius: 0.35rem;
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
@@ -283,13 +287,14 @@ main ul.release-grid {
 
 .release-card a {
     display: grid;
-    grid-template-columns: 36% 1fr;
+    grid-template-columns: minmax(0, 36%) minmax(0, 1fr);
     gap: clamp(0.6rem, 1.8vw, 1.5rem);
     height: 100%;
     padding: clamp(0.5rem, 1.4vw, 1.25rem);
 }
 
 .release-card__body {
+    min-width: 0;
     padding-top: 0.25rem;
 }
 
@@ -358,4 +363,216 @@ main ul.release-grid {
     margin-top: 0.6em;
     font-size: clamp(0.65rem, 1.15vw, 1rem);
     line-height: 1.35;
+}
+
+/* === Responsive global === */
+
+/* Les pages hors podcast restent lisibles : colonne centrée max 62rem. */
+main > :where(h1, section, article, form, ul, p, dl) {
+    max-width: 62rem;
+    margin-inline: auto;
+}
+
+/* Sécurité : rien ne déborde horizontalement. */
+html {
+    overflow-x: clip;
+}
+
+main img,
+main iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Petits écrans : marges resserrées via --gutter (clamp), les éléments
+   interactifs gardent une zone tactile correcte. */
+@media (max-width: 640px) {
+    .site-header__menu {
+        right: var(--gutter);
+        left: var(--gutter);
+    }
+
+    /* Cartes « sorties » : photo réduite sur très petits écrans. */
+    .release-card a {
+        grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    /* Grand écran : les rangées affichent 6 tuiles au lieu de 5. */
+    .podcast-row > li {
+        flex-basis: calc((100% - 5 * var(--row-gap)) / 6);
+    }
+}
+
+/* === Animations === */
+
+/* Apparition au scroll : les sections montent en fondu,
+   les cartes internes se décalent en cascade. */
+.reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+.reveal .podcast-row > li,
+.reveal .release-grid > li {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
+
+.reveal.is-visible .podcast-row > li,
+.reveal.is-visible .release-grid > li {
+    opacity: 1;
+    transform: none;
+}
+
+.reveal.is-visible li:nth-child(1) {
+    transition-delay: 0.05s;
+}
+.reveal.is-visible li:nth-child(2) {
+    transition-delay: 0.12s;
+}
+.reveal.is-visible li:nth-child(3) {
+    transition-delay: 0.19s;
+}
+.reveal.is-visible li:nth-child(4) {
+    transition-delay: 0.26s;
+}
+.reveal.is-visible li:nth-child(5) {
+    transition-delay: 0.33s;
+}
+.reveal.is-visible li:nth-child(6) {
+    transition-delay: 0.4s;
+}
+
+/* Survol : les visuels zooment doucement, les cartes se soulèvent. */
+.podcast-tile__photo,
+.guest-card__photo,
+.release-card__photo {
+    transition: transform 0.35s ease;
+}
+
+.podcast-tile:hover .podcast-tile__photo,
+.guest-card:hover .guest-card__photo {
+    transform: scale(1.04);
+}
+
+.release-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.release-card:hover {
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.14);
+    transform: translateY(-3px);
+}
+
+.release-card:hover .release-card__photo {
+    transform: scale(1.05);
+}
+
+/* La flèche du titre bouge pour inviter au scroll. */
+.section-title__arrow {
+    transition: transform 0.3s ease;
+}
+
+section:hover .section-title__arrow {
+    transform: translate(0.15em, 0.15em);
+}
+
+/* Bouton flèche des intervenants. */
+.guests__scroll {
+    cursor: pointer;
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.guests__scroll:hover {
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-50%) translateX(4px);
+}
+
+/* Encart CTA : bouton survolé + léger soulèvement de l'encart. */
+.podcast-cta {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.podcast-cta:hover {
+    box-shadow: 0 10px 24px rgb(95 175 136 / 0.35);
+    transform: translateY(-2px);
+}
+
+.podcast-cta button {
+    cursor: pointer;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.podcast-cta button:hover {
+    background: #fff;
+    color: var(--primary-color);
+}
+
+/* Menu burger : apparition en glissière. */
+.site-header__menu {
+    animation: menu-in 0.2s ease-out;
+}
+
+@keyframes menu-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Icônes de la barre. */
+.site-header__actions a {
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.site-header__actions a:hover {
+    opacity: 0.7;
+    transform: scale(1.15);
+}
+
+/* Respect du réglage « réduire les animations » du système. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+
+    .reveal,
+    .reveal .podcast-row > li,
+    .reveal .release-grid > li {
+        opacity: 1;
+        transform: none;
+    }
 }
