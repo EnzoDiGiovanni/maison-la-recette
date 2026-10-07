@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\ExperienceSession;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class BookingSeeder extends Seeder
@@ -31,12 +32,16 @@ class BookingSeeder extends Seeder
             return;
         }
 
+        // Claire's bookings belong to the demo individual account.
+        $customer = User::query()->where('email', 'particulier@example.com')->first();
+
         foreach ($bookings as $index => [$name, $email, $phone, $seats, $status]) {
             /** @var ExperienceSession $session */
             $session = $sessions[$index % $sessions->count()];
             $bookedAt = now()->subDays(20 - $index * 2);
 
             $booking = new Booking([
+                'user_id' => $name === $customer?->name ? $customer->id : null,
                 'experience_session_id' => $session->id,
                 'name' => $name,
                 'email' => $email,
