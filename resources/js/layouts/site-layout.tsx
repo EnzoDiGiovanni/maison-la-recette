@@ -3,12 +3,18 @@ import type { ReactNode } from 'react';
 import SiteFooter from '@/components/site-footer';
 import SiteHeader from '@/components/site-header';
 
-export default function SiteLayout({ children }: { children: ReactNode }) {
+type Props = {
+    children: ReactNode;
+    /** Titre encadré affiché au centre de la barre de navigation. */
+    title?: string;
+};
+
+export default function SiteLayout({ children, title }: Props) {
     const { flash } = usePage();
 
     return (
         <>
-            <SiteHeader />
+            <SiteHeader title={title} />
 
             {flash.success && <p role="status">{flash.success}</p>}
 

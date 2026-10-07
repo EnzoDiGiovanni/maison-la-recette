@@ -40,11 +40,11 @@ export default function Home({
                 <h2>Le podcast</h2>
                 <ul>
                     {featuredPodcasts.map((podcast) => (
-                        <li key={podcast.id}>
-                            <Link href={showPodcast.url(podcast)}>
-                                {podcast.title}
-                            </Link>
-                        </li>
+                        <PodcastCard
+                            key={podcast.id}
+                            podcast={podcast}
+                            compact
+                        />
                     ))}
                 </ul>
                 <Link href={podcastsIndex.url()}>Tous les épisodes</Link>
