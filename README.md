@@ -32,6 +32,23 @@ The seeder also creates a back-office account : `test@example.com` / `password`,
 
 To start again from an empty database : `php artisan migrate:fresh --seed` (this deletes all local data).
 
+## Podcast episodes (Ausha)
+
+Episodes are imported from the public RSS feed of the show on Ausha (`AUSHA_FEED_URL`, no API key needed) :
+
+```bash
+php artisan podcasts:sync
+```
+
+- The import runs every hour through the scheduler, which needs one cron entry on the server : `* * * * * php artisan schedule:run`. The « Synchroniser avec Ausha » button above the podcast list of the back office runs it right away.
+- The main episodes and their extracts (any title containing EXTRAIT) are imported. The trailer, the other bonus episodes and titles starting with TEASER, REPLAY or REDIFFUSION are skipped.
+- `/podcasts` shows « Podcasts à la une » (up to 5 episodes marked « à la une »), the episodes of the month (the current one, or the latest month with a release), the extracts, every episode from the latest to the oldest, 10 at a time, then the intervenants.
+- A new episode gets its title, season, number, date, cover (downloaded to `storage/app/public/podcasts`), a summary cut before the credits, and the intervenant whose name is in its title when there is one. These are then edited freely in the back office : later imports only refresh the listening data (`link`, `audio_url`, `duration`, read-only in the form) and retry a cover that failed. Quote and « à la une » are always set by hand.
+- An imported episode cannot be deleted in the back office, the next import would bring it back : untick « Visible sur le site » to take it off the site.
+- The first import downloads every cover : run it from the command line rather than with the button.
+- The episode page plays `audio_url` in a native `<audio>` player, and falls back to the pasted `iframe` for episodes without one.
+- Demo episodes from `db:seed` are not in the feed : on a local database they stay next to the imported ones until deleted.
+
 ## Front pages
 
 Every public page already exists as an unstyled React component that receives its data from Laravel. Front developers only add markup and styles.
