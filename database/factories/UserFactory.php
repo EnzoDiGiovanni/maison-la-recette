@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\AccountType;
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -40,6 +42,37 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * A back-office account.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Admin,
+        ]);
+    }
+
+    /**
+     * A customer account for an individual, who can book online.
+     */
+    public function individual(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'account_type' => AccountType::Individual,
+        ]);
+    }
+
+    /**
+     * A customer account for a company, which asks for quotes.
+     */
+    public function company(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'account_type' => AccountType::Company,
+            'company' => fake()->company(),
         ]);
     }
 }
