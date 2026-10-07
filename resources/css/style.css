@@ -576,3 +576,121 @@ section:hover .section-title__arrow {
         transform: none;
     }
 }
+
+/* Fenêtre « compte chou » */
+.account-dialog {
+    position: fixed;
+    inset: 0;
+    width: min(88vw, 27rem);
+    margin: auto;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 0;
+    border-radius: 2rem;
+    background: var(--primary-color);
+    color: #fff;
+    text-align: center;
+}
+
+/* Page floutée derrière la fenêtre, comme sur la maquette. */
+.account-dialog::backdrop {
+    background: rgb(255 248 235 / 0.45);
+    backdrop-filter: blur(6px);
+}
+
+.account-dialog[open] {
+    display: grid;
+    justify-items: center;
+    gap: clamp(1rem, 3vw, 1.75rem);
+    animation: dialog-in 0.3s ease-out;
+}
+
+@keyframes dialog-in {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(0.75rem);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.account-dialog__section {
+    display: grid;
+    justify-items: center;
+    gap: clamp(0.5rem, 1.5vw, 0.9rem);
+}
+
+.account-dialog__section h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 3.6vw, 2.1rem);
+    font-weight: 600;
+}
+
+.account-dialog__button {
+    /* Pilules de même largeur, texte toujours sur une ligne. */
+    width: min(100%, 20rem);
+    padding: 0.55em 1.2em;
+    border: 0;
+    border-radius: 999px;
+    font-size: clamp(0.9rem, 2.4vw, 1.15rem);
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.account-dialog__button:hover {
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.18);
+    transform: translateY(-2px);
+}
+
+.account-dialog__button--green {
+    background: var(--secondary-color);
+    color: var(--accent-color);
+}
+
+.account-dialog__button--cream {
+    background: var(--accent-color);
+    color: var(--secondary-color);
+}
+
+/* Séparateur « ou » avec deux traits fins. */
+.account-dialog__divider {
+    display: flex;
+    justify-self: stretch;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+    margin: 0;
+    font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+}
+
+.account-dialog__divider::before,
+.account-dialog__divider::after {
+    flex: 1;
+    height: 1px;
+    background: currentcolor;
+    content: '';
+    opacity: 0.6;
+}
+
+.account-dialog__close {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.9rem;
+    padding: 0.2em 0.4em;
+    border: 0;
+    background: none;
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.account-dialog__close:hover {
+    opacity: 1;
+}
