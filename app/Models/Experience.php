@@ -30,6 +30,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, ExperienceSession> $sessions
+ * @property-read Collection<int, ExperienceSession> $upcomingSessions
  */
 #[Fillable(['type', 'title', 'slug', 'tagline', 'description', 'highlights', 'duration_label', 'price_from_cents', 'location', 'cover_image', 'photos', 'is_published', 'sort_order'])]
 class Experience extends Model
@@ -40,6 +41,16 @@ class Experience extends Model
     public function sessions(): HasMany
     {
         return $this->hasMany(ExperienceSession::class);
+    }
+
+    /**
+     * Open sessions that have not started yet, soonest first.
+     *
+     * @return HasMany<ExperienceSession, $this>
+     */
+    public function upcomingSessions(): HasMany
+    {
+        return $this->sessions()->upcoming();
     }
 
     /**
