@@ -229,7 +229,7 @@ it('attaches a quote request to the signed-in account', function () {
         'email' => $user->email,
         'message' => 'Un atelier pour notre équipe.',
         'user_id' => 999,
-    ])->assertRedirect(route('contact'));
+    ])->assertRedirect('/');
 
     expect(Inquiry::sole()->user_id)->toBe($user->id);
 });

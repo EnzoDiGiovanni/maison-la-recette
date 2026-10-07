@@ -27,28 +27,26 @@ class InquiryController extends Controller
         };
     }
 
+    /**
+     * Quote form for corporate experiences; the format can be preset from an experience page.
+     */
     public function createExperienceQuote(Request $request): Response
     {
-        return $this->renderQuote(InquiryType::ExperienceQuote, $request);
-    }
-
-    public function createPodcastQuote(): Response
-    {
-        return $this->renderQuote(InquiryType::PodcastQuote);
-    }
-
-    private function renderQuote(InquiryType $type, ?Request $request = null): Response
-    {
-        return Inertia::render('contact-quote', [
-            'type' => $type->value,
-            'defaultExperienceType' => $request
-                ? ExperienceType::tryFrom($request->string('experience_type')->toString())?->value
-                : null,
+        return Inertia::render('devis/experience', [
+            'defaultExperienceType' => ExperienceType::tryFrom($request->string('experience_type')->toString())?->value,
             'experienceTypes' => array_map(
                 fn (ExperienceType $case): array => ['value' => $case->value, 'label' => $case->getLabel()],
                 ExperienceType::cases(),
             ),
         ]);
+    }
+
+    /**
+     * Quote form for corporate podcasts.
+     */
+    public function createPodcastQuote(): Response
+    {
+        return Inertia::render('devis/podcast');
     }
 
     public function store(StoreInquiryRequest $request): RedirectResponse

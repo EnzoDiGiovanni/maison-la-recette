@@ -5,7 +5,7 @@ import { ChevronRightIcon } from '@/components/icons';
 import Cover from '@/components/podcasts/cover';
 import SiteLayout from '@/layouts/site-layout';
 import { formatDate } from '@/lib/format';
-import { contact } from '@/routes';
+import quote from '@/routes/contact/quote';
 import { show } from '@/routes/experiences';
 import type { LatestExperience, PastEvent } from '@/types';
 
@@ -153,7 +153,7 @@ export default function ExperiencesIndex({
 
                 <CtaBlock
                     title={<>Un projet pour votre équipe&nbsp;?</>}
-                    href={contact.url({ query: { type: 'devis_experience' } })}
+                    href={quote.experience.url()}
                     label="Demander un devis"
                 >
                     Dans vos locaux, chez nos partenaires ou en immersion :

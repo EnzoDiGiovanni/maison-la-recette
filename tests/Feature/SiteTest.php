@@ -99,16 +99,24 @@ it('renders the about and contact pages', function () {
     $this->get(route('about'))
         ->assertInertia(fn (Assert $page) => $page->component('about')->has('settings.about_text'));
 
-    $this->get(route('contact', ['type' => 'devis_experience', 'experience_type' => 'food_tour']))
+    $this->get(route('contact'))
+        ->assertInertia(fn (Assert $page) => $page->component('contact'));
+
+    // Anciens liens ?type= : renvoyés vers le bon formulaire de devis.
+    $this->get(route('contact', ['type' => 'devis_experience']))
+        ->assertRedirect(route('contact.quote.experience'));
+    $this->get(route('contact', ['type' => 'devis_podcast']))
+        ->assertRedirect(route('contact.quote.podcast'));
+
+    // Chaque devis a sa propre page : aucune ne propose l'autre type.
+    $this->get(route('contact.quote.experience', ['experience_type' => 'food_tour']))
         ->assertInertia(fn (Assert $page) => $page
-            ->component('contact')
-            ->where('defaultType', 'devis_experience')
+            ->component('devis/experience')
             ->where('defaultExperienceType', 'food_tour')
-            ->has('inquiryTypes', 3)
             ->has('experienceTypes', 3));
 
-    $this->get(route('contact', ['type' => 'nimporte']))
-        ->assertInertia(fn (Assert $page) => $page->where('defaultType', 'contact'));
+    $this->get(route('contact.quote.podcast'))
+        ->assertInertia(fn (Assert $page) => $page->component('devis/podcast'));
 });
 
 it('stores a quote request as a new inquiry', function () {
@@ -125,7 +133,7 @@ it('stores a quote request as a new inquiry', function () {
         'desired_date' => now()->addMonth()->toDateString(),
         'venue' => '',
         'message' => 'Un good tour pour notre équipe.',
-    ])->assertRedirect(route('contact'));
+    ])->assertRedirect('/');
 
     $inquiry = Inquiry::sole();
 

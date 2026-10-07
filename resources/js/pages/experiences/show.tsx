@@ -90,10 +90,7 @@ export default function ExperiencesShow({
 
             <QuoteSection
                 title="Pour votre équipe"
-                query={{
-                    type: 'devis_experience',
-                    experience_type: experience.type.value,
-                }}
+                query={{ experience_type: experience.type.value }}
             >
                 <p>
                     Date, nombre de participant·es, lieu : cette expérience

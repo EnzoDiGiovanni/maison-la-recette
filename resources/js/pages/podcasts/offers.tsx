@@ -49,7 +49,7 @@ export default function PodcastsOffers() {
                 ))}
             </ol>
 
-            <QuoteLink query={{ type: 'devis_podcast' }} />
+            <QuoteLink type="devis_podcast" />
         </SiteLayout>
     );
 }
