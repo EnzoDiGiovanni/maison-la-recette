@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { MenuIcon, MusicIcon, SpotifyIcon } from '@/components/icons';
+import { MusicIcon, SpotifyIcon } from '@/components/icons';
 import { about, contact, dashboard, home, login } from '@/routes';
 import { index as experiencesIndex } from '@/routes/experiences';
 import {
@@ -66,12 +66,16 @@ export default function SiteHeader({ title, subtitle }: Props) {
                 <button
                     type="button"
                     className="site-header__burger"
-                    aria-label="Menu"
+                    aria-label={
+                        isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'
+                    }
                     aria-expanded={isMenuOpen}
                     aria-controls="site-menu"
                     onClick={() => setIsMenuOpen((open) => !open)}
                 >
-                    <MenuIcon />
+                    <span className="site-header__burger-bar" />
+                    <span className="site-header__burger-bar" />
+                    <span className="site-header__burger-bar" />
                 </button>
             </div>
 

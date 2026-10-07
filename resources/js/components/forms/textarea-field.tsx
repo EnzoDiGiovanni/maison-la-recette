@@ -20,7 +20,7 @@ export default function TextareaField({
     rows = 6,
 }: Props) {
     return (
-        <Field id={id} label={label} error={error}>
+        <Field id={id} label={label} error={error} required={required}>
             <textarea
                 id={id}
                 required={required}
