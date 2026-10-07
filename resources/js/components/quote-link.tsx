@@ -3,18 +3,19 @@ import type { ReactNode } from 'react';
 import { contact } from '@/routes';
 
 type Props = {
-    /** Paramètres pré-remplissant le formulaire de contact. */
-    query?: Record<string, string>;
+    /** Formulaire de devis visé : expérience par défaut. */
+    type?: 'devis_experience' | 'devis_podcast';
     children?: ReactNode;
 };
 
 export default function QuoteLink({
-    query,
+    type = 'devis_experience',
     children = 'Demander un devis',
 }: Props) {
-    return (
-        <Link href={query ? contact.url({ query }) : contact.url()}>
-            {children}
-        </Link>
-    );
+    const href =
+        type === 'devis_podcast'
+            ? contact.quote.podcast.url()
+            : contact.quote.experience.url();
+
+    return <Link href={href}>{children}</Link>;
 }

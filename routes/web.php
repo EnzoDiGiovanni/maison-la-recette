@@ -28,6 +28,8 @@ Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('posts.sh
 Route::get('/a-propos', AboutController::class)->name('about');
 
 Route::get('/contact', [InquiryController::class, 'create'])->name('contact');
+Route::get('/devis-experience', [InquiryController::class, 'createExperienceQuote'])->name('contact.quote.experience');
+Route::get('/devis-podcast', [InquiryController::class, 'createPodcastQuote'])->name('contact.quote.podcast');
 Route::post('/contact', [InquiryController::class, 'store'])->middleware('throttle:10,1')->name('contact.store');
 
 // Open to guests: the controller sends them to the login page and remembers the episode.
