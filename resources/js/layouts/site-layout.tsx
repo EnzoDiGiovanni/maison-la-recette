@@ -7,14 +7,16 @@ type Props = {
     children: ReactNode;
     /** Titre encadré affiché au centre de la barre de navigation. */
     title?: string;
+    /** Sous-titre affiché sous le titre encadré. */
+    subtitle?: string;
 };
 
-export default function SiteLayout({ children, title }: Props) {
+export default function SiteLayout({ children, title, subtitle }: Props) {
     const { flash } = usePage();
 
     return (
         <>
-            <SiteHeader title={title} />
+            <SiteHeader title={title} subtitle={subtitle} />
 
             {flash.success && <p role="status">{flash.success}</p>}
 

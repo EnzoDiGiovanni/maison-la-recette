@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import type { FormEvent } from 'react';
 import SelectField from '@/components/forms/select-field';
 import TextField from '@/components/forms/text-field';
@@ -21,12 +21,15 @@ export default function Contact({
     inquiryTypes,
     experienceTypes,
 }: Props) {
+    // Connecté·e : les coordonnées du compte pré-remplissent le formulaire.
+    const { user } = usePage().props.auth;
+
     const form = useForm({
         type: defaultType,
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
+        name: user?.name ?? '',
+        email: user?.email ?? '',
+        phone: user?.phone ?? '',
+        company: user?.company ?? '',
         experience_type: defaultExperienceType ?? '',
         participants: '',
         desired_date: '',

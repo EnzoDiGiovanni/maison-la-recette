@@ -21,10 +21,20 @@ class DatabaseSeeder extends Seeder
         }
 
         if (! User::query()->where('email', 'test@example.com')->exists()) {
-            User::factory()->create([
+            User::factory()->admin()->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
             ]);
+        }
+
+        // Demo customer accounts, one of each type (password : « password »).
+        foreach ([
+            ['Claire Fontaine', 'particulier@example.com', 'individual', '06 12 34 56 78', null],
+            ['Laure Bertin', 'entreprise@example.com', 'company', '04 72 00 00 01', 'Mutuelle des Deux Fleuves'],
+        ] as [$name, $email, $state, $phone, $company]) {
+            if (! User::query()->where('email', $email)->exists()) {
+                User::factory()->{$state}()->create(['name' => $name, 'email' => $email, 'phone' => $phone, 'company' => $company]);
+            }
         }
 
         $this->call([

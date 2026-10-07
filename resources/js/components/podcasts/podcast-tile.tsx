@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import Cover from '@/components/podcasts/cover';
+import FavoriteButton from '@/components/podcasts/favorite-button';
 import { podcastGuest, podcastTeaser } from '@/lib/podcast';
 import { show } from '@/routes/podcasts';
 import type { Podcast } from '@/types';
@@ -20,6 +21,7 @@ export default function PodcastTile({ podcast }: { podcast: Podcast }) {
                 </span>
                 {guest && <span className="podcast-tile__guest">{guest}</span>}
             </Link>
+            <FavoriteButton podcast={podcast} />
         </li>
     );
 }

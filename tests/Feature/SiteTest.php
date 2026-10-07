@@ -58,9 +58,10 @@ it('lists only published experiences', function () {
     $this->get(route('experiences.index'))
         ->assertInertia(fn (Assert $page) => $page
             ->component('experiences/index')
-            ->has('experiences', 4)
-            ->where('experiences.0.price_from', 70)
-            ->where('experiences.0.type.value', 'atelier'));
+            ->where('latestExperiences', fn ($experiences) => ! collect($experiences)->contains('slug', 'atelier-anti-gaspi'))
+            ->where('pastEvents', fn ($events) => ! collect($events)->contains('experience.slug', 'atelier-anti-gaspi'))
+            ->missing('experiences')
+            ->missing('testimonials'));
 
     $this->get(route('experiences.show', 'atelier-anti-gaspi'))->assertNotFound();
 });
@@ -184,4 +185,19 @@ it('sends a null speaker for a podcast without intervenant', function () {
 
     $this->get(route('podcasts.show', $podcast))
         ->assertInertia(fn (Assert $page) => $page->where('podcast.speaker', null)->where('podcast.quote', null));
+});
+
+it('sends the three latest experiences of any type and the past dates to the experiences page', function () {
+    $latest = Experience::create(['type' => ExperienceType::Immersion, 'title' => 'Vendanges', 'slug' => 'vendanges', 'is_published' => true, 'created_at' => now()->addMinute()]);
+    Experience::create(['type' => ExperienceType::Atelier, 'title' => 'Brouillon', 'slug' => 'brouillon', 'created_at' => now()->addHour()]);
+
+    $this->get(route('experiences.index'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('latestExperiences', 3)
+            ->where('latestExperiences.0.slug', $latest->slug)
+            ->where('latestExperiences.0.next_session_at', null)
+            ->has('latestExperiences.1.next_session_at')
+            ->has('pastEvents', 4)
+            ->has('pastEvents.0.experience.title')
+            ->where('pastEvents.0.starts_at', fn (string $value) => now()->gt($value)));
 });

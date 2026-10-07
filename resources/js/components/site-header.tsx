@@ -1,7 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { MenuIcon, MusicIcon, SpotifyIcon } from '@/components/icons';
-import { about, contact, home } from '@/routes';
+import { about, contact, dashboard, home, login } from '@/routes';
 import { index as experiencesIndex } from '@/routes/experiences';
 import {
     index as podcastsIndex,
@@ -12,11 +12,13 @@ import { index as postsIndex } from '@/routes/posts';
 type Props = {
     /** Titre encadré au centre de la barre, ex. « Podcast ». */
     title?: string;
+    /** Sous-titre sous le titre, ex. « Les ateliers ». */
+    subtitle?: string;
 };
 
-export default function SiteHeader({ title }: Props) {
+export default function SiteHeader({ title, subtitle }: Props) {
     const { url, props } = usePage();
-    const { settings } = props;
+    const { settings, auth } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const links = [
@@ -26,6 +28,9 @@ export default function SiteHeader({ title }: Props) {
         { label: 'Blog', url: postsIndex.url() },
         { label: 'À propos', url: about.url() },
         { label: 'Contact', url: contact.url() },
+        auth.user
+            ? { label: 'Mon compte', url: dashboard.url() }
+            : { label: 'Connexion', url: login.url() },
     ];
 
     // Sans lien dédié, les icônes renvoient vers le smartlink Ausha.
@@ -38,7 +43,14 @@ export default function SiteHeader({ title }: Props) {
                 Maison La recette
             </Link>
 
-            {title && <p className="site-header__title">{title}</p>}
+            {title && (
+                <div className="site-header__heading">
+                    <p className="site-header__title">{title}</p>
+                    {subtitle && (
+                        <p className="site-header__subtitle">{subtitle}</p>
+                    )}
+                </div>
+            )}
 
             <div className="site-header__actions">
                 {spotifyUrl && (

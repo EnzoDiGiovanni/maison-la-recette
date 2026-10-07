@@ -33,7 +33,7 @@ use Filament\Forms\Components\Repeater;
 use Livewire\Livewire;
 
 beforeEach(function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(User::factory()->admin()->create());
 
     $experience = Experience::create([
         'type' => ExperienceType::Atelier,

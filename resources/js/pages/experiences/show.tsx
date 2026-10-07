@@ -65,7 +65,7 @@ export default function ExperiencesShow({
                     </div>
                 </dl>
 
-                <ul>
+                <ul id="photos">
                     {experience.photo_urls.map((url) => (
                         <li key={url}>
                             <img src={url} alt="" />

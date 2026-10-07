@@ -31,6 +31,25 @@ class PodcastResource extends JsonResource
             'speaker' => $this->speaker === null ? null : SpeakerResource::make($this->speaker)->resolve($request),
             'published_at' => $this->published_at?->toDateString(),
             'is_featured' => $this->is_featured,
+            'is_favorite' => in_array($this->id, $this->favoriteIds($request), true),
         ];
+    }
+
+    /**
+     * Ids of the episodes saved by the signed-in account, read once per request.
+     *
+     * @return list<int>
+     */
+    private function favoriteIds(Request $request): array
+    {
+        if (! $request->attributes->has('favorite_podcast_ids')) {
+            $request->attributes->set(
+                'favorite_podcast_ids',
+                $request->user()?->favoritePodcasts()->pluck('podcasts.id')->map(fn (mixed $id): int => (int) $id)->all() ?? [],
+            );
+        }
+
+        /** @var list<int> */
+        return $request->attributes->get('favorite_podcast_ids');
     }
 }

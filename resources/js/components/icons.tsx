@@ -67,3 +67,24 @@ export function ChevronRightIcon(props: IconProps) {
         </svg>
     );
 }
+
+/** Marque-page : plein quand l'épisode est dans la liste d'écoute. */
+export function BookmarkIcon({
+    filled = false,
+    ...props
+}: IconProps & { filled?: boolean }) {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill={filled ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            {...props}
+        >
+            <path d="M6 4h12v16l-6-4.5L6 20V4Z" />
+        </svg>
+    );
+}
