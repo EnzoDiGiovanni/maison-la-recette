@@ -4,6 +4,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -26,3 +27,6 @@ Artisan::command('user:admin {email}', function (string $email) {
 
     return 0;
 })->purpose('Give the admin role to an existing account');
+
+// New episodes published on Ausha reach the site within the hour.
+Schedule::command('podcasts:sync')->hourly()->withoutOverlapping();
