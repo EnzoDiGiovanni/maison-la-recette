@@ -24,6 +24,8 @@ class PodcastResource extends JsonResource
             'season' => $this->season,
             'number' => $this->number,
             'link' => $this->link,
+            'audio_url' => $this->audio_url,
+            'duration' => $this->duration,
             'iframe' => $this->iframe,
             'image_url' => $this->image === null ? null : Storage::disk('public')->url($this->image),
             'summary' => $this->summary,

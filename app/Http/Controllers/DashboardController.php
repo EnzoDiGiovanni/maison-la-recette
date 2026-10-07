@@ -43,7 +43,7 @@ class DashboardController extends Controller
                 'member_since' => $user->created_at?->toDateString(),
             ],
             'favoritePodcasts' => PodcastResource::collection(
-                $user->favoritePodcasts->load('speaker'),
+                $user->favoritePodcasts()->published()->with('speaker')->get(),
             )->resolve($request),
             'bookings' => BookingResource::collection($bookings)->resolve($request),
             'inquiries' => InquiryResource::collection(
