@@ -1,6 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
+import QuoteLink from '@/components/quote-link';
 import SiteLayout from '@/layouts/site-layout';
-import { contact } from '@/routes';
 
 const offers = [
     {
@@ -49,9 +49,7 @@ export default function PodcastsOffers() {
                 ))}
             </ol>
 
-            <Link href={contact.url({ query: { type: 'devis_podcast' } })}>
-                Demander un devis
-            </Link>
+            <QuoteLink query={{ type: 'devis_podcast' }} />
         </SiteLayout>
     );
 }

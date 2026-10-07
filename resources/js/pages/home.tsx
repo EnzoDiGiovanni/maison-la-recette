@@ -1,13 +1,13 @@
 import { Head, Link } from '@inertiajs/react';
+import ExperienceCard from '@/components/experience-card';
+import PodcastCard from '@/components/podcast-card';
+import PostCard from '@/components/post-card';
+import QuoteLink from '@/components/quote-link';
+import TestimonialsSection from '@/components/testimonials-section';
 import SiteLayout from '@/layouts/site-layout';
-import { formatPrice } from '@/lib/format';
-import { contact } from '@/routes';
-import {
-    index as experiencesIndex,
-    show as showExperience,
-} from '@/routes/experiences';
-import { index as podcastsIndex, show as showPodcast } from '@/routes/podcasts';
-import { index as postsIndex, show as showPost } from '@/routes/posts';
+import { index as experiencesIndex } from '@/routes/experiences';
+import { index as podcastsIndex } from '@/routes/podcasts';
+import { index as postsIndex } from '@/routes/posts';
 import type { Experience, Podcast, Post, Testimonial } from '@/types';
 
 type Props = {
@@ -40,18 +40,11 @@ export default function Home({
                 <h2>Le podcast</h2>
                 <ul>
                     {featuredPodcasts.map((podcast) => (
-                        <li key={podcast.id}>
-                            {podcast.image_url && (
-                                <img src={podcast.image_url} alt="" />
-                            )}
-                            <Link href={showPodcast.url(podcast)}>
-                                {podcast.title}
-                            </Link>
-                            {podcast.quote && (
-                                <blockquote>{podcast.quote}</blockquote>
-                            )}
-                            {podcast.speaker && <p>{podcast.speaker.name}</p>}
-                        </li>
+                        <PodcastCard
+                            key={podcast.id}
+                            podcast={podcast}
+                            compact
+                        />
                     ))}
                 </ul>
                 <Link href={podcastsIndex.url()}>Tous les épisodes</Link>
@@ -61,51 +54,23 @@ export default function Home({
                 <h2>Les expériences</h2>
                 <ul>
                     {experiences.map((experience) => (
-                        <li key={experience.id}>
-                            <p>{experience.type.label}</p>
-                            <Link href={showExperience.url(experience)}>
-                                {experience.title}
-                            </Link>
-                            {experience.tagline && <p>{experience.tagline}</p>}
-                            <p>
-                                {experience.price_from === null
-                                    ? 'Sur devis'
-                                    : `À partir de ${formatPrice(experience.price_from)} par personne`}
-                            </p>
-                        </li>
+                        <ExperienceCard
+                            key={experience.id}
+                            experience={experience}
+                            compact
+                        />
                     ))}
                 </ul>
-                <Link
-                    href={contact.url({ query: { type: 'devis_experience' } })}
-                >
-                    Demander un devis
-                </Link>
+                <QuoteLink query={{ type: 'devis_experience' }} />
             </section>
 
-            <section>
-                <h2>Avis de nos client·es</h2>
-                <ul>
-                    {testimonials.map((testimonial) => (
-                        <li key={testimonial.id}>
-                            <blockquote>{testimonial.quote}</blockquote>
-                            <p>
-                                {testimonial.author_name}
-                                {testimonial.author_role &&
-                                    `, ${testimonial.author_role}`}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+            <TestimonialsSection testimonials={testimonials} />
 
             <section>
                 <h2>Le blog</h2>
                 <ul>
                     {latestPosts.map((post) => (
-                        <li key={post.id}>
-                            <Link href={showPost.url(post)}>{post.title}</Link>
-                            {post.excerpt && <p>{post.excerpt}</p>}
-                        </li>
+                        <PostCard key={post.id} post={post} compact />
                     ))}
                 </ul>
                 <Link href={postsIndex.url()}>Tous les articles</Link>

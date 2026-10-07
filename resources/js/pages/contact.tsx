@@ -1,5 +1,8 @@
 import { Head, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
+import SelectField from '@/components/forms/select-field';
+import TextField from '@/components/forms/text-field';
+import TextareaField from '@/components/forms/textarea-field';
 import SiteLayout from '@/layouts/site-layout';
 import { store } from '@/routes/contact';
 import type { Option } from '@/types';
@@ -50,184 +53,119 @@ export default function Contact({
             <h1>Contact et demande de devis</h1>
 
             <form onSubmit={submit}>
-                <div>
-                    <label htmlFor="type">Votre demande</label>
-                    <select
-                        id="type"
-                        value={form.data.type}
-                        onChange={(event) =>
-                            form.setData('type', event.target.value)
-                        }
-                    >
-                        {inquiryTypes.map((type) => (
-                            <option key={type.value} value={type.value}>
-                                {type.label}
-                            </option>
-                        ))}
-                    </select>
-                    {form.errors.type && <p role="alert">{form.errors.type}</p>}
-                </div>
+                <SelectField
+                    id="type"
+                    label="Votre demande"
+                    value={form.data.type}
+                    onChange={(value) => form.setData('type', value)}
+                    error={form.errors.type}
+                >
+                    {inquiryTypes.map((type) => (
+                        <option key={type.value} value={type.value}>
+                            {type.label}
+                        </option>
+                    ))}
+                </SelectField>
 
-                <div>
-                    <label htmlFor="name">Nom</label>
-                    <input
-                        id="name"
-                        required
-                        value={form.data.name}
-                        onChange={(event) =>
-                            form.setData('name', event.target.value)
-                        }
-                    />
-                    {form.errors.name && <p role="alert">{form.errors.name}</p>}
-                </div>
+                <TextField
+                    id="name"
+                    label="Nom"
+                    required
+                    value={form.data.name}
+                    onChange={(value) => form.setData('name', value)}
+                    error={form.errors.name}
+                />
 
-                <div>
-                    <label htmlFor="email">E-mail</label>
-                    <input
-                        id="email"
-                        type="email"
-                        required
-                        value={form.data.email}
-                        onChange={(event) =>
-                            form.setData('email', event.target.value)
-                        }
-                    />
-                    {form.errors.email && (
-                        <p role="alert">{form.errors.email}</p>
-                    )}
-                </div>
+                <TextField
+                    id="email"
+                    label="E-mail"
+                    type="email"
+                    required
+                    value={form.data.email}
+                    onChange={(value) => form.setData('email', value)}
+                    error={form.errors.email}
+                />
 
-                <div>
-                    <label htmlFor="phone">Téléphone</label>
-                    <input
-                        id="phone"
-                        type="tel"
-                        value={form.data.phone}
-                        onChange={(event) =>
-                            form.setData('phone', event.target.value)
-                        }
-                    />
-                    {form.errors.phone && (
-                        <p role="alert">{form.errors.phone}</p>
-                    )}
-                </div>
+                <TextField
+                    id="phone"
+                    label="Téléphone"
+                    type="tel"
+                    value={form.data.phone}
+                    onChange={(value) => form.setData('phone', value)}
+                    error={form.errors.phone}
+                />
 
                 {isQuote && (
-                    <div>
-                        <label htmlFor="company">Structure</label>
-                        <input
-                            id="company"
-                            value={form.data.company}
-                            onChange={(event) =>
-                                form.setData('company', event.target.value)
-                            }
-                        />
-                        {form.errors.company && (
-                            <p role="alert">{form.errors.company}</p>
-                        )}
-                    </div>
+                    <TextField
+                        id="company"
+                        label="Structure"
+                        value={form.data.company}
+                        onChange={(value) => form.setData('company', value)}
+                        error={form.errors.company}
+                    />
                 )}
 
                 {isExperienceQuote && (
                     <>
-                        <div>
-                            <label htmlFor="experience_type">
-                                Format souhaité
-                            </label>
-                            <select
-                                id="experience_type"
-                                value={form.data.experience_type}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'experience_type',
-                                        event.target.value,
-                                    )
-                                }
-                            >
-                                <option value="">Je ne sais pas encore</option>
-                                {experienceTypes.map((type) => (
-                                    <option key={type.value} value={type.value}>
-                                        {type.label}
-                                    </option>
-                                ))}
-                            </select>
-                            {form.errors.experience_type && (
-                                <p role="alert">
-                                    {form.errors.experience_type}
-                                </p>
-                            )}
-                        </div>
+                        <SelectField
+                            id="experience_type"
+                            label="Format souhaité"
+                            value={form.data.experience_type}
+                            onChange={(value) =>
+                                form.setData('experience_type', value)
+                            }
+                            error={form.errors.experience_type}
+                        >
+                            <option value="">Je ne sais pas encore</option>
+                            {experienceTypes.map((type) => (
+                                <option key={type.value} value={type.value}>
+                                    {type.label}
+                                </option>
+                            ))}
+                        </SelectField>
 
-                        <div>
-                            <label htmlFor="participants">
-                                Nombre de participant·es
-                            </label>
-                            <input
-                                id="participants"
-                                type="number"
-                                min={1}
-                                value={form.data.participants}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'participants',
-                                        event.target.value,
-                                    )
-                                }
-                            />
-                            {form.errors.participants && (
-                                <p role="alert">{form.errors.participants}</p>
-                            )}
-                        </div>
+                        <TextField
+                            id="participants"
+                            label="Nombre de participant·es"
+                            type="number"
+                            min={1}
+                            value={form.data.participants}
+                            onChange={(value) =>
+                                form.setData('participants', value)
+                            }
+                            error={form.errors.participants}
+                        />
 
-                        <div>
-                            <label htmlFor="desired_date">Date souhaitée</label>
-                            <input
-                                id="desired_date"
-                                type="date"
-                                value={form.data.desired_date}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'desired_date',
-                                        event.target.value,
-                                    )
-                                }
-                            />
-                            {form.errors.desired_date && (
-                                <p role="alert">{form.errors.desired_date}</p>
-                            )}
-                        </div>
+                        <TextField
+                            id="desired_date"
+                            label="Date souhaitée"
+                            type="date"
+                            value={form.data.desired_date}
+                            onChange={(value) =>
+                                form.setData('desired_date', value)
+                            }
+                            error={form.errors.desired_date}
+                        />
 
-                        <div>
-                            <label htmlFor="venue">Lieu souhaité</label>
-                            <input
-                                id="venue"
-                                value={form.data.venue}
-                                onChange={(event) =>
-                                    form.setData('venue', event.target.value)
-                                }
-                            />
-                            {form.errors.venue && (
-                                <p role="alert">{form.errors.venue}</p>
-                            )}
-                        </div>
+                        <TextField
+                            id="venue"
+                            label="Lieu souhaité"
+                            value={form.data.venue}
+                            onChange={(value) => form.setData('venue', value)}
+                            error={form.errors.venue}
+                        />
                     </>
                 )}
 
-                <div>
-                    <label htmlFor="message">Message</label>
-                    <textarea
-                        id="message"
-                        required
-                        rows={6}
-                        value={form.data.message}
-                        onChange={(event) =>
-                            form.setData('message', event.target.value)
-                        }
-                    />
-                    {form.errors.message && (
-                        <p role="alert">{form.errors.message}</p>
-                    )}
-                </div>
+                <TextareaField
+                    id="message"
+                    label="Message"
+                    required
+                    rows={6}
+                    value={form.data.message}
+                    onChange={(value) => form.setData('message', value)}
+                    error={form.errors.message}
+                />
 
                 <button type="submit" disabled={form.processing}>
                     Envoyer

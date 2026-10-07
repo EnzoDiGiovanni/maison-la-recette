@@ -1,8 +1,8 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
+import ExperienceCard from '@/components/experience-card';
+import QuoteSection from '@/components/quote-section';
+import TestimonialsSection from '@/components/testimonials-section';
 import SiteLayout from '@/layouts/site-layout';
-import { formatPrice } from '@/lib/format';
-import { contact } from '@/routes';
-import { show } from '@/routes/experiences';
 import type { Experience, Testimonial } from '@/types';
 
 type Props = {
@@ -41,63 +41,26 @@ export default function ExperiencesIndex({ experiences, testimonials }: Props) {
                                     experience.type.value === type.value,
                             )
                             .map((experience) => (
-                                <li key={experience.id}>
-                                    {experience.cover_image_url && (
-                                        <img
-                                            src={experience.cover_image_url}
-                                            alt=""
-                                        />
-                                    )}
-                                    <Link href={show.url(experience)}>
-                                        {experience.title}
-                                    </Link>
-                                    {experience.tagline && (
-                                        <p>{experience.tagline}</p>
-                                    )}
-                                    <p>
-                                        {experience.duration_label}
-                                        {experience.location &&
-                                            ` · ${experience.location}`}
-                                    </p>
-                                    <p>
-                                        {experience.price_from === null
-                                            ? 'Sur devis'
-                                            : `À partir de ${formatPrice(experience.price_from)} par personne`}
-                                    </p>
-                                </li>
+                                <ExperienceCard
+                                    key={experience.id}
+                                    experience={experience}
+                                />
                             ))}
                     </ul>
                 </section>
             ))}
 
-            <section>
-                <h2>Pour les entreprises</h2>
+            <QuoteSection
+                title="Pour les entreprises"
+                query={{ type: 'devis_experience' }}
+            >
                 <p>
                     Dans vos locaux, chez nos partenaires ou en immersion :
                     teambuildings, séminaires, afterworks, déjeuners.
                 </p>
-                <Link
-                    href={contact.url({ query: { type: 'devis_experience' } })}
-                >
-                    Demander un devis
-                </Link>
-            </section>
+            </QuoteSection>
 
-            <section>
-                <h2>Avis de nos client·es</h2>
-                <ul>
-                    {testimonials.map((testimonial) => (
-                        <li key={testimonial.id}>
-                            <blockquote>{testimonial.quote}</blockquote>
-                            <p>
-                                {testimonial.author_name}
-                                {testimonial.author_role &&
-                                    `, ${testimonial.author_role}`}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+            <TestimonialsSection testimonials={testimonials} />
         </SiteLayout>
     );
 }

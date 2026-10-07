@@ -1,96 +1,144 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
+import { useRef } from 'react';
+import { ChevronRightIcon } from '@/components/icons';
+import GuestCard from '@/components/podcasts/guest-card';
+import PodcastCta from '@/components/podcasts/podcast-cta';
+import PodcastTile from '@/components/podcasts/podcast-tile';
+import ReleaseCard from '@/components/podcasts/release-card';
+import SectionTitle from '@/components/section-title';
 import SiteLayout from '@/layouts/site-layout';
-import { formatDate } from '@/lib/format';
-import { show } from '@/routes/podcasts';
+import { podcastGuest } from '@/lib/podcast';
 import type { Podcast } from '@/types';
 
 type Props = {
     podcasts: Podcast[];
 };
 
+type Guest = { name: string; photoUrl: string | null; podcast: Podcast };
+
 export default function PodcastsIndex({ podcasts }: Props) {
-    const { settings } = usePage().props;
+    const guestsRef = useRef<HTMLUListElement>(null);
 
-    const seasons = [...new Set(podcasts.map((podcast) => podcast.season))];
+    // Les plus écoutés : les épisodes mis en avant, complétés par les récents.
+    const mostListened = [...podcasts]
+        .sort((a, b) => Number(b.is_featured) - Number(a.is_featured))
+        .slice(0, 5);
 
-    const stats = [
-        { label: 'Note moyenne', value: settings.podcast_rating },
-        { label: 'Avis', value: settings.podcast_reviews_count },
-        { label: "Taux d'écoute moyen", value: settings.podcast_listen_rate },
-        { label: 'Écoutes', value: settings.podcast_total_listens },
-        { label: 'Épisodes', value: settings.podcast_episodes_count },
-    ].filter((stat) => stat.value);
+    // Sorties du mois courant, ou les dernières parutions s'il n'y en a pas.
+    const now = new Date();
+    const month = new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(
+        now,
+    );
+    const monthReleases = podcasts.filter((podcast) => {
+        if (!podcast.published_at) {
+            return false;
+        }
+        const publishedAt = new Date(`${podcast.published_at}T00:00:00Z`);
 
-    const platforms = [
-        { label: 'Ausha', url: settings.link_ausha },
-        { label: 'Spotify', url: settings.link_spotify },
-        { label: 'Apple Podcasts', url: settings.link_apple_podcasts },
-        { label: 'Deezer', url: settings.link_deezer },
-        { label: 'YouTube', url: settings.link_youtube },
-    ].filter((platform) => platform.url);
+        return (
+            publishedAt.getUTCFullYear() === now.getUTCFullYear() &&
+            publishedAt.getUTCMonth() === now.getUTCMonth()
+        );
+    });
+    const releases = (
+        monthReleases.length > 0 ? monthReleases : podcasts
+    ).slice(0, 4);
+
+    // Intervenant·es sans doublons, dans l'ordre des épisodes.
+    const guests = [
+        ...new Map(
+            podcasts.flatMap((podcast): [string, Guest][] => {
+                const name = podcastGuest(podcast);
+
+                return name
+                    ? [
+                          [
+                              name,
+                              {
+                                  name,
+                                  photoUrl: podcast.speaker?.photo_url ?? null,
+                                  podcast,
+                              },
+                          ],
+                      ]
+                    : [];
+            }),
+        ).values(),
+    ];
 
     return (
-        <SiteLayout>
+        <SiteLayout title="Podcast">
             <Head title="Podcast" />
 
-            <h1>Le podcast La recette</h1>
-            <p>
-                La recette donne la parole à des producteur·ices, chef·fes,
-                artisan·es ou entrepreneur·ses engagé·es.
-            </p>
+            <div className="podcast-page">
+                <h1 className="sr-only">Le podcast La recette</h1>
 
-            <dl>
-                {stats.map((stat) => (
-                    <div key={stat.label}>
-                        <dt>{stat.label}</dt>
-                        <dd>{stat.value}</dd>
-                    </div>
-                ))}
-            </dl>
-
-            <ul>
-                {platforms.map((platform) => (
-                    <li key={platform.label}>
-                        <a href={platform.url ?? undefined}>{platform.label}</a>
-                    </li>
-                ))}
-            </ul>
-
-            {seasons.map((season) => (
-                <section key={season ?? 'hors-saison'}>
-                    <h2>
-                        {season === null ? 'Hors saison' : `Saison ${season}`}
-                    </h2>
-                    <ul>
-                        {podcasts
-                            .filter((podcast) => podcast.season === season)
-                            .map((podcast) => (
-                                <li key={podcast.id}>
-                                    {podcast.image_url && (
-                                        <img src={podcast.image_url} alt="" />
-                                    )}
-                                    <Link href={show.url(podcast)}>
-                                        {podcast.number !== null &&
-                                            `#${podcast.number} `}
-                                        {podcast.title}
-                                    </Link>
-                                    {podcast.speaker && (
-                                        <p>
-                                            {podcast.speaker.name}
-                                            {podcast.speaker.role &&
-                                                `, ${podcast.speaker.role}`}
-                                        </p>
-                                    )}
-                                    {podcast.published_at && (
-                                        <time dateTime={podcast.published_at}>
-                                            {formatDate(podcast.published_at)}
-                                        </time>
-                                    )}
-                                </li>
-                            ))}
+                <section>
+                    <SectionTitle>Les plus écoutés</SectionTitle>
+                    <ul className="podcast-row">
+                        {mostListened.map((podcast) => (
+                            <PodcastTile key={podcast.id} podcast={podcast} />
+                        ))}
                     </ul>
                 </section>
-            ))}
+
+                <PodcastCta />
+
+                <section>
+                    <SectionTitle>
+                        {monthReleases.length > 0 ? (
+                            <>
+                                Les sorties de{' '}
+                                <span className="section-title__accent">
+                                    “{month}”
+                                </span>
+                            </>
+                        ) : (
+                            'Les dernières sorties'
+                        )}
+                    </SectionTitle>
+                    <ul className="release-grid">
+                        {releases.map((podcast, position) => (
+                            <ReleaseCard
+                                key={podcast.id}
+                                podcast={podcast}
+                                // Damier : jaune/saumon puis saumon/jaune.
+                                tone={
+                                    (position + Math.floor(position / 2)) %
+                                        2 ===
+                                    0
+                                        ? 'jaune'
+                                        : 'saumon'
+                                }
+                            />
+                        ))}
+                    </ul>
+                </section>
+
+                <section>
+                    <SectionTitle>Les intervenants</SectionTitle>
+                    <div className="guests">
+                        <ul className="podcast-row" ref={guestsRef}>
+                            {guests.map((guest) => (
+                                <GuestCard key={guest.name} {...guest} />
+                            ))}
+                        </ul>
+                        <button
+                            type="button"
+                            className="guests__scroll"
+                            aria-label="Faire défiler les intervenants"
+                            onClick={() =>
+                                guestsRef.current?.scrollBy({
+                                    left: guestsRef.current.clientWidth / 2,
+                                    behavior: 'smooth',
+                                })
+                            }
+                        >
+                            <ChevronRightIcon />
+                        </button>
+                    </div>
+                </section>
+            </div>
         </SiteLayout>
     );
 }

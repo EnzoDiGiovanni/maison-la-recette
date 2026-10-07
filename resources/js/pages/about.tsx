@@ -1,4 +1,5 @@
 import { Head, usePage } from '@inertiajs/react';
+import ProseText from '@/components/prose-text';
 import SiteLayout from '@/layouts/site-layout';
 
 export default function About() {
@@ -14,12 +15,7 @@ export default function About() {
                 <img src={settings.about_photo_url} alt="" />
             )}
 
-            {(settings.about_text ?? '')
-                .split(/\n{2,}/)
-                .filter(Boolean)
-                .map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                ))}
+            <ProseText text={settings.about_text} />
 
             <section>
                 <h2>Notre mission : accélérer la transition alimentaire</h2>
