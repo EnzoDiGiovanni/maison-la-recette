@@ -36,7 +36,8 @@ class InquiryController extends Controller
 
     public function store(StoreInquiryRequest $request): RedirectResponse
     {
-        Inquiry::query()->create($request->validated());
+        // Sent from an account: the request then shows up in the customer's dashboard.
+        Inquiry::query()->create([...$request->validated(), 'user_id' => $request->user()?->id]);
 
         Inertia::flash('success', 'Merci ! Votre message a bien été envoyé. Nous vous répondons sous 48 h.');
 

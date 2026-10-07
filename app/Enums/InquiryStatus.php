@@ -26,6 +26,20 @@ enum InquiryStatus: string implements HasColor, HasLabel
         };
     }
 
+    /**
+     * What the customer reads in their account: no won/lost wording.
+     */
+    public function customerLabel(): string
+    {
+        return match ($this) {
+            self::New => 'Reçue',
+            self::Contacted => 'En cours d\'échange',
+            self::Quoted => 'Devis envoyé',
+            self::Won => 'Confirmée',
+            self::Lost, self::Closed => 'Clôturée',
+        };
+    }
+
     public function getColor(): string
     {
         return match ($this) {

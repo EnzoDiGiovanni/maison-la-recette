@@ -31,6 +31,8 @@ export type Podcast = {
     /** Date au format AAAA-MM-JJ. */
     published_at: string | null;
     is_featured: boolean;
+    /** Dans la liste « à écouter plus tard » du compte connecté. */
+    is_favorite: boolean;
 };
 
 export type Experience = {
@@ -48,6 +50,20 @@ export type Experience = {
     location: string | null;
     cover_image_url: string | null;
     photo_urls: string[];
+};
+
+/** Expérience mise en avant, avec sa prochaine date ouverte s'il y en a une. */
+export type LatestExperience = Experience & {
+    /** Date et heure au format ISO 8601, null si rien n'est programmé. */
+    next_session_at: string | null;
+};
+
+/** Date d'expérience déjà passée. */
+export type PastEvent = {
+    id: number;
+    /** Date et heure au format ISO 8601. */
+    starts_at: string;
+    experience: Experience;
 };
 
 export type ExperienceSession = {
@@ -104,3 +120,59 @@ export type Settings = Partial<
         string | null
     >
 >;
+
+/** Compte client affiché sur /dashboard. */
+export type Account = {
+    name: string;
+    email: string;
+    phone: string | null;
+    company: string | null;
+    /** value : particulier | entreprise. */
+    type: Option;
+    /** Seuls les particuliers réservent en ligne. */
+    can_book_online: boolean;
+    /** Lien vers le back-office, uniquement pour le rôle admin. */
+    admin_url: string | null;
+    /** Date au format AAAA-MM-JJ. */
+    member_since: string | null;
+};
+
+export type Booking = {
+    id: number;
+    /** value : pending | paid | cancelled | refunded. */
+    status: Option;
+    seats: number;
+    /** Montant total en euros. */
+    amount: number;
+    /** Date du paiement (de démonstration), null si non payée. */
+    paid_at: string | null;
+    created_at: string | null;
+    is_upcoming: boolean;
+    can_cancel: boolean;
+    session: {
+        /** Date et heure au format ISO 8601. */
+        starts_at: string;
+        location: string | null;
+    };
+    experience: {
+        title: string;
+        slug: string;
+        type: string;
+        is_published: boolean;
+    };
+};
+
+/** Demande de contact ou de devis envoyée depuis un compte. */
+export type Inquiry = {
+    id: number;
+    type: Option;
+    /** value : new | contacted | quoted | won | lost | closed. */
+    status: Option;
+    experience_type: string | null;
+    participants: number | null;
+    /** Date au format AAAA-MM-JJ. */
+    desired_date: string | null;
+    venue: string | null;
+    message: string;
+    created_at: string | null;
+};

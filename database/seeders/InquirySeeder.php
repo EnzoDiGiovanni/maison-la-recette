@@ -6,6 +6,7 @@ use App\Enums\ExperienceType;
 use App\Enums\InquiryStatus;
 use App\Enums\InquiryType;
 use App\Models\Inquiry;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class InquirySeeder extends Seeder
@@ -110,11 +111,15 @@ class InquirySeeder extends Seeder
             ],
         ];
 
+        // Laure's requests belong to the demo company account.
+        $customer = User::query()->where('email', 'entreprise@example.com')->first();
+
         foreach ($inquiries as $data) {
             $receivedAt = now()->subDays($data['days_ago']);
             unset($data['days_ago']);
 
             $inquiry = new Inquiry($data);
+            $inquiry->user_id = $data['name'] === $customer?->name ? $customer->id : null;
             $inquiry->setCreatedAt($receivedAt);
             $inquiry->save();
         }
