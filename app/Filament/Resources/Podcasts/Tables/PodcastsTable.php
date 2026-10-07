@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Podcasts\Tables;
 
+use App\Filament\Resources\Podcasts\Schemas\PodcastForm;
 use App\Models\Podcast;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -35,12 +36,15 @@ class PodcastsTable
                     ->label('Intervenant')
                     ->searchable()
                     ->placeholder('—'),
-                IconColumn::make('iframe')
-                    ->label('Iframe')
+                IconColumn::make('audio_url')
+                    ->label('Lecteur')
                     ->boolean()
-                    ->state(fn (Podcast $record): bool => filled($record->iframe)),
+                    ->state(fn (Podcast $record): bool => filled($record->audio_url) || filled($record->iframe)),
                 IconColumn::make('is_featured')
                     ->label('À la une')
+                    ->boolean(),
+                IconColumn::make('is_published')
+                    ->label('Visible')
                     ->boolean(),
                 TextColumn::make('published_at')
                     ->label('Publié le')
@@ -58,7 +62,9 @@ class PodcastsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorizeIndividualRecords(fn (Podcast $record): bool => ! $record->isImported())
+                        ->missingBulkAuthorizationFailureNotificationMessage(PodcastForm::IMPORTED_MESSAGE),
                 ]),
             ]);
     }

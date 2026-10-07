@@ -20,7 +20,7 @@ class HomeController extends Controller
     {
         return Inertia::render('home', [
             'featuredPodcasts' => PodcastResource::collection(
-                Podcast::query()->with('speaker')->where('is_featured', true)->latest('published_at')->get(),
+                Podcast::query()->published()->with('speaker')->where('is_featured', true)->latest('published_at')->get(),
             )->resolve($request),
             'experiences' => ExperienceResource::collection(
                 Experience::query()->published()->get(),

@@ -14,13 +14,15 @@ class PodcastController extends Controller
     {
         return Inertia::render('podcasts/index', [
             'podcasts' => PodcastResource::collection(
-                Podcast::query()->with('speaker')->orderByDesc('season')->orderByDesc('number')->latest('published_at')->get(),
+                Podcast::query()->published()->with('speaker')->latest('published_at')->latest('id')->get(),
             )->resolve($request),
         ]);
     }
 
     public function show(Request $request, Podcast $podcast): Response
     {
+        abort_unless($podcast->is_published, 404);
+
         return Inertia::render('podcasts/show', [
             'podcast' => PodcastResource::make($podcast)->resolve($request),
         ]);

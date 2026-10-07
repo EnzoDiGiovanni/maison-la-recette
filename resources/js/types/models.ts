@@ -20,6 +20,10 @@ export type Podcast = {
     number: number | null;
     /** Lien vers la page d'écoute. */
     link: string;
+    /** Fichier audio de l'épisode, importé depuis Ausha. */
+    audio_url: string | null;
+    /** Durée en secondes. */
+    duration: number | null;
     /** Code HTML du lecteur à intégrer, collé depuis le back-office. */
     iframe: string | null;
     image_url: string | null;

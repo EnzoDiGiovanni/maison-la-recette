@@ -1,7 +1,12 @@
 import { Link } from '@inertiajs/react';
 import Cover from '@/components/podcasts/cover';
 import FavoriteButton from '@/components/podcasts/favorite-button';
-import { podcastGuest, podcastTeaser } from '@/lib/podcast';
+import {
+    extractTitle,
+    isExtract,
+    podcastGuest,
+    podcastTeaser,
+} from '@/lib/podcast';
 import { show } from '@/routes/podcasts';
 import type { Podcast } from '@/types';
 
@@ -17,7 +22,10 @@ export default function PodcastTile({ podcast }: { podcast: Podcast }) {
                     className="podcast-tile__photo"
                 />
                 <span className="podcast-tile__title">
-                    {podcastTeaser(podcast) ?? podcast.title}
+                    {/* Un extrait se résume à la question posée dans son titre. */}
+                    {isExtract(podcast)
+                        ? extractTitle(podcast)
+                        : (podcastTeaser(podcast) ?? podcast.title)}
                 </span>
                 {guest && <span className="podcast-tile__guest">{guest}</span>}
             </Link>
