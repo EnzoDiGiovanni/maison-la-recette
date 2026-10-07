@@ -105,12 +105,47 @@ footer {
 }
 
 .site-header__actions a,
+/* Bouton burger : trois barres qui se croisent quand le menu est ouvert. */
 .site-header__burger {
     display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 2rem;
+    height: 2rem;
     padding: 0;
     border: 0;
     background: none;
     color: inherit;
+    cursor: pointer;
+}
+
+.site-header__burger-bar {
+    display: block;
+    width: 1.4rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--primary-color);
+    transition:
+        transform 0.25s ease,
+        opacity 0.2s ease;
+}
+
+/* État ouvert : les barres forment une croix. */
+.site-header__burger[aria-expanded='true']
+    .site-header__burger-bar:nth-child(1) {
+    transform: translateY(0.45rem) rotate(45deg);
+}
+
+.site-header__burger[aria-expanded='true']
+    .site-header__burger-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.site-header__burger[aria-expanded='true']
+    .site-header__burger-bar:nth-child(3) {
+    transform: translateY(-0.45rem) rotate(-45deg);
 }
 
 .site-header__actions svg {
@@ -118,25 +153,31 @@ footer {
     height: auto;
 }
 
+/* Menu déroulé : seconde barre pleine largeur sous la navbar. */
 .site-header__menu {
-    position: absolute;
-    top: 100%;
-    right: var(--gutter);
-    z-index: 10;
-    padding: 1rem 1.5rem;
-    border-radius: 0.75rem;
-    background: var(--primary-color);
+    grid-column: 1 / -1;
+    margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+    padding-block: clamp(0.6rem, 1.5vw, 1rem);
+    overflow: hidden;
+    border-top: 1.5px solid var(--primary-color);
 }
 
 .site-header__menu ul {
-    display: grid;
-    gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.5rem clamp(1rem, 3vw, 3rem);
 }
 
 .site-header__menu a {
-    color: #fff;
+    color: var(--primary-color);
+    font-size: clamp(0.75rem, 1.6vw, 1rem);
     font-weight: 600;
     text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
 }
 
 .site-header__menu a[aria-current] {
@@ -406,9 +447,12 @@ main iframe {
 /* Petits écrans : marges resserrées via --gutter (clamp), les éléments
    interactifs gardent une zone tactile correcte. */
 @media (max-width: 640px) {
-    .site-header__menu {
-        right: var(--gutter);
-        left: var(--gutter);
+    /* La seconde barre défile horizontalement si les liens sont trop nombreux. */
+    .site-header__menu ul {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
     }
 
     /* Cartes « sorties » : photo réduite sur très petits écrans. */
@@ -553,16 +597,22 @@ section:hover .section-title__arrow {
 }
 
 /* Menu burger : apparition en glissière. */
+/* Ouverture : la seconde barre se déplie en douceur (hauteur + fondu). */
 .site-header__menu {
-    animation: menu-in 0.2s ease-out;
+    animation: menu-in 0.35s ease;
 }
 
 @keyframes menu-in {
     from {
+        max-height: 0;
+        margin-top: 0;
+        padding-block: 0;
+        border-top-width: 0;
         opacity: 0;
-        transform: translateY(-6px);
+        transform: translateY(-0.5rem);
     }
     to {
+        max-height: 24rem;
         opacity: 1;
         transform: none;
     }
@@ -1629,5 +1679,242 @@ main ul.past-slider__track {
         right: -0.5rem;
         left: auto;
         width: 2.25rem;
+    }
+}
+
+/* === Page contact / devis === */
+
+/* Deux colonnes : formulaire à gauche, grand panneau visuel à droite. */
+.contact-split {
+    display: grid;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
+    margin-block: clamp(1.5rem, 4vw, 3rem);
+}
+
+@media (min-width: 900px) {
+    .contact-split {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    }
+}
+
+.contact-split__form {
+    max-width: 27rem;
+}
+
+/* Formulaire épuré, à plat sur le fond crème. */
+.contact-form {
+    display: grid;
+    gap: clamp(1rem, 2.2vw, 1.4rem);
+    /* Neutralise le max-width: 32rem de draft.css sur les form. */
+    width: min(100%, 44rem);
+    max-width: none;
+    margin-inline: auto;
+}
+
+.contact-form .field {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.contact-form label,
+.contact-form .field__label {
+    margin: 0;
+    color: var(--text-color);
+    font-size: clamp(0.8rem, 1.6vw, 0.9rem);
+    font-weight: 600;
+}
+
+.field__required {
+    margin-left: 0.15em;
+    color: var(--red-color);
+    font-weight: 700;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.55em 0.8em;
+    border: 1px solid #d9cfba;
+    border-radius: 0.45rem;
+    background: #fff;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: clamp(0.9rem, 1.8vw, 0.95rem);
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(95 175 136 / 0.2);
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form select {
+    cursor: pointer;
+}
+
+.contact-form [role='alert'] {
+    margin: 0;
+    color: var(--red-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* « Type de demande » : boutons radio en grille 2 colonnes. */
+.radio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1.25rem;
+}
+
+.radio-grid__option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: clamp(0.85rem, 1.7vw, 0.95rem);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.radio-grid__option input {
+    width: auto;
+    margin: 0;
+    accent-color: var(--primary-color);
+}
+
+/* Champs côte à côte sur écrans larges. */
+.contact-form__row {
+    display: grid;
+    gap: clamp(1rem, 2.2vw, 1.4rem);
+}
+
+@media (min-width: 640px) {
+    .contact-form__row {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+/* Bouton d'envoi : pleine largeur, vert de la marque. */
+.contact-form__submit {
+    width: 100%;
+    padding: 0.7em 1em;
+    border: 0;
+    border-radius: 0.45rem;
+    background: var(--primary-color);
+    color: var(--accent-color);
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.contact-form__submit:hover:not(:disabled) {
+    box-shadow: 0 4px 14px rgb(95 175 136 / 0.45);
+    transform: translateY(-2px);
+}
+
+.contact-form__submit:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+/* Lien e-mail alternatif sous le bouton. */
+.contact-form__alt {
+    margin: 0;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.contact-form__alt a {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Panneau visuel arrondi à droite : photo + titre en surimpression. */
+.contact-visual {
+    position: relative;
+    display: grid;
+    align-content: end;
+    min-height: 16rem;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    overflow: hidden;
+    border-radius: clamp(1rem, 2.5vw, 1.75rem);
+    background: linear-gradient(160deg, var(--primary-color), #4a9471);
+    color: #fff;
+}
+
+.contact-visual__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Voile sombre en bas : le texte reste lisible sur la photo. */
+.contact-visual::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(
+        to top,
+        rgb(0 0 0 / 0.55),
+        rgb(0 0 0 / 0.15) 55%,
+        transparent
+    );
+    content: '';
+}
+
+.contact-visual > *:not(.contact-visual__photo) {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 8px rgb(0 0 0 / 0.35);
+}
+
+.contact-visual__chip {
+    justify-self: start;
+    margin-bottom: 1rem;
+    padding: 0.4em 1em;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.85);
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-shadow: none;
+    backdrop-filter: blur(4px);
+}
+
+.contact-visual__title {
+    max-width: 24rem;
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.contact-visual__intro {
+    max-width: 24rem;
+    margin-block: 0.6rem 0;
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+    line-height: 1.5;
+}
+
+@media (min-width: 900px) {
+    .contact-visual {
+        position: sticky;
+        top: var(--gutter);
+        min-height: calc(100svh - 2 * var(--gutter));
     }
 }

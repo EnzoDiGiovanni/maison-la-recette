@@ -31,7 +31,7 @@ export default function TextField({
     inputMode,
 }: Props) {
     return (
-        <Field id={id} label={label} error={error}>
+        <Field id={id} label={label} error={error} required={required}>
             <input
                 id={id}
                 type={type}
