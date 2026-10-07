@@ -9,7 +9,8 @@ import CtaBlock from '@/components/cta-block';
 import SectionTitle from '@/components/section-title';
 import SiteLayout from '@/layouts/site-layout';
 import { formatDate, formatPrice } from '@/lib/format';
-import { contact, logout } from '@/routes';
+import { logout } from '@/routes';
+import quote from '@/routes/contact/quote';
 import { index as experiencesIndex } from '@/routes/experiences';
 import { index as podcastsIndex } from '@/routes/podcasts';
 import type { Account, Booking, Inquiry, Podcast } from '@/types';
@@ -135,9 +136,7 @@ export default function Dashboard({
                 {isCompany ? (
                     <CtaBlock
                         title={<>Un projet pour votre équipe&nbsp;?</>}
-                        href={contact.url({
-                            query: { type: 'devis_experience' },
-                        })}
+                        href={quote.experience.url()}
                         label="Demander un devis"
                     >
                         Atelier, good tour ou immersion : date, lieu et nombre

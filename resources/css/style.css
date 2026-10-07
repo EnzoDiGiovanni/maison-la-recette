@@ -84,6 +84,25 @@ footer {
     white-space: nowrap;
 }
 
+/* Titre encadré et son éventuel sous-titre, aligné à gauche dessous. */
+.site-header__heading {
+    position: relative;
+    grid-column: 2;
+}
+
+.site-header__subtitle {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0.35em 0 0;
+    color: var(--primary-color);
+    font-size: clamp(0.85rem, 2.1vw, 1.9rem);
+    font-weight: 500;
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
 .site-header__title {
     margin: 0;
     padding: 0.1em 0.2em 0;
@@ -1735,11 +1754,11 @@ main ul.past-slider__track {
 
 /* === Page contact / devis === */
 
-/* Deux colonnes : formulaire à gauche, grand panneau visuel à droite. */
+/* Deux colonnes : formulaire à gauche, grande photo arrondie à droite. */
 .contact-split {
     display: grid;
     gap: clamp(2rem, 4vw, 4rem);
-    align-items: start;
+    align-items: stretch;
     margin-block: clamp(1.5rem, 4vw, 3rem);
 }
 
@@ -1750,30 +1769,40 @@ main ul.past-slider__track {
 }
 
 .contact-split__form {
-    max-width: 27rem;
+    max-width: 30rem;
 }
 
-/* Formulaire épuré, à plat sur le fond crème. */
+.contact-split__title {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    font-weight: 700;
+}
+
+.contact-split__subtitle {
+    margin: 0.15em 0 clamp(1.75rem, 4vw, 3rem);
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    font-weight: 600;
+}
+
+/* Champs minimalistes : juste un trait sous le champ. */
 .contact-form {
     display: grid;
-    gap: clamp(1rem, 2.2vw, 1.4rem);
+    gap: clamp(1.4rem, 3vw, 2.25rem);
     /* Neutralise le max-width: 32rem de draft.css sur les form. */
-    width: min(100%, 44rem);
     max-width: none;
-    margin-inline: auto;
 }
 
 .contact-form .field {
     display: grid;
-    gap: 0.35rem;
+    gap: 0.2rem;
 }
 
 .contact-form label,
 .contact-form .field__label {
     margin: 0;
     color: var(--text-color);
-    font-size: clamp(0.8rem, 1.6vw, 0.9rem);
-    font-weight: 600;
+    font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+    font-weight: 500;
 }
 
 .field__required {
@@ -1786,24 +1815,22 @@ main ul.past-slider__track {
 .contact-form select,
 .contact-form textarea {
     width: 100%;
-    padding: 0.55em 0.8em;
-    border: 1px solid #d9cfba;
-    border-radius: 0.45rem;
-    background: #fff;
+    padding: 0.35em 0;
+    border: 0;
+    border-bottom: 1px solid #8a8a7a;
+    border-radius: 0;
+    background: transparent;
     color: var(--text-color);
     font-family: inherit;
-    font-size: clamp(0.9rem, 1.8vw, 0.95rem);
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    transition: border-color 0.2s ease;
 }
 
 .contact-form input:focus,
 .contact-form select:focus,
 .contact-form textarea:focus {
-    border-color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
     outline: none;
-    box-shadow: 0 0 0 3px rgb(95 175 136 / 0.2);
 }
 
 .contact-form textarea {
@@ -1821,32 +1848,10 @@ main ul.past-slider__track {
     font-weight: 600;
 }
 
-/* « Type de demande » : boutons radio en grille 2 colonnes. */
-.radio-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem 1.25rem;
-}
-
-.radio-grid__option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: clamp(0.85rem, 1.7vw, 0.95rem);
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.radio-grid__option input {
-    width: auto;
-    margin: 0;
-    accent-color: var(--primary-color);
-}
-
 /* Champs côte à côte sur écrans larges. */
 .contact-form__row {
     display: grid;
-    gap: clamp(1rem, 2.2vw, 1.4rem);
+    gap: clamp(1.4rem, 3vw, 2.25rem);
 }
 
 @media (min-width: 640px) {
@@ -1855,16 +1860,17 @@ main ul.past-slider__track {
     }
 }
 
-/* Bouton d'envoi : pleine largeur, vert de la marque. */
+/* Bouton d'envoi : pilule verte pleine largeur. */
 .contact-form__submit {
     width: 100%;
-    padding: 0.7em 1em;
+    margin-top: clamp(0.5rem, 1.5vw, 1rem);
+    padding: 0.65em 1em;
     border: 0;
-    border-radius: 0.45rem;
+    border-radius: 999px;
     background: var(--primary-color);
-    color: var(--accent-color);
+    color: #fff;
     font-size: clamp(0.95rem, 2vw, 1.05rem);
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
     transition:
         transform 0.2s ease,
@@ -1881,29 +1887,12 @@ main ul.past-slider__track {
     opacity: 0.7;
 }
 
-/* Lien e-mail alternatif sous le bouton. */
-.contact-form__alt {
-    margin: 0;
-    font-size: 0.85rem;
-    text-align: center;
-}
-
-.contact-form__alt a {
-    color: var(--primary-color);
-    font-weight: 600;
-}
-
-/* Panneau visuel arrondi à droite : photo + titre en surimpression. */
+/* Panneau photo à droite, coins arrondis. */
 .contact-visual {
     position: relative;
-    display: grid;
-    align-content: end;
     min-height: 16rem;
-    padding: clamp(1.25rem, 3vw, 2.5rem);
     overflow: hidden;
-    border-radius: clamp(1rem, 2.5vw, 1.75rem);
-    background: linear-gradient(160deg, var(--primary-color), #4a9471);
-    color: #fff;
+    border-radius: clamp(0.75rem, 2vw, 1.25rem);
 }
 
 .contact-visual__photo {
@@ -1914,58 +1903,33 @@ main ul.past-slider__track {
     object-fit: cover;
 }
 
-/* Voile sombre en bas : le texte reste lisible sur la photo. */
-.contact-visual::before {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: linear-gradient(
-        to top,
-        rgb(0 0 0 / 0.55),
-        rgb(0 0 0 / 0.15) 55%,
-        transparent
-    );
-    content: '';
-}
-
-.contact-visual > *:not(.contact-visual__photo) {
-    position: relative;
-    z-index: 1;
-    text-shadow: 0 1px 8px rgb(0 0 0 / 0.35);
-}
-
-.contact-visual__chip {
-    justify-self: start;
-    margin-bottom: 1rem;
-    padding: 0.4em 1em;
-    border-radius: 999px;
-    background: rgb(255 255 255 / 0.85);
-    color: var(--primary-color);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-shadow: none;
-    backdrop-filter: blur(4px);
-}
-
-.contact-visual__title {
-    max-width: 24rem;
-    margin: 0;
-    font-size: clamp(1.5rem, 3vw, 2.4rem);
-    font-weight: 700;
-    line-height: 1.15;
-}
-
-.contact-visual__intro {
-    max-width: 24rem;
-    margin-block: 0.6rem 0;
-    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
-    line-height: 1.5;
-}
-
 @media (min-width: 900px) {
     .contact-visual {
         position: sticky;
         top: var(--gutter);
         min-height: calc(100svh - 2 * var(--gutter));
     }
+}
+
+/* Formulaire de contact simple : colonne étroite centrée. */
+.contact-simple {
+    max-width: 32rem;
+    margin: clamp(1.5rem, 4vw, 3rem) auto;
+}
+
+.contact-simple__intro {
+    margin: 0.4rem 0 clamp(1.5rem, 3vw, 2.25rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+}
+
+/* Lien e-mail alternatif sous le bouton. */
+.contact-form__alt {
+    margin: 0;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.contact-form__alt a {
+    color: var(--primary-color);
+    font-weight: 600;
 }

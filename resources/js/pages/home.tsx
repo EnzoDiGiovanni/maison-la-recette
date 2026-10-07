@@ -61,7 +61,7 @@ export default function Home({
                         />
                     ))}
                 </ul>
-                <QuoteLink query={{ type: 'devis_experience' }} />
+                <QuoteLink />
             </section>
 
             <TestimonialsSection testimonials={testimonials} />

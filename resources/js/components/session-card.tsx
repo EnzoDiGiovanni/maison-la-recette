@@ -60,9 +60,7 @@ export default function SessionCard({
             {user?.account_type === 'entreprise' && (
                 <p>
                     La réservation en ligne est réservée aux particuliers.{' '}
-                    <QuoteLink query={{ type: 'devis_experience' }}>
-                        Demander un devis pour votre équipe
-                    </QuoteLink>
+                    <QuoteLink>Demander un devis pour votre équipe</QuoteLink>
                 </p>
             )}
         </li>
