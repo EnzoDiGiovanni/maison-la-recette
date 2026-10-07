@@ -10,6 +10,10 @@ type Props = {
     type?: HTMLInputTypeAttribute;
     required?: boolean;
     min?: number;
+    max?: number;
+    autoComplete?: string;
+    placeholder?: string;
+    inputMode?: 'numeric' | 'tel' | 'email';
 };
 
 export default function TextField({
@@ -21,6 +25,10 @@ export default function TextField({
     type = 'text',
     required,
     min,
+    max,
+    autoComplete,
+    placeholder,
+    inputMode,
 }: Props) {
     return (
         <Field id={id} label={label} error={error}>
@@ -29,6 +37,10 @@ export default function TextField({
                 type={type}
                 required={required}
                 min={min}
+                max={max}
+                autoComplete={autoComplete}
+                placeholder={placeholder}
+                inputMode={inputMode}
                 value={value}
                 onChange={(event) => onChange(event.target.value)}
             />
