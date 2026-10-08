@@ -53,6 +53,7 @@
 @import './components/posts/post-tile.css';
 
 /* Pages */
+@import './pages/about.css';
 @import './pages/auth.css';
 @import './pages/checkout.css';
 @import './pages/contact.css';
