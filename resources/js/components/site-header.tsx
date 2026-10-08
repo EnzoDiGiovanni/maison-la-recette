@@ -26,7 +26,6 @@ export default function SiteHeader({
 
     const links = [
         { label: 'Podcast', url: podcastsIndex.url() },
-        { label: 'Offres podcast', url: podcastOffers.url() },
         { label: 'Studio', url: studio.url() },
         { label: 'Expériences', url: experiencesIndex.url() },
         { label: 'Blog', url: postsIndex.url() },
