@@ -11,11 +11,26 @@ import { show } from '@/routes/podcasts';
 import type { Podcast } from '@/types';
 
 /** Petite carte d'épisode : visuel, accroche, invité·e. */
-export default function PodcastTile({ podcast }: { podcast: Podcast }) {
+type Props = {
+    podcast: Podcast;
+    /** Cœur à côté du titre (espace compte) au lieu du marque-page. */
+    favoriteIcon?: 'bookmark' | 'heart';
+};
+
+export default function PodcastTile({
+    podcast,
+    favoriteIcon = 'bookmark',
+}: Props) {
     const guest = podcastGuest(podcast);
 
     return (
-        <li className="podcast-tile">
+        <li
+            className={
+                favoriteIcon === 'heart'
+                    ? 'podcast-tile podcast-tile--heart'
+                    : 'podcast-tile'
+            }
+        >
             <Link href={show.url(podcast)}>
                 <Cover
                     src={podcast.image_url}
@@ -29,7 +44,7 @@ export default function PodcastTile({ podcast }: { podcast: Podcast }) {
                 </span>
                 {guest && <span className="podcast-tile__guest">{guest}</span>}
             </Link>
-            <FavoriteButton podcast={podcast} />
+            <FavoriteButton podcast={podcast} icon={favoriteIcon} />
         </li>
     );
 }

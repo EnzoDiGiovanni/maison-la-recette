@@ -3,50 +3,80 @@
     margin-block: clamp(2rem, 5vw, 4.5rem);
 }
 
-.account-page > section:first-child {
-    margin-top: clamp(1rem, 2.5vw, 2rem);
-}
-
-.account-hero {
+/* « Se déconnecter » : à droite, sur la ligne du « Bonjour » de l'en-tête.
+   La marge négative remonte le lien dans la zone du sous-titre. */
+.account-top {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem 2rem;
-    padding-bottom: clamp(1rem, 2.5vw, 2rem);
-    border-bottom: 2px solid var(--primary-color);
+    justify-content: flex-end;
+    gap: 1.5rem;
+    margin: calc(-1 * clamp(0.75rem, 2.2vw, 2rem)) 0 0;
+    font-size: clamp(0.85rem, 1.25vw, 1.15rem);
 }
 
-.account-hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.account-chip {
-    display: inline-block;
-    margin: 0 0 0.6em;
-    padding: 0.15em 0.9em;
-    border: 1.5px solid var(--red-color);
-    border-radius: 999px;
-    color: var(--red-color);
-    font-size: clamp(0.7rem, 1vw, 0.9rem);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-.account-hero__hello {
-    margin: 0;
+.account-top a,
+.account-top button {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
     color: var(--primary-color);
-    font-size: clamp(2rem, 5.2vw, 4.5rem);
     font-weight: 500;
-    line-height: 1.05;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    cursor: pointer;
 }
 
-.account-hero__meta {
-    margin: 0.6em 0 0;
-    font-size: clamp(0.85rem, 1.15vw, 1rem);
+.account-top a:hover,
+.account-top button:hover {
+    color: var(--red-color);
+}
+
+.account-top :focus-visible {
+    outline: 2px solid var(--red-color);
+    outline-offset: 4px;
+}
+
+/* Prochaines expériences : billets, puis l'encart vert de découverte */
+main ul.account-upcoming {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 1.7vw, 1.75rem);
+    margin: 0;
+}
+
+.account-upcoming > .booking-card {
+    flex: 1 1 22rem;
+    max-width: 33rem;
+}
+
+.account-empty + .account-upcoming {
+    margin-top: clamp(1rem, 2vw, 1.75rem);
+}
+
+.account-discover {
+    display: flex;
+    flex: 0 1 19rem;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(1.25rem, 3vw, 3rem);
+    padding: clamp(1.1rem, 1.8vw, 1.75rem) clamp(1.1rem, 1.6vw, 1.5rem)
+        clamp(1.25rem, 2.4vw, 2.25rem);
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.account-discover p {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.6vw, 1.45rem);
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.account-discover .btn {
+    align-self: center;
+    font-size: clamp(0.85rem, 1.05vw, 1rem);
+    font-weight: 600;
 }
 
 /* Cartes d'épisodes reprises dans l'espace compte */

@@ -53,3 +53,17 @@
     width: 1.1em;
     height: 1.1em;
 }
+
+/* Cœur posé à côté du titre, dans l'espace compte */
+.favorite-button--heart,
+.favorite-button--heart[aria-pressed='true'] {
+    width: clamp(1.5rem, 2vw, 1.75rem);
+    background: none;
+    color: var(--text-color);
+    box-shadow: none;
+}
+
+.favorite-button--heart svg {
+    width: 80%;
+    height: 80%;
+}

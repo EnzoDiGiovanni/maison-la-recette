@@ -1,23 +1,17 @@
-/* Billet de réservation, jaune ou saumon */
+/* Billet de réservation : fond crème, contour et date jaunes ou saumon */
 .booking-card {
-    padding: clamp(0.9rem, 1.6vw, 1.5rem);
-    border: 1px solid rgb(71 56 46 / 0.06);
-    border-radius: 0.35rem;
-    box-shadow: 0 1px 3px rgb(71 56 46 / 0.08);
-}
+    --tone: var(--yellow-card);
 
-.booking-card--jaune {
-    background: var(--yellow-card);
-}
-
-.booking-card--saumon {
-    background: var(--salmon-card);
-}
-
-.booking-card {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: clamp(0.8rem, 1.8vw, 1.5rem);
+    padding: clamp(0.9rem, 1.6vw, 1.5rem);
+    border: 2px solid var(--tone);
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+}
+
+.booking-card--saumon {
+    --tone: var(--salmon-card);
 }
 
 .booking-card__date {
@@ -25,18 +19,18 @@
     align-content: center;
     justify-items: center;
     align-self: start;
-    width: clamp(4rem, 8vw, 6.5rem);
+    width: clamp(4rem, 7.5vw, 6.5rem);
     aspect-ratio: 1;
-    border-radius: 0.3rem;
-    background: var(--accent-color);
-    color: var(--primary-color);
+    border-radius: clamp(0.6rem, 1vw, 0.9rem);
+    background: var(--tone);
+    color: var(--accent-color);
     font-size: inherit;
     line-height: 1;
 }
 
 .booking-card__day {
-    font-size: clamp(1.8rem, 3.6vw, 3rem);
-    font-weight: 600;
+    font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+    font-weight: 500;
 }
 
 .booking-card__month {
@@ -46,6 +40,7 @@
     text-transform: uppercase;
 }
 
+/* Repris par les cartes de demandes (inquiry-card.css). */
 .booking-card__type {
     margin: 0;
     font-size: clamp(0.7rem, 1vw, 0.9rem);
@@ -56,13 +51,14 @@
 
 .booking-card__title {
     margin: 0.15em 0 0.4em;
-    font-size: clamp(1.05rem, 1.8vw, 1.55rem);
-    font-weight: 600;
+    font-size: clamp(1.05rem, 1.6vw, 1.45rem);
+    font-weight: 500;
     line-height: 1.25;
 }
 
 .booking-card__title a {
     color: inherit;
+    font-weight: inherit;
     text-decoration: none;
 }
 
@@ -73,7 +69,7 @@
 
 .booking-card__meta {
     margin: 0.3em 0 0;
-    font-size: clamp(0.85rem, 1.15vw, 1rem);
+    font-size: clamp(0.85rem, 1.05vw, 1rem);
     line-height: 1.5;
 }
 
@@ -81,11 +77,44 @@
     text-transform: uppercase;
 }
 
+.booking-card__meta strong {
+    font-weight: 600;
+}
+
+.booking-card__body .status-pill {
+    margin-top: 0.6em;
+    border: 1px solid rgb(71 56 46 / 0.15);
+}
+
 .booking-card__footer {
     grid-column: 1 / -1;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+    gap: 0.6rem 1rem;
+    margin-top: auto;
+    font-size: clamp(0.8rem, 1.05vw, 0.95rem);
+}
+
+.booking-card__invite {
+    gap: 0.6em;
+    padding: 0.4em 1.2em;
+    font-size: inherit;
+    font-weight: 600;
+}
+
+.booking-card__invite svg {
+    width: 1.3em;
+    height: 1.3em;
+    transition: transform 0.3s ease;
+}
+
+.booking-card__invite:hover svg {
+    transform: translate(0.15em, -0.15em);
+}
+
+/* Seul dans le pied de carte, « Annuler » reste à droite. */
+.booking-card__cancel {
+    margin-left: auto;
 }

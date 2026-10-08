@@ -255,7 +255,8 @@ it('saves podcasts to listen to later and lists them on the dashboard', function
         ->assertInertia(fn (Assert $page) => $page->where('podcasts', fn ($podcasts) => collect($podcasts)->pluck('is_favorite', 'slug')->all() == ['la-peche-durable' => true, 'le-pain' => false]));
 
     $this->get('/dashboard')
-        ->assertInertia(fn (Assert $page) => $page->has('favoritePodcasts', 1)->where('favoritePodcasts.0.slug', 'la-peche-durable')->where('favoritePodcasts.0.is_favorite', true));
+        ->assertInertia(fn (Assert $page) => $page->has('favoritePodcasts', 1)->where('favoritePodcasts.0.slug', 'la-peche-durable')->where('favoritePodcasts.0.is_favorite', true)
+            ->has('suggestedPodcasts', 1)->where('suggestedPodcasts.0.slug', 'le-pain'));
 
     $this->actingAs(User::factory()->individual()->create())->get('/dashboard')
         ->assertInertia(fn (Assert $page) => $page->has('favoritePodcasts', 0));
