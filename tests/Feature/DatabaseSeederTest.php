@@ -19,6 +19,21 @@ use App\Models\Speaker;
 use App\Models\Testimonial;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+
+beforeEach(function () {
+    Storage::fake('public');
+    $this->feedDown = false;
+
+    // The podcast seeder imports the Ausha feed.
+    Http::fake([
+        'feed.ausha.co/*' => fn () => $this->feedDown
+            ? Http::response('', 503)
+            : Http::response((string) file_get_contents(base_path('tests/Fixtures/ausha-feed.xml'))),
+        'image.ausha.co/*' => Http::response('cover', 200, ['Content-Type' => 'image/jpeg']),
+    ]);
+});
 
 it('seeds demo data for every resource without duplicating on a second run', function () {
     $counts = fn (): array => [
@@ -76,14 +91,35 @@ it('refuses to seed in production', function () {
     expect(User::count())->toBe(0);
 });
 
-it('links every seeded podcast to its intervenant, including ones seeded earlier', function () {
+it('imports the real episodes, linked to their intervenant, instead of demo ones', function () {
     $this->seed();
 
-    Podcast::query()->update(['speaker_id' => null, 'quote' => null]);
-    Podcast::where('slug', 'nadia-sammut-cheffe-etoilee')->update(['quote' => 'Citation saisie à la main.']);
+    $episode = Podcast::where('title', 'like', 'Charles Guirriec%')->firstOrFail();
+
+    expect(Podcast::whereNull('ausha_guid')->count())->toBe(0)
+        ->and($episode->speaker->name)->toBe('Charles Guirriec')
+        ->and($episode->is_featured)->toBeTrue()
+        // Only the Pédron episode of the fixture has a cover to take a portrait from.
+        ->and($episode->speaker->photo)->toBeNull()
+        ->and(Speaker::where('name', 'Jean-Marie Pédron')->sole()->photo)->toBe('speakers/jean-marie-pedron.jpg')
+        ->and(Storage::disk('public')->exists('speakers/jean-marie-pedron.jpg'))->toBeTrue()
+        ->and(Podcast::where('title', 'like', '%EXTRAIT%')->where('is_featured', true)->count())->toBe(0);
+});
+
+it('still seeds everything else when the Ausha feed is down', function () {
+    $this->feedDown = true;
 
     $this->seed();
 
-    expect(Podcast::whereNull('speaker_id')->pluck('slug')->all())->toBe(['nadia-sammut-cheffe-etoilee'])
-        ->and(Podcast::where('slug', 'charles-guirriec-la-peche-durable')->firstOrFail()->speaker->name)->toBe('Charles Guirriec');
+    expect(Podcast::count())->toBe(0)
+        ->and(Experience::count())->toBeGreaterThan(0);
+});
+
+it('fills the sessions that took place with about ten participants', function () {
+    $this->seed();
+
+    $past = ExperienceSession::where('starts_at', '<', now())->get();
+
+    expect($past->count())->toBe(5)
+        ->and($past)->each(fn ($session) => $session->remainingSeats()->toBeLessThanOrEqual(2));
 });

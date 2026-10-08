@@ -15,7 +15,7 @@ php artisan storage:link
 ```
 
 - `migrate` creates the tables (podcasts, speakers, experiences, sessions, bookings, inquiries, testimonials, posts, settings).
-- `db:seed` fills every back-office resource with demo data. It can be run again : it creates no duplicates and never overwrites what was edited in the back office. It refuses to run in production.
+- `db:seed` fills every back-office resource with demo data. It can be run again : it creates no duplicates and never overwrites what was edited in the back office. It refuses to run in production. The episodes are the real ones, imported from the Ausha feed with their covers (it needs the network and takes a minute ; if the feed is down the rest is still seeded, run `php artisan podcasts:sync` later). The guests of the show are created first so each episode is linked to its intervenant, and the 5 latest full episodes are put « à la une ».
 - `storage:link` is needed once so uploaded images are displayed.
 
 The seeder also creates a back-office account : `test@example.com` / `password`, and two customer accounts (same password) : `particulier@example.com` (individual, with bookings) and `entreprise@example.com` (company, with a quote request). Their demo bookings and requests are only linked on an empty database (`migrate:fresh --seed`).
@@ -47,7 +47,6 @@ php artisan podcasts:sync
 - An imported episode cannot be deleted in the back office, the next import would bring it back : untick « Visible sur le site » to take it off the site.
 - The first import downloads every cover : run it from the command line rather than with the button.
 - The episode page plays `audio_url` in a native `<audio>` player, and falls back to the pasted `iframe` for episodes without one.
-- Demo episodes from `db:seed` are not in the feed : on a local database they stay next to the imported ones until deleted.
 
 ## Front pages
 

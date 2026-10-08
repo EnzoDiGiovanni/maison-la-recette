@@ -11,7 +11,8 @@ use Illuminate\Database\Seeder;
 class ExperienceSessionSeeder extends Seeder
 {
     /**
-     * One past and two upcoming dates for each experience open to individuals.
+     * Past and upcoming dates for each experience open to individuals: about
+     * five experiences have already taken place, as in the client's brief.
      * Immersions are quote-only, so they get no session.
      */
     public function run(): void
@@ -30,7 +31,10 @@ class ExperienceSessionSeeder extends Seeder
             $hour = $isAtelier ? 18 : 10;
             $location = $isAtelier ? 'Chez notre partenaire, Lyon 1' : $experience->location;
 
-            foreach ([-3, 2 + $index, 6 + $index] as $weeks) {
+            // The first experience has run twice already.
+            $past = $index === 0 ? [-7, -3] : [-3 - $index];
+
+            foreach ([...$past, 2 + $index, 6 + $index, 10 + $index] as $weeks) {
                 ExperienceSession::query()->create([
                     'experience_id' => $experience->id,
                     'starts_at' => now()->addWeeks($weeks)->startOfWeek()->addDays($isAtelier ? 3 : 5)->setTime($hour, $isAtelier ? 30 : 0),

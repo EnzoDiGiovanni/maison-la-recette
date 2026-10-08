@@ -20,6 +20,11 @@
     transition: transform 0.35s ease;
 }
 
+/* L'aplat vert ne sert que sans photo : il ne doit pas déborder derrière une image détourée. */
+img.step-card__photo {
+    background: none;
+}
+
 .step-card:hover .step-card__photo {
     transform: scale(1.02);
 }

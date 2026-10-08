@@ -11,7 +11,11 @@ use App\Models\Testimonial;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
-beforeEach(fn () => $this->seed());
+beforeEach(function () {
+    fakeAushaFeed();
+
+    $this->seed();
+});
 
 it('renders the home page with featured podcasts, experiences, testimonials and posts', function () {
     $this->get(route('home'))
@@ -34,7 +38,7 @@ it('lists the podcasts and shows one with its link and iframe', function () {
     ]);
 
     $this->get(route('podcasts.index'))
-        ->assertInertia(fn (Assert $page) => $page->component('podcasts/index')->has('podcasts', 6)->has('podcasts.0.speaker.name'));
+        ->assertInertia(fn (Assert $page) => $page->component('podcasts/index')->has('podcasts', 3)->has('podcasts.0.speaker.name'));
 
     $this->get(route('podcasts.show', $podcast))
         ->assertInertia(fn (Assert $page) => $page
@@ -66,10 +70,10 @@ it('lists only published experiences', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('experiences/listing')
             ->where('type.label', 'Les ateliers')
-            ->has('sessions', 2)
+            ->has('sessions', 3)
             ->where('sessions.0.experience.slug', 'atelier-lactofermentation')
             ->where('sessions.0.price', 70)
-            ->has('pastEvents', 1)
+            ->has('pastEvents', 2)
             // The general review only: the two others are about food tours.
             ->has('testimonials', 1)
             ->where('testimonials.0.experience_title', null)
@@ -90,7 +94,7 @@ it('lists every upcoming date in the agenda and none for quote-only formats', fu
         ->assertInertia(fn (Assert $page) => $page
             ->component('experiences/listing')
             ->where('type', null)
-            ->has('sessions', 8)
+            ->has('sessions', 12)
             ->has('testimonials', 3));
 
     $this->get(route('experiences.listing', 'immersions'))
@@ -107,7 +111,7 @@ it('shows the reservation step of an open upcoming date only', function () {
             ->component('bookings/show')
             ->where('experience.title', 'Jean-Macé')
             ->where('session.price', 60)
-            ->where('session.remaining_seats', 12));
+            ->where('session.remaining_seats', 11));
 
     $session->update(['starts_at' => now()->subDay()]);
     $this->get(route('sessions.show', $session))->assertNotFound();
@@ -264,7 +268,7 @@ it('sends the past dates of published experiences to the agenda and keeps empty 
 
     $this->get(route('experiences.agenda'))
         ->assertInertia(fn (Assert $page) => $page
-            ->has('pastEvents', 4)
+            ->has('pastEvents', 5)
             ->has('pastEvents.0.experience.title')
             ->where('pastEvents.0.starts_at', fn (string $value) => now()->gt($value)));
 });

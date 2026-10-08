@@ -15,6 +15,8 @@ beforeEach(function () {
     $this->coverFails = false;
 
     Http::preventStrayRequests();
+    // With « npm run dev » running, pages are rendered through the Vite server.
+    Http::allowStrayRequests(['*/__inertia_ssr']);
     Http::fake([
         'feed.ausha.co/*' => Http::response((string) file_get_contents(base_path('tests/Fixtures/ausha-feed.xml'))),
         'image.ausha.co/*' => fn () => $this->coverFails

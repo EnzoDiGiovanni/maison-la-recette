@@ -4,56 +4,126 @@ namespace Database\Seeders;
 
 use App\Models\Podcast;
 use App\Models\Speaker;
+use App\Services\Ausha\PodcastSynchronizer;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Throwable;
 
 class PodcastSeeder extends Seeder
 {
-    /**
-     * The guests are real people: no words are put in their mouths.
-     */
-    private const string PLACEHOLDER_QUOTE = 'Citation d\'exemple, à remplacer par une phrase marquante de l\'épisode.';
+    /** Episodes shown under « Podcasts à la une » on a fresh database. */
+    private const int FEATURED = 5;
+
+    /** Share of the cover kept around its centre for a portrait, and its size in pixels. */
+    private const float PORTRAIT_CROP = 0.62;
+
+    private const int PORTRAIT_SIZE = 480;
 
     /**
-     * Demo episodes built from the guests shown in the client's presentation.
-     * Seasons, numbers and dates are placeholders; the iframe is left empty
-     * until the real embed codes are pasted in the back office. Each one is
-     * linked to its intervenant from SpeakerSeeder.
+     * The real episodes, imported from the Ausha feed: no demo episode is
+     * invented. Each one is linked to its intervenant from SpeakerSeeder.
      */
-    public function run(): void
+    public function run(PodcastSynchronizer $synchronizer): void
     {
-        $podcasts = [
-            ['Jean-Marie Pedron', 'Les Jardins de la Mer', 1, 4, 'Direction le bord de mer, là où se cultivent les légumes de l\'océan.'],
-            ['Camille Labro', 'L\'école comestible', 1, 9, 'Et si l\'éducation au goût commençait sur les bancs de l\'école ?'],
-            ['Nadia Sammut', 'Cheffe étoilée', 2, 3, 'Dans la cuisine d\'une cheffe étoilée qui met ses convictions au menu.'],
-            ['Rodolphe Landemaine', 'La boulangerie végétale', 2, 8, 'Peut-on faire lever une boulangerie sans beurre ni œufs ?'],
-            ['Emilie Félix', 'L\'énergie, ça se cuisine !', 3, 2, 'Cuisiner autrement pour consommer moins d\'énergie, sans perdre en gourmandise.'],
-            ['Charles Guirriec', 'La pêche durable', 3, 5, 'Sur les quais, à la rencontre de celles et ceux qui pêchent autrement.'],
-        ];
+        try {
+            $synchronizer->sync();
+        } catch (Throwable $exception) {
+            $this->command->warn("Épisodes non importés ({$exception->getMessage()}) : relancez « php artisan podcasts:sync ».");
 
-        foreach ($podcasts as $index => [$guest, $theme, $season, $number, $hook]) {
-            $title = "{$guest} — {$theme}";
+            return;
+        }
 
-            $podcast = Podcast::query()->firstOrCreate(
-                ['slug' => Str::slug("{$guest} {$theme}")],
-                [
-                    'title' => $title,
-                    'season' => $season,
-                    'number' => $number,
-                    'link' => 'https://smartlink.ausha.co/la-recette',
-                    'summary' => "{$hook}\n\nL'épisode s'ouvre sur un reportage immersif, puis laisse place à une conversation avec {$guest} pour explorer les coulisses de nos assiettes et repartir avec des pistes concrètes.",
-                    'published_at' => now()->startOfDay()->subMonths(count($podcasts) - $index),
-                    'is_featured' => $index >= count($podcasts) - 2,
-                ],
-            );
+        $this->feature();
+        $this->portraits();
+    }
 
-            // Also fills demo podcasts seeded before intervenants existed.
-            if ($podcast->speaker_id === null && $podcast->quote === null) {
-                $podcast->update([
-                    'speaker_id' => Speaker::query()->where('name', $guest)->value('id'),
-                    'quote' => self::PLACEHOLDER_QUOTE,
-                ]);
+    /**
+     * « À la une » is set by hand in the back office: only a database that
+     * has none yet gets the latest full episodes.
+     */
+    private function feature(): void
+    {
+        if (Podcast::query()->where('is_featured', true)->exists()) {
+            return;
+        }
+
+        $this->fullEpisodes()
+            ->latest('published_at')
+            ->limit(self::FEATURED)
+            ->get()
+            ->each
+            ->update(['is_featured' => true]);
+    }
+
+    /**
+     * The cover of an episode shows its guest: an intervenant without a
+     * photo gets the centre of the cover of their episode, rather than the
+     * face of someone else.
+     */
+    private function portraits(): void
+    {
+        $disk = Storage::disk('public');
+
+        foreach (Speaker::query()->whereNull('photo')->get() as $speaker) {
+            $cover = $this->fullEpisodes()
+                ->where('speaker_id', $speaker->id)
+                ->whereNotNull('image')
+                ->oldest('published_at')
+                ->value('image');
+
+            if (! is_string($cover) || ! $disk->exists($cover)) {
+                continue;
+            }
+
+            $path = 'speakers/'.Str::slug($speaker->name).'.jpg';
+
+            if ($disk->put($path, $this->portrait((string) $disk->get($cover)))) {
+                $speaker->update(['photo' => $path]);
             }
         }
+    }
+
+    /**
+     * A square cut around the centre of the cover, where the face is; the
+     * cover is kept whole when it cannot be read as an image.
+     */
+    private function portrait(string $cover): string
+    {
+        $image = function_exists('imagecreatefromstring') ? @imagecreatefromstring($cover) : false;
+
+        if ($image === false) {
+            return $cover;
+        }
+
+        $side = (int) round(min(imagesx($image), imagesy($image)) * self::PORTRAIT_CROP);
+        $portrait = imagecreatetruecolor(self::PORTRAIT_SIZE, self::PORTRAIT_SIZE);
+
+        imagecopyresampled(
+            $portrait,
+            $image,
+            0,
+            0,
+            intdiv(imagesx($image) - $side, 2),
+            intdiv(imagesy($image) - $side, 2),
+            self::PORTRAIT_SIZE,
+            self::PORTRAIT_SIZE,
+            $side,
+            $side,
+        );
+
+        ob_start();
+        imagejpeg($portrait, null, 85);
+
+        return (string) ob_get_clean();
+    }
+
+    /**
+     * @return Builder<Podcast>
+     */
+    private function fullEpisodes(): Builder
+    {
+        return Podcast::query()->where('title', 'not like', '%extrait%');
     }
 }
