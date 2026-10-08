@@ -1,5 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
+import PlatformLinks from '@/components/platform-links';
 import GuestCard from '@/components/podcasts/guest-card';
 import PodcastCta from '@/components/podcasts/podcast-cta';
 import PodcastSlider from '@/components/podcasts/podcast-slider';
@@ -101,6 +102,8 @@ export default function PodcastsIndex({ podcasts }: Props) {
                 <div className="reveal">
                     <PodcastCta />
                 </div>
+
+                <PlatformLinks />
 
                 {monthReleases.length > 0 && (
                     <section className="reveal">

@@ -1,4 +1,5 @@
 import type { Podcast } from '@/types';
+import type { Settings } from '@/types/models';
 
 /**
  * Les titres d'épisodes suivent le format « Invité — Sujet »
@@ -36,4 +37,27 @@ export function isExtract(podcast: Podcast): boolean {
 /** Titre d'un extrait sans son préfixe « [EXTRAIT 1 - Invité] - ». */
 export function extractTitle(podcast: Podcast): string {
     return podcast.title.replace(EXTRACT_PREFIX, '').trim() || podcast.title;
+}
+
+/** Plateformes d'écoute de l'émission, dans l'ordre d'affichage (Réglages du back-office). */
+const LISTENING_PLATFORMS = [
+    { label: 'Apple Podcasts', key: 'link_apple_podcasts' },
+    { label: 'Overcast', key: 'link_overcast' },
+    { label: 'Podcast Addict', key: 'link_podcast_addict' },
+    { label: 'Spotify', key: 'link_spotify' },
+    { label: 'Deezer', key: 'link_deezer' },
+    { label: 'Amazon Music', key: 'link_amazon_music' },
+    { label: 'Castbox', key: 'link_castbox' },
+    { label: 'Castro', key: 'link_castro' },
+    { label: 'Pocket Casts', key: 'link_pocket_casts' },
+] as const;
+
+export type ListeningPlatformKey = (typeof LISTENING_PLATFORMS)[number]['key'];
+
+/** Les plateformes dont le lien est renseigné. */
+export function listeningPlatforms(settings: Settings) {
+    return LISTENING_PLATFORMS.map((platform) => ({
+        ...platform,
+        url: settings[platform.key],
+    })).filter((platform) => platform.url);
 }

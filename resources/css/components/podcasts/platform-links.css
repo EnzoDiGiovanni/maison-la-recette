@@ -1,0 +1,36 @@
+/* Liens vers les plateformes d'écoute, sur la page podcast */
+main .platform-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 1vw, 0.9rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.platform-links ul a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    padding: 0.5em 1.1em;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 999px;
+    color: var(--primary-color);
+    font-size: clamp(0.85rem, 1.2vw, 1.1rem);
+    font-weight: 500;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.platform-links ul a:hover,
+.platform-links ul a:focus-visible {
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.platform-links svg {
+    width: 1.25em;
+    height: 1.25em;
+    flex-shrink: 0;
+}

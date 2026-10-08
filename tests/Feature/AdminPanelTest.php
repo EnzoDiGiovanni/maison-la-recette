@@ -19,6 +19,9 @@ use App\Filament\Resources\Podcasts\PodcastResource;
 use App\Filament\Resources\Posts\PostResource;
 use App\Filament\Resources\Speakers\SpeakerResource;
 use App\Filament\Resources\Testimonials\TestimonialResource;
+use App\Filament\Widgets\LatestInquiries;
+use App\Filament\Widgets\SiteOverview;
+use App\Filament\Widgets\UpcomingSessions;
 use App\Models\Booking;
 use App\Models\Experience;
 use App\Models\ExperienceSession;
@@ -29,6 +32,7 @@ use App\Models\Setting;
 use App\Models\Speaker;
 use App\Models\Testimonial;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Repeater;
 use Livewire\Livewire;
 
@@ -174,6 +178,25 @@ it('shows the number of new inquiries in the navigation', function () {
     $this->records[InquiryResource::class]->update(['status' => InquiryStatus::Contacted]);
 
     expect(InquiryResource::getNavigationBadge())->toBeNull();
+});
+
+it('shows what needs attention on the dashboard', function () {
+    $this->get(Filament::getUrl())->assertOk();
+
+    Livewire::test(SiteOverview::class)
+        ->assertSee('Nouvelles demandes')
+        ->assertSee('À traiter');
+
+    Livewire::test(UpcomingSessions::class)
+        ->assertCanSeeTableRecords([$this->records[ExperienceSessionResource::class]])
+        ->assertSee('3 / 10');
+
+    Livewire::test(LatestInquiries::class)
+        ->assertCanSeeTableRecords([$this->records[InquiryResource::class]]);
+});
+
+it('speaks French in the back office', function () {
+    $this->get(PostResource::getUrl('index'))->assertSee('Créer');
 });
 
 it('saves the site settings', function () {

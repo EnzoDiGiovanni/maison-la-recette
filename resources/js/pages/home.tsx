@@ -1,28 +1,14 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import HomeBanner from '@/components/home-banner';
 import HomeHero from '@/components/home-hero';
+import SiteFooter from '@/components/site-footer';
 import SiteHeader from '@/components/site-header';
-import { contact, dashboard, home, login, studio } from '@/routes';
-import { index as experiencesIndex } from '@/routes/experiences';
-import { index as podcastsIndex } from '@/routes/podcasts';
+import { contact } from '@/routes';
 import projetImg from '../../images/projet.png';
 import aboutImg from '../../images/about.png';
 
 export default function Home() {
-    const { flash, props } = usePage();
-    const { settings, auth } = props;
-
-    const footerLinks = [
-        {
-            label: 'Mon compte',
-            url: auth.user ? dashboard.url() : login.url(),
-        },
-        { label: 'Contact', url: contact.url() },
-        { label: 'Accueil', url: home.url() },
-        { label: 'Studio', url: studio.url() },
-        { label: 'Podcast', url: podcastsIndex.url() },
-        { label: 'Expériences', url: experiencesIndex.url() },
-    ];
+    const { flash } = usePage();
 
     return (
         <>
@@ -163,24 +149,7 @@ export default function Home() {
                 PIED DE PAGE
             ===================================================== */}
 
-                <footer className="home-footer">
-                    <div className="home-footer-brand">
-                        <span>Maison La Recette</span>
-                        {settings.contact_email && (
-                            <a href={`mailto:${settings.contact_email}`}>
-                                {settings.contact_email}
-                            </a>
-                        )}
-                    </div>
-
-                    <nav aria-label="Pied de page">
-                        {footerLinks.map((link) => (
-                            <Link key={link.label} href={link.url}>
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
-                </footer>
+                <SiteFooter />
 
                 {/* =====================================================
                 RETOUR EN HAUT
