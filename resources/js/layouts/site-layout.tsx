@@ -17,12 +17,18 @@ export default function SiteLayout({
     title,
     subtitle,
     accent,
+    ...header
 }: Props) {
     const { flash } = usePage();
 
     return (
         <>
-            <SiteHeader {...header} accent={accent} />
+            <SiteHeader
+                {...header}
+                title={title}
+                subtitle={subtitle}
+                accent={accent}
+            />
 
             {flash.success && <p role="status">{flash.success}</p>}
 

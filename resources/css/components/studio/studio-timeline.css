@@ -1,0 +1,38 @@
+main ol.studio-timeline__steps {
+    --photo-width: clamp(15rem, 22vw, 18rem);
+    --timeline-center: calc(var(--photo-width) / 2);
+
+    position: relative;
+    display: grid;
+    gap: clamp(2.25rem, 5vw, 4rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+main ol.studio-timeline__steps::before {
+    content: '';
+
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: var(--timeline-center);
+
+    width: 1px;
+    background: rgba(91, 181, 141, 0.9);
+
+    z-index: 0;
+}
+
+main ol.studio-timeline__steps > li {
+    position: relative;
+    z-index: 1;
+}
+
+main .studio-timeline__cta {
+    position: relative;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: calc(var(--timeline-center) - 5.5rem);
+    width: fit-content;
+}
