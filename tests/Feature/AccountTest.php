@@ -235,6 +235,8 @@ it('attaches a quote request to the signed-in account', function () {
 });
 
 it('seeds one demo account of each type with their data', function () {
+    fakeAushaFeed();
+
     $this->seed();
 
     expect(User::where('email', 'particulier@example.com')->sole()->bookings()->count())->toBeGreaterThan(0)
