@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/podcasts', [PodcastController::class, 'index'])->name('podcasts.index');
-Route::get('/podcasts/offres', [PodcastController::class, 'offers'])->name('podcasts.offers');
 Route::get('/podcasts/{podcast:slug}', [PodcastController::class, 'show'])->name('podcasts.show');
 
 Route::get('/experiences', [ExperienceController::class, 'index'])->name('experiences.index');

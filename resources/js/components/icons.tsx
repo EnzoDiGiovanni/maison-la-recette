@@ -113,6 +113,44 @@ export function ChevronRightIcon(props: IconProps) {
     );
 }
 
+/** Cœur : plein quand l'épisode est dans la liste d'écoute. */
+export function HeartIcon({
+    filled = false,
+    ...props
+}: IconProps & { filled?: boolean }) {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill={filled ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            {...props}
+        >
+            <path d="M12 20.5C5.5 15.6 3 12.4 3 9a4.5 4.5 0 0 1 9-1 4.5 4.5 0 0 1 9 1c0 3.4-2.5 6.6-9 11.5Z" />
+        </svg>
+    );
+}
+
+export function PaperPlaneIcon(props: IconProps) {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            {...props}
+        >
+            <path d="M21 3 10 14M21 3l-7 18-4-7-7-4 18-7Z" />
+        </svg>
+    );
+}
+
 /** Marque-page : plein quand l'épisode est dans la liste d'écoute. */
 export function BookmarkIcon({
     filled = false,

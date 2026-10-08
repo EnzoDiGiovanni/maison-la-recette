@@ -169,6 +169,7 @@ export type Booking = {
     is_upcoming: boolean;
     can_cancel: boolean;
     session: {
+        id: number;
         /** Date et heure au format ISO 8601. */
         starts_at: string;
         location: string | null;

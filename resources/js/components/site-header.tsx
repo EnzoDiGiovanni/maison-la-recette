@@ -3,10 +3,7 @@ import { useState } from 'react';
 import { InstagramIcon, LinkedinIcon, MicIcon } from '@/components/icons';
 import { about, contact, dashboard, home, login, studio } from '@/routes';
 import { index as experiencesIndex } from '@/routes/experiences';
-import {
-    index as podcastsIndex,
-    offers as podcastOffers,
-} from '@/routes/podcasts';
+import { index as podcastsIndex } from '@/routes/podcasts';
 import { index as postsIndex } from '@/routes/posts';
 
 type Props = {

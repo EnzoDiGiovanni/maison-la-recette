@@ -21,7 +21,7 @@ it('renders the home page with featured podcasts, experiences, testimonials and 
             ->has('featuredPodcasts', 2)
             ->has('experiences', 5)
             ->has('testimonials', 3)
-            ->has('latestPosts', 2)
+            ->has('latestPosts', 3)
             ->where('settings.contact_email', 'larecette@ecomail.fr')
             ->missing('settings.about_photo'));
 });
@@ -47,9 +47,6 @@ it('lists the podcasts and shows one with its link and iframe', function () {
             ->where('podcast.speaker.photo_url', null)
             ->has('podcast.quote')
             ->where('podcast.image_url', Storage::disk('public')->url('podcasts/peche.jpg')));
-
-    $this->get(route('podcasts.offers'))
-        ->assertInertia(fn (Assert $page) => $page->component('podcasts/offers'));
 });
 
 it('lists only published experiences', function () {
@@ -144,10 +141,10 @@ it('hides draft and scheduled posts', function () {
     Post::create(['title' => 'Plus tard', 'slug' => 'plus-tard', 'body' => '<p>…</p>', 'published_at' => now()->addWeek()]);
 
     $this->get(route('posts.index'))
-        ->assertInertia(fn (Assert $page) => $page->component('posts/index')->has('posts', 2));
+        ->assertInertia(fn (Assert $page) => $page->component('posts/index')->has('posts', 7));
 
     $this->get(route('posts.show', 'team-building-good-tour'))
-        ->assertInertia(fn (Assert $page) => $page->component('posts/show')->has('post.body'));
+        ->assertInertia(fn (Assert $page) => $page->component('posts/show')->has('post.body')->has('otherPosts', 3));
 
     $this->get(route('posts.show', 'lactofermentation-par-ou-commencer'))->assertNotFound();
     $this->get(route('posts.show', 'plus-tard'))->assertNotFound();
