@@ -2,7 +2,6 @@
 
 use App\Enums\ExperienceType;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\StudioController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BookingController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\StudioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
