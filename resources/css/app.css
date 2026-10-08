@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700&display=swap');
 @import 'tailwindcss';
 
 /*
@@ -60,6 +61,15 @@
 @import './pages/contact.css';
 @import './pages/dashboard.css';
 @import './pages/experiences.css';
+@import './pages/home/base.css';
+@import './pages/home/header.css';
+@import './pages/home/hero.css';
+@import './pages/home/split-section.css';
+@import './pages/home/values.css';
+@import './pages/home/quote.css';
+@import './pages/home/about.css';
+@import './pages/home/contact.css';
+@import './pages/home/back-to-top.css';
 @import './pages/podcast-show.css';
 @import './pages/podcasts.css';
 @import './pages/posts.css';
