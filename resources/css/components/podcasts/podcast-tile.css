@@ -25,3 +25,19 @@
     margin-top: 0.5em;
     font-size: clamp(0.65rem, 1.15vw, 1rem);
 }
+
+/* Variante de l'espace compte : le cœur se place à droite du titre.
+   100cqw vaut la largeur de la carte, donc la hauteur du visuel carré. */
+.podcast-tile--heart {
+    container-type: inline-size;
+}
+
+.podcast-tile--heart .favorite-button {
+    top: calc(100cqw + 0.45em);
+    right: 0;
+    left: auto;
+}
+
+.podcast-tile--heart .podcast-tile__title {
+    padding-right: 2.2em;
+}

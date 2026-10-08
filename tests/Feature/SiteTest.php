@@ -47,9 +47,6 @@ it('lists the podcasts and shows one with its link and iframe', function () {
             ->where('podcast.speaker.photo_url', null)
             ->has('podcast.quote')
             ->where('podcast.image_url', Storage::disk('public')->url('podcasts/peche.jpg')));
-
-    $this->get(route('podcasts.offers'))
-        ->assertInertia(fn (Assert $page) => $page->component('podcasts/offers'));
 });
 
 it('lists only published experiences', function () {

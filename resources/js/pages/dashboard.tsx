@@ -19,6 +19,8 @@ type Props = {
     account: Account;
     /** Épisodes mis de côté, le dernier ajouté en premier. */
     favoritePodcasts: Podcast[];
+    /** Épisodes à découvrir, hors liste d'écoute. */
+    suggestedPodcasts: Podcast[];
     /** Réservations du compte, de la plus lointaine à la plus ancienne. */
     bookings: Booking[];
     /** Demandes envoyées depuis le compte, la plus récente en premier. */
@@ -32,6 +34,7 @@ const tone = (position: number) =>
 export default function Dashboard({
     account,
     favoritePodcasts,
+    suggestedPodcasts,
     bookings,
     inquiries,
 }: Props) {
@@ -46,64 +49,50 @@ export default function Dashboard({
     const history = bookings.filter((booking) => !live(booking));
 
     return (
-        <SiteLayout title="Mon compte">
+        <SiteLayout title="Mon compte" subtitle={`Bonjour, ${firstName}`}>
             <Head title="Mon compte" />
 
             <div className="account-page">
-                <section className="account-hero">
-                    <div>
-                        <p className="account-chip">
-                            Compte {account.type.label.toLowerCase()}
-                        </p>
-                        <h1 className="account-hero__hello">
-                            Bonjour {firstName},
-                        </h1>
-                        <p className="account-hero__meta">
-                            {isCompany && account.company
-                                ? `${account.company} · `
-                                : ''}
-                            {account.email}
-                            {account.member_since &&
-                                ` · à table avec nous depuis le ${formatDate(account.member_since)}`}
-                        </p>
-                    </div>
-                    <div className="account-hero__actions">
-                        {/* Le back-office est hors Inertia : lien classique. */}
-                        {account.admin_url && (
-                            <a href={account.admin_url} className="btn">
-                                Back-office
-                            </a>
-                        )}
-                        <Link
-                            href={logout.url()}
-                            method="post"
-                            as="button"
-                            className="btn btn--ghost"
-                        >
-                            Se déconnecter
-                        </Link>
-                    </div>
-                </section>
+                <h1 className="sr-only">Mon compte</h1>
+
+                {/* Sur la ligne du « Bonjour » de l'en-tête, à droite. */}
+                <p className="account-top">
+                    {/* Le back-office est hors Inertia : lien classique. */}
+                    {account.admin_url && (
+                        <a href={account.admin_url}>Back-office</a>
+                    )}
+                    <Link href={logout.url()} method="post" as="button">
+                        Se déconnecter
+                    </Link>
+                </p>
 
                 {account.can_book_online && (
                     <section>
                         <SectionTitle>Mes prochaines expériences</SectionTitle>
-                        {upcoming.length === 0 ? (
+                        {upcoming.length === 0 && (
                             <p className="account-empty">
                                 Rien au menu pour l'instant. Atelier ou balade
                                 gustative : choisissez votre prochaine date.
                             </p>
-                        ) : (
-                            <ul className="booking-grid">
-                                {upcoming.map((booking, position) => (
-                                    <BookingCard
-                                        key={booking.id}
-                                        booking={booking}
-                                        tone={tone(position)}
-                                    />
-                                ))}
-                            </ul>
                         )}
+                        <ul className="account-upcoming">
+                            {upcoming.map((booking, position) => (
+                                <BookingCard
+                                    key={booking.id}
+                                    booking={booking}
+                                    tone={tone(position)}
+                                />
+                            ))}
+                            <li className="account-discover">
+                                <p>Une petite faim de découverte&nbsp;?</p>
+                                <Link
+                                    href={experiencesIndex.url()}
+                                    className="btn btn--light"
+                                >
+                                    Voir les expériences
+                                </Link>
+                            </li>
+                        </ul>
                     </section>
                 )}
 
@@ -133,7 +122,7 @@ export default function Dashboard({
                     </section>
                 )}
 
-                {isCompany ? (
+                {isCompany && (
                     <CtaBlock
                         title={<>Un projet pour votre équipe&nbsp;?</>}
                         href={quote.experience.url()}
@@ -142,15 +131,6 @@ export default function Dashboard({
                         Atelier, good tour ou immersion : date, lieu et nombre
                         de participant·es s'adaptent à votre événement, sur
                         devis.
-                    </CtaBlock>
-                ) : (
-                    <CtaBlock
-                        title={<>Une petite faim de découverte&nbsp;?</>}
-                        href={experiencesIndex.url()}
-                        label="Voir les expériences"
-                    >
-                        Ateliers et good tours à Lyon, aux côtés de chef·fes et
-                        d'artisan·es engagé·es.
                     </CtaBlock>
                 )}
 
@@ -170,11 +150,27 @@ export default function Dashboard({
                                 <PodcastTile
                                     key={podcast.id}
                                     podcast={podcast}
+                                    favoriteIcon="heart"
                                 />
                             ))}
                         </ul>
                     )}
                 </section>
+
+                {suggestedPodcasts.length > 0 && (
+                    <section>
+                        <SectionTitle>Suggestion</SectionTitle>
+                        <ul className="podcast-row">
+                            {suggestedPodcasts.map((podcast) => (
+                                <PodcastTile
+                                    key={podcast.id}
+                                    podcast={podcast}
+                                    favoriteIcon="heart"
+                                />
+                            ))}
+                        </ul>
+                    </section>
+                )}
 
                 {history.length > 0 && (
                     <section>
