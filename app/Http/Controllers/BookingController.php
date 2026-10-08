@@ -20,6 +20,19 @@ use Inertia\Response;
 class BookingController extends Controller
 {
     /**
+     * The reservation step: the details of one date and the choice of seats.
+     */
+    public function show(Request $request, ExperienceSession $session): Response
+    {
+        abort_unless($session->experience->is_published && $session->status === SessionStatus::Open && $session->starts_at->isFuture(), 404);
+
+        return Inertia::render('bookings/show', [
+            'experience' => ExperienceResource::make($session->experience)->resolve($request),
+            'session' => ExperienceSessionResource::make($session)->resolve($request),
+        ]);
+    }
+
+    /**
      * The payment step of a booking. Prototype: the card form is a demo,
      * nothing is charged and no card detail is kept.
      */
@@ -46,7 +59,8 @@ class BookingController extends Controller
 
     /**
      * Book seats on a session once the demo payment form is filled: the
-     * booking is recorded as paid straight away.
+     * booking is recorded as paid straight away, under the contact details
+     * given on the form.
      */
     public function store(StoreBookingRequest $request, ExperienceSession $session): RedirectResponse
     {
@@ -57,8 +71,13 @@ class BookingController extends Controller
         abort_unless($session->experience->is_published, 404);
 
         $seats = $request->integer('seats');
+        $contact = [
+            'name' => trim($request->string('first_name').' '.$request->string('last_name')),
+            'email' => $request->string('email')->toString(),
+            'phone' => $request->input('phone'),
+        ];
 
-        DB::transaction(function () use ($session, $user, $seats): void {
+        DB::transaction(function () use ($session, $user, $seats, $contact): void {
             // Locked so two bookings cannot take the same last seats.
             $session = ExperienceSession::query()->lockForUpdate()->findOrFail($session->id);
 
@@ -78,9 +97,7 @@ class BookingController extends Controller
 
             $user->bookings()->create([
                 'experience_session_id' => $session->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->phone,
+                ...$contact,
                 'seats' => $seats,
                 'amount_cents' => $seats * $session->price_cents,
                 'status' => BookingStatus::Paid,

@@ -24,6 +24,9 @@ class TestimonialsTable
                     ->label('Avis')
                     ->limit(80)
                     ->wrap(),
+                TextColumn::make('experience.title')
+                    ->label('Expérience')
+                    ->placeholder('Avis général'),
                 TextColumn::make('experience_type')
                     ->label('Format')
                     ->badge(),

@@ -9,14 +9,24 @@ type Props = {
     title?: string;
     /** Sous-titre affiché sous le titre encadré. */
     subtitle?: string;
+    /**
+     * Partie de l'en-tête en rouge : le titre par défaut, le sous-titre sur
+     * l'étape de réservation.
+     */
+    accent?: 'title' | 'subtitle';
 };
 
-export default function SiteLayout({ children, title, subtitle }: Props) {
+export default function SiteLayout({
+    children,
+    title,
+    subtitle,
+    accent,
+}: Props) {
     const { flash } = usePage();
 
     return (
         <>
-            <SiteHeader title={title} subtitle={subtitle} />
+            <SiteHeader title={title} subtitle={subtitle} accent={accent} />
 
             {flash.success && <p role="status">{flash.success}</p>}
 

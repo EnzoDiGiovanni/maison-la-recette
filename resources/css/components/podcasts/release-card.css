@@ -23,12 +23,12 @@
     transform: scale(1.05);
 }
 
-.release-card--jaune {
-    background: var(--yellow-card);
+.release-card--vert {
+    background: var(--primary-color);
 }
 
-.release-card--saumon {
-    background: var(--salmon-card);
+.release-card--jaune {
+    background: var(--yellow-card);
 }
 
 .release-card a {
@@ -72,9 +72,17 @@
     grid-column: 1 / -1;
     justify-self: end;
     align-self: end;
-    color: var(--primary-color);
     font-size: clamp(0.65rem, 1.3vw, 1.1rem);
     font-weight: 500;
+}
+
+/* L'invité·e ressort sur chaque fond : crème sur le vert, rouge sur le jaune. */
+.release-card--vert .release-card__guest {
+    color: var(--accent-color);
+}
+
+.release-card--jaune .release-card__guest {
+    color: var(--red-color);
 }
 
 @media (max-width: 640px) {

@@ -11,6 +11,7 @@ type Props = {
     required?: boolean;
     min?: number;
     max?: number;
+    maxLength?: number;
     autoComplete?: string;
     placeholder?: string;
     inputMode?: 'numeric' | 'tel' | 'email';
@@ -26,6 +27,7 @@ export default function TextField({
     required,
     min,
     max,
+    maxLength,
     autoComplete,
     placeholder,
     inputMode,
@@ -38,6 +40,7 @@ export default function TextField({
                 required={required}
                 min={min}
                 max={max}
+                maxLength={maxLength}
                 autoComplete={autoComplete}
                 placeholder={placeholder}
                 inputMode={inputMode}

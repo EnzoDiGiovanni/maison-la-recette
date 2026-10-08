@@ -42,7 +42,12 @@ export type Podcast = {
 export type Experience = {
     id: number;
     /** value : atelier | food_tour | immersion. */
-    type: Option;
+    type: Option & {
+        /** Segment de la page du format : « ateliers ». */
+        slug: string;
+        /** Intitulé au pluriel : « Les ateliers ». */
+        plural_label: string;
+    };
     title: string;
     slug: string;
     tagline: string | null;
@@ -56,10 +61,11 @@ export type Experience = {
     photo_urls: string[];
 };
 
-/** Expérience mise en avant, avec sa prochaine date ouverte s'il y en a une. */
-export type LatestExperience = Experience & {
-    /** Date et heure au format ISO 8601, null si rien n'est programmé. */
-    next_session_at: string | null;
+/** Format d'expérience et sa page de liste : /experiences/ateliers. */
+export type ExperienceTypeLink = {
+    slug: string;
+    /** Intitulé au pluriel : « Les ateliers ». */
+    label: string;
 };
 
 /** Date d'expérience déjà passée. */
@@ -81,11 +87,20 @@ export type ExperienceSession = {
     price: number;
 };
 
+/** Date ouverte à la réservation, avec l'expérience qu'elle programme. */
+export type UpcomingSession = ExperienceSession & {
+    experience: Experience;
+};
+
 export type Testimonial = {
     id: number;
     author_name: string;
     author_role: string | null;
     quote: string;
+    /** Note sur 5. */
+    rating: number;
+    /** Expérience sur laquelle porte l'avis, null pour un avis général. */
+    experience_title: string | null;
     experience_type: string | null;
 };
 
@@ -162,6 +177,8 @@ export type Booking = {
         title: string;
         slug: string;
         type: string;
+        /** Segment de la page du format : « ateliers ». */
+        type_slug: string;
         is_published: boolean;
     };
 };

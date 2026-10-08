@@ -33,6 +33,7 @@ class BookingResource extends JsonResource
                 'title' => $this->session->experience->title,
                 'slug' => $this->session->experience->slug,
                 'type' => $this->session->experience->type->getLabel(),
+                'type_slug' => $this->session->experience->type->slug(),
                 'is_published' => $this->session->experience->is_published,
             ],
         ];

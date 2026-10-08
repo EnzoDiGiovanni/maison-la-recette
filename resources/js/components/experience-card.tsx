@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { formatPrice } from '@/lib/format';
-import { show } from '@/routes/experiences';
+import { listing } from '@/routes/experiences';
 import type { Experience } from '@/types';
 
 type Props = {
@@ -19,7 +19,9 @@ export default function ExperienceCard({ experience, compact = false }: Props) {
                     <img src={experience.cover_image_url} alt="" />
                 )
             )}
-            <Link href={show.url(experience)}>{experience.title}</Link>
+            <Link href={listing.url(experience.type.slug)}>
+                {experience.title}
+            </Link>
             {experience.tagline && <p>{experience.tagline}</p>}
             {!compact && (
                 <p>

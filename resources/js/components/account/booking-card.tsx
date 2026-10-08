@@ -2,7 +2,7 @@ import { Link, router } from '@inertiajs/react';
 import StatusPill from '@/components/account/status-pill';
 import { formatDate, formatPrice } from '@/lib/format';
 import { cancel } from '@/routes/dashboard/bookings';
-import { show } from '@/routes/experiences';
+import { listing } from '@/routes/experiences';
 import type { Booking } from '@/types';
 
 type Props = {
@@ -50,7 +50,7 @@ export default function BookingCard({ booking, tone }: Props) {
                 <p className="booking-card__type">{booking.experience.type}</p>
                 <h3 className="booking-card__title">
                     {booking.experience.is_published ? (
-                        <Link href={show.url(booking.experience.slug)}>
+                        <Link href={listing.url(booking.experience.type_slug)}>
                             {booking.experience.title}
                         </Link>
                     ) : (

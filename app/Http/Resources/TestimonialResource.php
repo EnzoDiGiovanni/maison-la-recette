@@ -21,6 +21,8 @@ class TestimonialResource extends JsonResource
             'author_name' => $this->author_name,
             'author_role' => $this->author_role,
             'quote' => $this->quote,
+            'rating' => $this->rating,
+            'experience_title' => $this->experience?->title,
             'experience_type' => $this->experience_type?->value,
         ];
     }

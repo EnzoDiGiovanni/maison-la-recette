@@ -18,9 +18,9 @@ type Props = {
 /** Épisodes affichés d'emblée, puis ajoutés à chaque « Charger plus ». */
 const PAGE_SIZE = 10;
 
-/** Damier des grandes cartes : jaune/saumon puis saumon/jaune. */
-function tone(position: number): 'jaune' | 'saumon' {
-    return (position + Math.floor(position / 2)) % 2 === 0 ? 'jaune' : 'saumon';
+/** Damier des grandes cartes : vert/jaune puis jaune/vert. */
+function tone(position: number): 'vert' | 'jaune' {
+    return (position + Math.floor(position / 2)) % 2 === 0 ? 'vert' : 'jaune';
 }
 
 type Guest = { name: string; photoUrl: string | null; podcast: Podcast };

@@ -7,8 +7,8 @@ import type { Podcast } from '@/types';
 
 type Props = {
     podcast: Podcast;
-    /** Couleur de la carte : jaune ou saumon, en damier. */
-    tone: 'jaune' | 'saumon';
+    /** Couleur de la carte : verte ou jaune, en damier. */
+    tone: 'vert' | 'jaune';
 };
 
 /** Grande carte d'épisode : visuel, citation, titre, accroche, invité·e. */

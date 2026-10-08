@@ -25,7 +25,7 @@ type Props = {
     inquiries: Inquiry[];
 };
 
-// Damier : jaune/saumon puis saumon/jaune, comme les sorties du podcast.
+// Damier : jaune/saumon puis saumon/jaune, en alternance.
 const tone = (position: number) =>
     (position + Math.floor(position / 2)) % 2 === 0 ? 'jaune' : 'saumon';
 
