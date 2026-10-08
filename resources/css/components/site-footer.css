@@ -1,8 +1,10 @@
 /* =========================================================
-   PIED DE PAGE
+   PIED DE PAGE : COMMUN À TOUTES LES PAGES
 ========================================================= */
 
-.home-footer {
+/* footer.site-footer : passe devant la remise à zéro de la page d'accueil. */
+
+footer.site-footer {
     max-width: none;
 
     margin: clamp(60px, 10vh, 140px) clamp(8px, 1vw, 18px) 0;
@@ -23,7 +25,7 @@
 
     border-radius: clamp(10px, 1vw, 18px) clamp(10px, 1vw, 18px) 0 0;
 
-    background: var(--color-green);
+    background: var(--primary-color);
 
     color: #ffffff;
 
@@ -32,19 +34,23 @@
     line-height: 1.5;
 }
 
-.home-footer a {
+.site-footer a {
     color: inherit;
+
+    font-weight: inherit;
+
+    text-decoration: none;
 }
 
-.home-footer a:hover {
+.site-footer a:hover {
     opacity: 0.7;
 }
 
-.home-footer-brand a {
+.site-footer__brand a {
     display: block;
 }
 
-.home-footer nav {
+.site-footer nav {
     flex: 1;
 
     display: flex;
@@ -61,13 +67,13 @@
 /* RESPONSIVE */
 
 @media (max-width: 600px) {
-    .home-footer {
+    footer.site-footer {
         flex-direction: column;
 
         text-align: center;
     }
 
-    .home-footer nav {
+    .site-footer nav {
         justify-content: center;
     }
 }

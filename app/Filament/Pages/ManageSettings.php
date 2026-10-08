@@ -90,13 +90,19 @@ class ManageSettings extends Page
                             ->placeholder('+ 40'),
                     ]),
                 Section::make('Plateformes d\'écoute')
+                    ->description('Une plateforme sans lien n\'apparaît pas sur le site.')
                     ->columns(2)
                     ->schema([
-                        TextInput::make('link_ausha')->label('Ausha')->url(),
-                        TextInput::make('link_spotify')->label('Spotify')->url(),
+                        TextInput::make('link_ausha')->label('Ausha')->helperText('Lien général de l\'émission (icône micro de l\'en-tête).')->url()->columnSpanFull(),
                         TextInput::make('link_apple_podcasts')->label('Apple Podcasts')->url(),
+                        TextInput::make('link_overcast')->label('Overcast')->url(),
+                        TextInput::make('link_podcast_addict')->label('Podcast Addict')->url(),
+                        TextInput::make('link_spotify')->label('Spotify')->url(),
                         TextInput::make('link_deezer')->label('Deezer')->url(),
-                        TextInput::make('link_youtube')->label('YouTube')->url(),
+                        TextInput::make('link_amazon_music')->label('Amazon Music')->url(),
+                        TextInput::make('link_castbox')->label('Castbox')->url(),
+                        TextInput::make('link_castro')->label('Castro')->url(),
+                        TextInput::make('link_pocket_casts')->label('Pocket Casts')->url(),
                     ]),
                 Section::make('Contact et réseaux')
                     ->columns(2)

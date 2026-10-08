@@ -16,6 +16,7 @@
 
 /* Composants partagés */
 @import './components/site-header.css';
+@import './components/site-footer.css';
 @import './components/flash.css';
 @import './components/section-title.css';
 @import './components/button.css';
@@ -47,6 +48,7 @@
 @import './components/podcasts/cover.css';
 @import './components/podcasts/favorite-button.css';
 @import './components/podcasts/guest-card.css';
+@import './components/podcasts/platform-links.css';
 @import './components/podcasts/podcast-cta.css';
 @import './components/podcasts/podcast-row.css';
 @import './components/podcasts/podcast-slider.css';
@@ -73,7 +75,6 @@
 @import './pages/home/quote.css';
 @import './pages/home/about.css';
 @import './pages/home/contact.css';
-@import './pages/home/footer.css';
 @import './pages/home/back-to-top.css';
 @import './pages/podcast-show.css';
 @import './pages/podcasts.css';

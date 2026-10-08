@@ -1,27 +1,50 @@
 import { usePage } from '@inertiajs/react';
+import { MicIcon } from '@/components/icons';
+import PlatformIcon from '@/components/podcasts/platform-icon';
+import SectionTitle from '@/components/section-title';
+import { listeningPlatforms } from '@/lib/podcast';
 
+/**
+ * Liens vers les plateformes d'écoute de l'émission (Réglages du back-office).
+ * Rien ne s'affiche tant qu'aucun lien n'est renseigné.
+ */
 export default function PlatformLinks() {
     const { settings } = usePage().props;
+    const platforms = listeningPlatforms(settings);
 
-    const platforms = [
-        { label: 'Ausha', url: settings.link_ausha },
-        { label: 'Spotify', url: settings.link_spotify },
-        { label: 'Apple Podcasts', url: settings.link_apple_podcasts },
-        { label: 'Deezer', url: settings.link_deezer },
-        { label: 'YouTube', url: settings.link_youtube },
-    ].filter((platform) => platform.url);
-
-    if (platforms.length === 0) {
+    if (!settings.link_ausha && platforms.length === 0) {
         return null;
     }
 
     return (
-        <ul>
-            {platforms.map((platform) => (
-                <li key={platform.label}>
-                    <a href={platform.url ?? undefined}>{platform.label}</a>
-                </li>
-            ))}
-        </ul>
+        <section className="platform-links reveal">
+            <SectionTitle>Écoute où tu veux</SectionTitle>
+            <ul>
+                {settings.link_ausha && (
+                    <li>
+                        <a
+                            href={settings.link_ausha}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <MicIcon />
+                            Ausha
+                        </a>
+                    </li>
+                )}
+                {platforms.map((platform) => (
+                    <li key={platform.key}>
+                        <a
+                            href={platform.url ?? undefined}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <PlatformIcon platform={platform.key} />
+                            {platform.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </section>
     );
 }

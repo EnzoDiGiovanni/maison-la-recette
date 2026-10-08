@@ -10,6 +10,7 @@ import { formatDate, formatDuration } from '@/lib/format';
 import {
     extractTitle,
     isExtract,
+    listeningPlatforms,
     podcastGuest,
     podcastSubject,
 } from '@/lib/podcast';
@@ -38,10 +39,7 @@ export default function PodcastsShow({ podcast, otherPodcasts }: Props) {
     // Le premier lien mène à l'épisode, les autres à l'émission.
     const platforms = [
         { label: 'Ausha', url: podcast.link },
-        { label: 'Spotify', url: settings.link_spotify },
-        { label: 'Apple Podcasts', url: settings.link_apple_podcasts },
-        { label: 'Deezer', url: settings.link_deezer },
-        { label: 'YouTube', url: settings.link_youtube },
+        ...listeningPlatforms(settings),
     ].filter((platform) => platform.url);
 
     return (
