@@ -25,6 +25,9 @@ class PodcastController extends Controller
 
         return Inertia::render('podcasts/show', [
             'podcast' => PodcastResource::make($podcast)->resolve($request),
+            'otherPodcasts' => PodcastResource::collection(
+                Podcast::query()->published()->with('speaker')->whereKeyNot($podcast->getKey())->latest('published_at')->latest('id')->limit(6)->get(),
+            )->resolve($request),
         ]);
     }
 
