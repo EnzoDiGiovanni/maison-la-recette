@@ -1,0 +1,49 @@
+/* Page podcast */
+.podcast-page > section {
+    margin-block: clamp(2rem, 5vw, 4.5rem);
+}
+
+.podcast-page a {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+}
+
+/* Grille 2 × 2 « Les sorties du mois » */
+main ul.release-grid {
+    display: grid;
+    /* minmax(0, …) : sans quoi les items ne peuvent pas rétrécir
+       sous leur contenu minimal et la grille déborde de l'écran. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 3vw, 2.75rem) clamp(1rem, 5.5vw, 5rem);
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    main ul.release-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Bouton « Charger 10 de plus » sous la liste des épisodes */
+.load-more {
+    display: block;
+    margin: clamp(1.5rem, 3.5vw, 3rem) auto 0;
+    padding: 0.5em 1.4em;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--primary-color);
+    font-size: clamp(0.7rem, 1.4vw, 1.2rem);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.load-more:hover,
+.load-more:focus-visible {
+    background: var(--primary-color);
+    color: #fff;
+}

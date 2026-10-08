@@ -1,0 +1,107 @@
+/* Connexion et inscription : carte centrée (formulaire : account-form.css) */
+.auth-page {
+    display: grid;
+    justify-items: center;
+    padding-block: clamp(1rem, 3vw, 3rem);
+}
+
+.auth-card {
+    width: min(100%, 34rem);
+}
+
+.auth-card__title {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.auth-card__intro {
+    margin: 0;
+}
+
+.auth-card__check {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0;
+}
+
+.auth-card__check input {
+    width: auto;
+    accent-color: var(--primary-color);
+}
+
+.auth-card__switch {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.auth-card__switch a {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Choix du type de compte : deux tuiles, colorée une fois choisie */
+.type-choice {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.type-choice legend {
+    margin-bottom: 0.3em;
+    padding: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.type-choice [role='alert'] {
+    grid-column: 1 / -1;
+}
+
+.type-choice__tile {
+    position: relative;
+    display: grid;
+    gap: 0.2em;
+    margin: 0;
+    padding: 0.8em 1em;
+    border: 1.5px solid rgb(95 175 136 / 0.55);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.type-choice__tile input {
+    position: absolute;
+    opacity: 0;
+}
+
+.type-choice__tile span {
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.type-choice__tile:has(input:checked) {
+    border-color: transparent;
+}
+
+.type-choice__tile--particulier:has(input:checked) {
+    background: var(--yellow-card);
+}
+
+.type-choice__tile--entreprise:has(input:checked) {
+    background: var(--salmon-card);
+}
+
+.type-choice__tile:has(input:focus-visible) {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .type-choice {
+        grid-template-columns: 1fr;
+    }
+}

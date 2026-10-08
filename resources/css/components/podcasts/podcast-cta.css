@@ -1,0 +1,70 @@
+/* Encart vert « Crée ta salade de podcast ! » */
+.podcast-cta {
+    width: min(100%, 48.5%);
+    min-width: min(100%, 18rem);
+    margin: clamp(1.5rem, 3.5vw, 3rem) auto;
+    padding: clamp(1rem, 2.6vw, 2.5rem) 1.5rem;
+    border-radius: clamp(1rem, 2.6vw, 2.25rem);
+    background: var(--primary-color);
+    color: #fff;
+    text-align: center;
+}
+
+.podcast-cta h2 {
+    margin: 0;
+    font-size: clamp(1.1rem, 2.9vw, 2.6rem);
+    font-weight: 600;
+}
+
+.podcast-cta p {
+    margin-block: 0.4em 1.6em;
+    font-size: clamp(0.6rem, 1.1vw, 1rem);
+}
+
+.podcast-cta button,
+.podcast-cta a.podcast-cta__button {
+    padding: 0.4em 1.1em;
+    border: 1.5px solid #fff;
+    border-radius: 999px;
+    background: transparent;
+    color: #fff;
+    font-size: clamp(0.7rem, 1.4vw, 1.2rem);
+    font-weight: 500;
+    cursor: default;
+}
+
+.podcast-cta button:disabled {
+    opacity: 1;
+}
+
+/* Encart CTA : bouton survolé + léger soulèvement de l'encart. */
+.podcast-cta {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.podcast-cta:hover {
+    box-shadow: 0 10px 24px rgb(95 175 136 / 0.35);
+    transform: translateY(-2px);
+}
+
+.podcast-cta button,
+.podcast-cta a.podcast-cta__button {
+    cursor: pointer;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.podcast-cta button:hover,
+.podcast-cta a.podcast-cta__button:hover {
+    background: #fff;
+    color: var(--primary-color);
+}
+
+a.podcast-cta__button {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}

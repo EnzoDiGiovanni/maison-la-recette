@@ -1,6 +1,53 @@
 @import 'tailwindcss';
-@import './draft.css';
-@import './style.css';
+
+/*
+ * Un fichier par composant ou par page, rangé comme resources/js :
+ * components/podcasts/podcast-tile.tsx → components/podcasts/podcast-tile.css.
+ * Chaque fichier ne style que son propre bloc (.podcast-tile, .podcast-tile__*).
+ */
+
+/* Base : variables, mise en page globale, utilitaires, animations */
+@import './base/draft.css';
+@import './base/variables.css';
+@import './base/layout.css';
+@import './base/utilities.css';
+@import './base/motion.css';
+
+/* Composants partagés */
+@import './components/site-header.css';
+@import './components/flash.css';
+@import './components/section-title.css';
+@import './components/button.css';
+@import './components/cta-block.css';
+@import './components/account-empty.css';
+
+@import './components/forms/field.css';
+@import './components/forms/contact-form.css';
+@import './components/forms/account-form.css';
+
+@import './components/account/booking-card.css';
+@import './components/account/inquiry-card.css';
+@import './components/account/status-pill.css';
+
+@import './components/devis/quote-layout.css';
+
+@import './components/podcasts/account-dialog.css';
+@import './components/podcasts/cover.css';
+@import './components/podcasts/favorite-button.css';
+@import './components/podcasts/guest-card.css';
+@import './components/podcasts/podcast-cta.css';
+@import './components/podcasts/podcast-row.css';
+@import './components/podcasts/podcast-slider.css';
+@import './components/podcasts/podcast-tile.css';
+@import './components/podcasts/release-card.css';
+
+/* Pages */
+@import './pages/auth.css';
+@import './pages/checkout.css';
+@import './pages/contact.css';
+@import './pages/dashboard.css';
+@import './pages/experiences.css';
+@import './pages/podcasts.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

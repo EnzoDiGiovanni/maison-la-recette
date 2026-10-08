@@ -1,0 +1,12 @@
+/* Message d'état vide, repris sur le compte et la page expériences */
+.account-empty {
+    max-width: 38rem;
+    margin: 0;
+    font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+    line-height: 1.5;
+}
+
+.account-empty a {
+    color: var(--primary-color);
+    font-weight: 600;
+}

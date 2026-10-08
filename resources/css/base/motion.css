@@ -1,0 +1,66 @@
+/* Apparition au scroll : les sections montent en fondu,
+   les cartes internes se décalent en cascade. */
+.reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+.reveal .podcast-row > li,
+.reveal .release-grid > li {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
+
+.reveal.is-visible .podcast-row > li,
+.reveal.is-visible .release-grid > li {
+    opacity: 1;
+    transform: none;
+}
+
+.reveal.is-visible li:nth-child(1) {
+    transition-delay: 0.05s;
+}
+.reveal.is-visible li:nth-child(2) {
+    transition-delay: 0.12s;
+}
+.reveal.is-visible li:nth-child(3) {
+    transition-delay: 0.19s;
+}
+.reveal.is-visible li:nth-child(4) {
+    transition-delay: 0.26s;
+}
+.reveal.is-visible li:nth-child(5) {
+    transition-delay: 0.33s;
+}
+.reveal.is-visible li:nth-child(6) {
+    transition-delay: 0.4s;
+}
+
+/* Respect du réglage « réduire les animations » du système. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+
+    .reveal,
+    .reveal .podcast-row > li,
+    .reveal .release-grid > li {
+        opacity: 1;
+        transform: none;
+    }
+}

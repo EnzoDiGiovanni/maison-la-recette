@@ -1,0 +1,56 @@
+/* Rangée des intervenants */
+.guests {
+    position: relative;
+}
+
+.guests__scroll {
+    position: absolute;
+    top: calc((100% - 3em) / 2);
+    right: calc(var(--gutter) * -0.75);
+    display: grid;
+    place-items: center;
+    width: clamp(1.5rem, 3.2vw, 2.75rem);
+    aspect-ratio: 1;
+    padding: 0;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    font-size: clamp(0.65rem, 1.15vw, 1rem);
+    transform: translateY(-50%);
+}
+
+.guests__scroll svg {
+    width: 70%;
+    height: 70%;
+}
+
+/* Flèche « précédent » : la même, à gauche et retournée. */
+.guests__scroll--prev {
+    right: auto;
+    left: calc(var(--gutter) * -0.75);
+    z-index: 1;
+}
+
+.guests__scroll--prev svg {
+    transform: rotate(180deg);
+}
+
+/* Bouton flèche des intervenants. */
+.guests__scroll {
+    cursor: pointer;
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.guests__scroll:hover {
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-50%) translateX(4px);
+}
+
+.guests__scroll--prev:hover {
+    transform: translateY(-50%) translateX(-4px);
+}

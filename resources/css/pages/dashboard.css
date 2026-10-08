@@ -1,0 +1,117 @@
+/* Espace « Mon compte » */
+.account-page > section {
+    margin-block: clamp(2rem, 5vw, 4.5rem);
+}
+
+.account-page > section:first-child {
+    margin-top: clamp(1rem, 2.5vw, 2rem);
+}
+
+.account-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding-bottom: clamp(1rem, 2.5vw, 2rem);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.account-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.account-chip {
+    display: inline-block;
+    margin: 0 0 0.6em;
+    padding: 0.15em 0.9em;
+    border: 1.5px solid var(--red-color);
+    border-radius: 999px;
+    color: var(--red-color);
+    font-size: clamp(0.7rem, 1vw, 0.9rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.account-hero__hello {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: clamp(2rem, 5.2vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+.account-hero__meta {
+    margin: 0.6em 0 0;
+    font-size: clamp(0.85rem, 1.15vw, 1rem);
+}
+
+/* Cartes d'épisodes reprises dans l'espace compte */
+.account-page .podcast-tile a {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+}
+
+/* Billets de réservation et demandes : grille 2 colonnes jaune / saumon */
+main ul.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1rem, 3vw, 2.75rem) clamp(1rem, 5.5vw, 5rem);
+    margin: 0;
+}
+
+@media (max-width: 760px) {
+    main ul.booking-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Historique : lignes fines vertes */
+main ul.account-list {
+    display: block;
+    margin: 0;
+    border-top: 1.5px solid var(--primary-color);
+}
+
+.account-list > li {
+    display: grid;
+    grid-template-columns: 11rem 1fr auto auto;
+    align-items: center;
+    gap: 0.25rem 1.5rem;
+    padding-block: 0.8em;
+    border-bottom: 1px solid rgb(95 175 136 / 0.4);
+    font-size: clamp(0.85rem, 1.15vw, 1rem);
+}
+
+.account-list time {
+    color: var(--primary-color);
+    font-size: inherit;
+    font-weight: 500;
+}
+
+.account-list__title {
+    font-weight: 600;
+}
+
+@media (max-width: 760px) {
+    .account-list > li {
+        grid-template-columns: 1fr auto;
+    }
+}
+
+.account-forms {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+    gap: clamp(1rem, 3vw, 2.75rem) clamp(1rem, 5.5vw, 5rem);
+}
+
+@media (max-width: 760px) {
+    .account-forms {
+        grid-template-columns: 1fr;
+    }
+}

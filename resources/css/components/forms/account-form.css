@@ -1,0 +1,47 @@
+/* Formulaires du compte, de connexion et d'inscription */
+
+.account-form {
+    max-width: none;
+    padding: clamp(1.1rem, 2.2vw, 2rem);
+    border: 1px solid rgb(0 0 0 / 0.06);
+    border-radius: 0.35rem;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+.account-form__title {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: clamp(1.05rem, 1.8vw, 1.55rem);
+    font-weight: 600;
+}
+
+.account-form label {
+    margin-bottom: 0.3em;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.account-form input:not([type='radio'], [type='checkbox']) {
+    padding: 0.55em 0.8em;
+    border: 1.5px solid rgb(95 175 136 / 0.55);
+    border-radius: 0.5rem;
+    background: var(--accent-color);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.account-form input::placeholder {
+    color: rgb(47 47 47 / 0.45);
+}
+
+.account-form input:focus-visible {
+    border-color: var(--primary-color);
+    outline: 2px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+.account-form [role='alert'] {
+    margin: 0.3em 0 0;
+    color: var(--red-color);
+}

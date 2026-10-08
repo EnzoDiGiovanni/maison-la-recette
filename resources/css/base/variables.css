@@ -1,0 +1,15 @@
+/* CSS variables */
+:root {
+    --primary-color: #5faf88;
+    --secondary-color: #90c55a;
+    --accent-color: #fff8eb;
+    --red-color: #e0271c;
+    --text-color: #2f2f2f;
+    --yellow-card: #f4d681;
+    --salmon-card: #f3b49c;
+    --placeholder-grey: #d9d9d9;
+    --font: sans-serif;
+    /* Marge latérale proportionnelle à l'écran, comme sur la maquette. */
+    --gutter: clamp(1rem, 3.6vw, 3.5rem);
+    --row-gap: clamp(0.75rem, 1.9vw, 1.75rem);
+}

@@ -1,0 +1,78 @@
+/* Paiement d'une réservation : récapitulatif coloré + carte bancaire */
+.checkout-page {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+    gap: clamp(1rem, 3vw, 2.75rem) clamp(1rem, 5.5vw, 5rem);
+    padding-block: clamp(1rem, 3vw, 3rem);
+}
+
+@media (max-width: 760px) {
+    .checkout-page {
+        grid-template-columns: 1fr;
+    }
+}
+
+.checkout-summary {
+    padding: clamp(1.1rem, 2.2vw, 2rem);
+    border: 1px solid rgb(0 0 0 / 0.06);
+    border-radius: 0.35rem;
+    background: var(--yellow-card);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+.checkout-summary__title {
+    margin: 0.15em 0 0.3em;
+    font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.checkout-summary__lines {
+    display: block;
+    margin: 1.5em 0 1em;
+    border-top: 1.5px solid var(--text-color);
+}
+
+.checkout-summary__lines > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.6em;
+    border-bottom: 1px solid rgb(47 47 47 / 0.25);
+}
+
+.checkout-summary__lines dt {
+    color: inherit;
+    font-size: inherit;
+}
+
+.checkout-summary__lines dd {
+    font-variant-numeric: tabular-nums;
+}
+
+.checkout-summary__total {
+    font-size: clamp(1.05rem, 1.8vw, 1.55rem);
+    font-weight: 600;
+}
+
+.checkout-summary a {
+    color: inherit;
+    font-size: 0.9rem;
+    text-underline-offset: 3px;
+}
+
+.checkout-notice {
+    margin: 0;
+    padding: 0.7em 1em;
+    border-radius: 0.5rem;
+    background: var(--salmon-card);
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.checkout-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
