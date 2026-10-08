@@ -14,9 +14,15 @@ type Props = {
     title?: string;
     /** Sous-titre sous le titre, ex. « Les ateliers ». */
     subtitle?: string;
+    /** Partie en rouge : le titre par défaut, ou le sous-titre. */
+    accent?: 'title' | 'subtitle';
 };
 
-export default function SiteHeader({ title, subtitle }: Props) {
+export default function SiteHeader({
+    title,
+    subtitle,
+    accent = 'title',
+}: Props) {
     const { url, props } = usePage();
     const { settings, auth } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,9 +51,25 @@ export default function SiteHeader({ title, subtitle }: Props) {
 
             {title && (
                 <div className="site-header__heading">
-                    <p className="site-header__title">{title}</p>
+                    <p
+                        className={
+                            accent === 'title'
+                                ? 'site-header__title site-header__title--accent'
+                                : 'site-header__title'
+                        }
+                    >
+                        {title}
+                    </p>
                     {subtitle && (
-                        <p className="site-header__subtitle">{subtitle}</p>
+                        <p
+                            className={
+                                accent === 'subtitle'
+                                    ? 'site-header__subtitle site-header__subtitle--accent'
+                                    : 'site-header__subtitle'
+                            }
+                        >
+                            {subtitle}
+                        </p>
                     )}
                 </div>
             )}
@@ -82,7 +104,9 @@ export default function SiteHeader({ title, subtitle }: Props) {
             <nav
                 id="site-menu"
                 className="site-header__menu"
-                hidden={!isMenuOpen}
+                data-open={isMenuOpen || undefined}
+                // Replié, le menu reste dans la page pour pouvoir s'animer.
+                inert={!isMenuOpen}
             >
                 <ul>
                     {links.map((link) => (

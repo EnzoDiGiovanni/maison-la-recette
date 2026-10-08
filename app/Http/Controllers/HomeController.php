@@ -26,7 +26,7 @@ class HomeController extends Controller
                 Experience::query()->published()->get(),
             )->resolve($request),
             'testimonials' => TestimonialResource::collection(
-                Testimonial::query()->published()->get(),
+                Testimonial::query()->with('experience')->published()->get(),
             )->resolve($request),
             'latestPosts' => PostResource::collection(
                 Post::query()->published()->limit(3)->get(),

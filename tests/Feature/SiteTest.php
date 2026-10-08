@@ -58,28 +58,86 @@ it('lists only published experiences', function () {
     $this->get(route('experiences.index'))
         ->assertInertia(fn (Assert $page) => $page
             ->component('experiences/index')
-            ->where('latestExperiences', fn ($experiences) => ! collect($experiences)->contains('slug', 'atelier-anti-gaspi'))
-            ->where('pastEvents', fn ($events) => ! collect($events)->contains('experience.slug', 'atelier-anti-gaspi'))
-            ->missing('experiences')
-            ->missing('testimonials'));
+            ->where('types', [
+                ['slug' => 'ateliers', 'label' => 'Les ateliers'],
+                ['slug' => 'good-tours', 'label' => 'Les good tours'],
+                ['slug' => 'immersions', 'label' => 'Les immersions'],
+            ])
+            ->where('spotlight.slug', 'atelier-lactofermentation'));
 
-    $this->get(route('experiences.show', 'atelier-anti-gaspi'))->assertNotFound();
+    $this->get(route('experiences.listing', 'ateliers'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('experiences/listing')
+            ->where('type.label', 'Les ateliers')
+            ->has('sessions', 2)
+            ->where('sessions.0.experience.slug', 'atelier-lactofermentation')
+            ->where('sessions.0.price', 70)
+            ->has('pastEvents', 1)
+            // The general review only: the two others are about food tours.
+            ->has('testimonials', 1)
+            ->where('testimonials.0.experience_title', null)
+            ->where('testimonials.0.rating', 5));
+
+    $this->get(route('experiences.listing', 'good-tours'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('testimonials', 3)
+            ->where('testimonials.0.experience_title', 'La Croix-Rousse')
+            ->where('testimonials.1.experience_title', 'Jean-Macé'));
+
+    // Its dates cannot be opened either.
+    $this->get(route('sessions.show', Experience::where('slug', 'atelier-anti-gaspi')->sole()->upcomingSessions()->firstOrFail()))->assertNotFound();
 });
 
-it('shows an experience with its upcoming sessions and matching testimonials', function () {
-    Testimonial::create(['author_name' => 'Léa', 'quote' => 'Top.', 'experience_type' => ExperienceType::Atelier, 'is_published' => true]);
-
-    $this->get(route('experiences.show', 'good-tour-croix-rousse'))
+it('lists every upcoming date in the agenda and none for quote-only formats', function () {
+    $this->get(route('experiences.agenda'))
         ->assertInertia(fn (Assert $page) => $page
-            ->component('experiences/show')
-            ->where('experience.title', 'La Croix-Rousse')
-            ->has('sessions', 2)
-            ->where('sessions.0.price', 60)
-            ->has('sessions.0.remaining_seats')
+            ->component('experiences/listing')
+            ->where('type', null)
+            ->has('sessions', 8)
             ->has('testimonials', 3));
 
-    $this->get(route('experiences.show', 'immersion-a-la-ferme'))
-        ->assertInertia(fn (Assert $page) => $page->has('sessions', 0)->where('experience.price_from', null));
+    $this->get(route('experiences.listing', 'immersions'))
+        ->assertInertia(fn (Assert $page) => $page->has('sessions', 0)->has('pastEvents', 0));
+
+    $this->get('/experiences/inconnu')->assertNotFound();
+});
+
+it('shows the reservation step of an open upcoming date only', function () {
+    $session = Experience::where('slug', 'good-tour-jean-mace')->sole()->upcomingSessions()->firstOrFail();
+
+    $this->get(route('sessions.show', $session))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('bookings/show')
+            ->where('experience.title', 'Jean-Macé')
+            ->where('session.price', 60)
+            ->where('session.remaining_seats', 12));
+
+    $session->update(['starts_at' => now()->subDay()]);
+    $this->get(route('sessions.show', $session))->assertNotFound();
+});
+
+it('shows the reviews of a format with those about its experiences', function () {
+    Testimonial::create(['author_name' => 'Léa', 'quote' => 'Top.', 'experience_type' => ExperienceType::Atelier, 'is_published' => true]);
+
+    $this->get(route('experiences.listing', 'ateliers'))
+        ->assertInertia(fn (Assert $page) => $page->has('testimonials', 2));
+
+    $this->get(route('experiences.listing', 'immersions'))
+        ->assertInertia(fn (Assert $page) => $page->has('testimonials', 1)->where('testimonials.0.author_name', 'Marie'));
+
+    // A review follows its experience: hidden everywhere once it is unpublished.
+    Experience::where('slug', 'good-tour-jean-mace')->update(['is_published' => false]);
+
+    $this->get(route('experiences.listing', 'good-tours'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('testimonials', 2)
+            ->where('testimonials', fn ($testimonials) => ! collect($testimonials)->contains('author_name', 'Anouck')));
+
+    $this->get(route('home'))
+        ->assertInertia(fn (Assert $page) => $page->has('testimonials', 3));
+
+    // The old detail pages are gone: the reservation step carries the detail.
+    $this->get('/experiences/good-tour-croix-rousse')->assertNotFound();
 });
 
 it('hides draft and scheduled posts', function () {
@@ -183,7 +241,7 @@ it('ignores quote fields left over when the visitor switches back to a plain con
 });
 
 it('sends session times with the Paris offset', function () {
-    $this->get(route('experiences.show', 'atelier-lactofermentation'))
+    $this->get(route('experiences.listing', 'ateliers'))
         ->assertInertia(fn (Assert $page) => $page
             ->where('sessions.0.starts_at', fn (string $value) => (bool) preg_match('/T18:30:00\\+0[12]:00$/', $value)));
 });
@@ -195,16 +253,17 @@ it('sends a null speaker for a podcast without intervenant', function () {
         ->assertInertia(fn (Assert $page) => $page->where('podcast.speaker', null)->where('podcast.quote', null));
 });
 
-it('sends the three latest experiences of any type and the past dates to the experiences page', function () {
-    $latest = Experience::create(['type' => ExperienceType::Immersion, 'title' => 'Vendanges', 'slug' => 'vendanges', 'is_published' => true, 'created_at' => now()->addMinute()]);
-    Experience::create(['type' => ExperienceType::Atelier, 'title' => 'Brouillon', 'slug' => 'brouillon', 'created_at' => now()->addHour()]);
+it('sends the past dates of published experiences to the agenda and keeps empty formats off the menu', function () {
+    Experience::create(['type' => ExperienceType::Atelier, 'title' => 'Brouillon', 'slug' => 'brouillon']);
+    Experience::where('type', ExperienceType::Immersion)->update(['is_published' => false]);
 
     $this->get(route('experiences.index'))
         ->assertInertia(fn (Assert $page) => $page
-            ->has('latestExperiences', 3)
-            ->where('latestExperiences.0.slug', $latest->slug)
-            ->where('latestExperiences.0.next_session_at', null)
-            ->has('latestExperiences.1.next_session_at')
+            ->has('types', 2)
+            ->where('types.1.slug', 'good-tours'));
+
+    $this->get(route('experiences.agenda'))
+        ->assertInertia(fn (Assert $page) => $page
             ->has('pastEvents', 4)
             ->has('pastEvents.0.experience.title')
             ->where('pastEvents.0.starts_at', fn (string $value) => now()->gt($value)));

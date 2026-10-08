@@ -291,6 +291,30 @@ it('shows the demo payment page to individuals only', function () {
     $this->get(route('bookings.create', $session))->assertNotFound();
 });
 
+it('books under the contact details of the form and skips the card with PayPal', function () {
+    $session = openSession();
+    $this->actingAs(User::factory()->individual()->create());
+
+    $this->post(route('bookings.store', $session), ['seats' => 1, 'first_name' => '', 'last_name' => '', 'email' => 'pas-un-mail', 'payment_method' => 'cheque'])
+        ->assertSessionHasErrors(['first_name', 'last_name', 'email', 'payment_method']);
+
+    $this->post(route('bookings.store', $session), [
+        'seats' => 2,
+        'first_name' => 'Julien',
+        'last_name' => 'Brossolette',
+        'email' => 'julien@example.com',
+        'phone' => '+33 6 12 34 56 78',
+        'payment_method' => 'paypal',
+    ])->assertSessionHasNoErrors()->assertRedirect(route('dashboard'));
+
+    $booking = Booking::sole();
+
+    expect($booking->name)->toBe('Julien Brossolette')
+        ->and($booking->email)->toBe('julien@example.com')
+        ->and($booking->phone)->toBe('+33 6 12 34 56 78')
+        ->and($booking->status)->toBe(BookingStatus::Paid);
+});
+
 it('refuses a booking without valid demo card details and never stores them', function () {
     $session = openSession();
     $this->actingAs(User::factory()->individual()->create());

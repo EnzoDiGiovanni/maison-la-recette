@@ -31,6 +31,12 @@
 
 @import './components/devis/quote-layout.css';
 
+@import './components/experiences/business-card.css';
+@import './components/experiences/photo-dialog.css';
+@import './components/experiences/past-slider.css';
+@import './components/experiences/review-list.css';
+@import './components/experiences/upcoming-card.css';
+
 @import './components/podcasts/account-dialog.css';
 @import './components/podcasts/cover.css';
 @import './components/podcasts/favorite-button.css';
@@ -48,6 +54,7 @@
 @import './pages/dashboard.css';
 @import './pages/experiences.css';
 @import './pages/podcasts.css';
+@import './pages/reservation.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

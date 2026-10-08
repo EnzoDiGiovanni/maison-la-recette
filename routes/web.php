@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ExperienceType;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -20,7 +21,8 @@ Route::get('/podcasts/offres', [PodcastController::class, 'offers'])->name('podc
 Route::get('/podcasts/{podcast:slug}', [PodcastController::class, 'show'])->name('podcasts.show');
 
 Route::get('/experiences', [ExperienceController::class, 'index'])->name('experiences.index');
-Route::get('/experiences/{experience:slug}', [ExperienceController::class, 'show'])->name('experiences.show');
+Route::get('/experiences/agenda', [ExperienceController::class, 'agenda'])->name('experiences.agenda');
+Route::get('/experiences/{type}', [ExperienceController::class, 'listing'])->whereIn('type', ExperienceType::slugs())->name('experiences.listing');
 
 Route::get('/blog', [PostController::class, 'index'])->name('posts.index');
 Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('posts.show');
@@ -31,6 +33,9 @@ Route::get('/contact', [InquiryController::class, 'create'])->name('contact');
 Route::get('/devis-experience', [InquiryController::class, 'createExperienceQuote'])->name('contact.quote.experience');
 Route::get('/devis-podcast', [InquiryController::class, 'createPodcastQuote'])->name('contact.quote.podcast');
 Route::post('/contact', [InquiryController::class, 'store'])->middleware('throttle:10,1')->name('contact.store');
+
+// The reservation step is public; the payment that follows needs an account.
+Route::get('/sessions/{session}/reservation', [BookingController::class, 'show'])->name('sessions.show');
 
 // Open to guests: the controller sends them to the login page and remembers the episode.
 Route::post('/podcasts/{podcast:slug}/favori', [FavoritePodcastController::class, 'toggle'])->middleware('throttle:30,1')->name('podcasts.favorite');
