@@ -5,22 +5,22 @@ import useReveal from '@/hooks/use-reveal';
 import SiteLayout from '@/layouts/site-layout';
 import quote from '@/routes/contact/quote';
 
-/* Les photos sont à déposer dans public/images/studio/ (step-1.jpg…). */
+/* Les photos sont à déposer dans public/images/studio/ (step-1.png…). */
 const steps: Step[] = [
     {
         title: 'Définition du concept',
         text: 'On travaille ensemble sur le ton, le format, les invités et le calendrier de publication.',
-        image: '/images/studio/step-1.jpg',
+        image: '/images/studio/step-1.png',
     },
     {
         title: 'Enregistrement & montage',
         text: 'Prise de son, montage, mixage et finalisation du fichier audio prêt à diffuser.',
-        image: '/images/studio/step-2.jpg',
+        image: '/images/studio/step-2.png',
     },
     {
         title: 'Publication',
         text: 'Visuels, description, tags et mise en ligne sur les plateformes.',
-        image: '/images/studio/step-3.jpg',
+        image: '/images/studio/step-3.png',
     },
 ];
 
