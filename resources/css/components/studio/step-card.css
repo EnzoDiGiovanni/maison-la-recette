@@ -2,7 +2,7 @@
 .step-card {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 13fr);
+    grid-template-columns: var(--photo-width) minmax(0, 1fr);
     gap: clamp(1rem, 2.6vw, 2rem);
     align-items: start;
     margin: 0;
@@ -12,7 +12,8 @@
     position: relative;
     z-index: 1;
     display: block;
-    width: 100%;
+    width: var(--photo-width);
+    max-width: 100%;
     aspect-ratio: 3 / 2;
     margin: 0;
     border: 2px solid var(--primary-color);
@@ -67,6 +68,7 @@
     }
 
     .step-card__photo {
+        width: 100%;
         max-width: 18rem;
     }
 }
