@@ -25,6 +25,9 @@ class PostController extends Controller
 
         return Inertia::render('posts/show', [
             'post' => PostResource::make($post)->resolve($request),
+            'otherPosts' => PostResource::collection(
+                Post::query()->published()->whereKeyNot($post->getKey())->limit(3)->get(),
+            )->resolve($request),
         ]);
     }
 }

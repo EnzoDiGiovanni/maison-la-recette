@@ -47,6 +47,11 @@
 @import './components/podcasts/podcast-tile.css';
 @import './components/podcasts/release-card.css';
 
+@import './components/posts/post-body.css';
+@import './components/posts/post-feature.css';
+@import './components/posts/post-media.css';
+@import './components/posts/post-tile.css';
+
 /* Pages */
 @import './pages/auth.css';
 @import './pages/checkout.css';
@@ -54,6 +59,7 @@
 @import './pages/dashboard.css';
 @import './pages/experiences.css';
 @import './pages/podcasts.css';
+@import './pages/posts.css';
 @import './pages/reservation.css';
 
 @source '../views';
