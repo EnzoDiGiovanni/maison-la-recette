@@ -30,12 +30,4 @@ class PodcastController extends Controller
             )->resolve($request),
         ]);
     }
-
-    /**
-     * The B2B offers built around the podcast: sponsoring, studio, events.
-     */
-    public function offers(): Response
-    {
-        return Inertia::render('podcasts/offers');
-    }
 }

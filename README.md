@@ -58,7 +58,6 @@ Every public page already exists as an unstyled React component that receives it
 | `/`                       | `home.tsx`                        | `featuredPodcasts`, `experiences`, `testimonials`, `latestPosts`          |
 | `/podcasts`               | `podcasts/index.tsx`              | `podcasts`                                                                |
 | `/podcasts/{slug}`        | `podcasts/show.tsx`               | `podcast`                                                                 |
-| `/podcasts/offres`        | `podcasts/offers.tsx`             | none (static content)                                                     |
 | `/experiences`            | `experiences/index.tsx`           | `latestExperiences`, `pastEvents`                                         |
 | `/experiences/{slug}`     | `experiences/show.tsx`            | `experience`, `sessions`, `testimonials`                                  |
 | `/blog`                   | `posts/index.tsx`                 | `posts`                                                                   |

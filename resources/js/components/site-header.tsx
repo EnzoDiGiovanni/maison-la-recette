@@ -3,10 +3,7 @@ import { useState } from 'react';
 import { MusicIcon, SpotifyIcon } from '@/components/icons';
 import { about, contact, dashboard, home, login } from '@/routes';
 import { index as experiencesIndex } from '@/routes/experiences';
-import {
-    index as podcastsIndex,
-    offers as podcastOffers,
-} from '@/routes/podcasts';
+import { index as podcastsIndex } from '@/routes/podcasts';
 import { index as postsIndex } from '@/routes/posts';
 
 type Props = {
@@ -29,7 +26,6 @@ export default function SiteHeader({
 
     const links = [
         { label: 'Podcast', url: podcastsIndex.url() },
-        { label: 'Offres podcast', url: podcastOffers.url() },
         { label: 'Expériences', url: experiencesIndex.url() },
         { label: 'Blog', url: postsIndex.url() },
         { label: 'À propos', url: about.url() },
