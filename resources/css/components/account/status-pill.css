@@ -1,0 +1,29 @@
+/* Pastille de statut : le libellé porte l'information, le point la renforce */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    padding: 0.2em 0.8em;
+    border-radius: 999px;
+    background: var(--accent-color);
+    font-size: clamp(0.75rem, 1.05vw, 0.9rem);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.status-pill::before {
+    width: 0.55em;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--primary-color);
+    content: '';
+}
+
+.status-pill--attente::before {
+    background: var(--yellow-card);
+    box-shadow: 0 0 0 1px var(--text-color);
+}
+
+.status-pill--clos::before {
+    background: var(--red-color);
+}

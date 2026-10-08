@@ -1,0 +1,55 @@
+/* Marque-page « à écouter plus tard », posé sur le visuel des cartes */
+
+.favorite-button {
+    position: absolute;
+    top: calc(var(--favorite-inset, 0px) + 0.4rem);
+    left: calc(var(--favorite-inset, 0px) + 0.4rem);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    width: clamp(1.75rem, 2.6vw, 2.25rem);
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    box-shadow: 0 1px 3px rgb(71 56 46 / 0.15);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.favorite-button:hover {
+    transform: scale(1.1);
+}
+
+.favorite-button:focus-visible {
+    outline: 2px solid var(--red-color);
+    outline-offset: 2px;
+}
+
+.favorite-button svg {
+    width: 55%;
+    height: 55%;
+}
+
+.favorite-button[aria-pressed='true'] {
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+/* Version avec libellé, dans le fil de la page d'un épisode */
+.favorite-button--label {
+    position: static;
+    width: auto;
+    aspect-ratio: auto;
+    padding: 0.45em 1.1em;
+    border-radius: 999px;
+    font-weight: 500;
+}
+
+.favorite-button--label svg {
+    width: 1.1em;
+    height: 1.1em;
+}

@@ -1,0 +1,30 @@
+body {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+/* Pleine largeur : navbar et contenu occupent tout l'écran. */
+header,
+main,
+footer {
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: var(--gutter);
+}
+
+/* Les pages hors podcast restent lisibles : colonne centrée max 62rem. */
+main > :where(h1, section, article, form, ul, p, dl) {
+    max-width: 62rem;
+    margin-inline: auto;
+}
+
+/* Sécurité : rien ne déborde horizontalement. */
+html {
+    overflow-x: clip;
+}
+
+main img,
+main iframe {
+    max-width: 100%;
+    height: auto;
+}

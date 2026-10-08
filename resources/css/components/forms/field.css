@@ -1,0 +1,6 @@
+/* Astérisque des champs obligatoires */
+.field__required {
+    margin-left: 0.15em;
+    color: var(--red-color);
+    font-weight: 700;
+}

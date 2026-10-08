@@ -1,0 +1,27 @@
+/* Carte « Les plus écoutés » */
+.podcast-tile {
+    /* Repère du marque-page (favorite-button.css). */
+    position: relative;
+}
+
+.podcast-tile:hover .podcast-tile__photo {
+    transform: scale(1.04);
+}
+
+.podcast-tile__title {
+    display: -webkit-box;
+    margin-top: 0.6em;
+    overflow: hidden;
+    font-size: clamp(0.65rem, 1.15vw, 1rem);
+    font-weight: 500;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.podcast-tile__guest {
+    display: block;
+    margin-top: 0.5em;
+    font-size: clamp(0.65rem, 1.15vw, 1rem);
+}
