@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap');
 @import 'tailwindcss';
 
 /*
@@ -66,13 +66,14 @@
 @import './pages/dashboard.css';
 @import './pages/experiences.css';
 @import './pages/home/base.css';
-@import './pages/home/header.css';
+@import './pages/home/banner.css';
 @import './pages/home/hero.css';
 @import './pages/home/split-section.css';
 @import './pages/home/values.css';
 @import './pages/home/quote.css';
 @import './pages/home/about.css';
 @import './pages/home/contact.css';
+@import './pages/home/footer.css';
 @import './pages/home/back-to-top.css';
 @import './pages/podcast-show.css';
 @import './pages/podcasts.css';
@@ -84,7 +85,7 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Funnel Display', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 }

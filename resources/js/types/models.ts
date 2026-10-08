@@ -121,6 +121,10 @@ export type Post = {
 /** Réglages du site, partagés sur toutes les pages. */
 export type Settings = Partial<
     Record<
+        | 'banner_enabled'
+        | 'banner_link_label'
+        | 'banner_link_url'
+        | 'banner_text'
         | 'podcast_rating'
         | 'podcast_reviews_count'
         | 'podcast_listen_rate'

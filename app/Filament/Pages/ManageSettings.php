@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Actions;
@@ -47,6 +48,28 @@ class ManageSettings extends Page
         return $schema
             ->statePath('data')
             ->components([
+                Section::make('Bannière de la page d\'accueil')
+                    ->description('Bandeau vert défilant, fixé en bas de l\'écran sur la page d\'accueil.')
+                    ->columns(2)
+                    ->schema([
+                        Toggle::make('banner_enabled')
+                            ->label('Afficher la bannière')
+                            ->columnSpanFull(),
+                        TextInput::make('banner_link_label')
+                            ->label('Texte du lien')
+                            ->placeholder('Inscris-toi')
+                            ->helperText('Début de la phrase, souligné et cliquable. Facultatif.')
+                            ->maxLength(60),
+                        TextInput::make('banner_link_url')
+                            ->label('Adresse du lien')
+                            ->url()
+                            ->helperText('Vide : le lien mène à la page d\'inscription.'),
+                        TextInput::make('banner_text')
+                            ->label('Texte')
+                            ->placeholder('et lance-toi dans les défis durables de Maison La Recette')
+                            ->maxLength(200)
+                            ->columnSpanFull(),
+                    ]),
                 Section::make('Chiffres du podcast')
                     ->columns(2)
                     ->schema([
@@ -116,11 +139,12 @@ class ManageSettings extends Page
 
     public function save(): void
     {
-        /** @var array<string, string|null> $data */
+        /** @var array<string, string|bool|null> $data */
         $data = $this->form->getState();
 
         foreach ($data as $key => $value) {
-            Setting::set($key, $value);
+            // Settings are stored as text: a toggle becomes '1' or '0'.
+            Setting::set($key, is_bool($value) ? ($value ? '1' : '0') : $value);
         }
 
         Notification::make()

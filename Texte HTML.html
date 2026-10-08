@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero bocaux – Maison La Recette</title>
+<!-- Police manuscrite des petites mentions (optionnelle). La police principale du site reste celle du projet. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   HERO "BOCAUX" – Maison La Recette
+   Section autonome : à placer à la place de l'illustration
+   "salade" (Studio / Podcast / Expériences) sur la home.
+   ========================================================= */
+
+.mlr-hero {
+  --mlr-green: #5FAF88;
+  --mlr-coral: #F06445;
+  --mlr-yellow: #FCC13D;
+  --mlr-ink: #1F2B24;          /* texte courant */
+  --mlr-green-dark: #2F5E46;   /* boutons, titres d'étiquette */
+  --mlr-line: #3F7D5E;         /* contours des bocaux */
+  --mlr-coral-dark: #D24A2C;   /* petit texte corail lisible sur crème */
+  --mlr-cream: #FBFAF3;
+  --mlr-shelf: #EAF4EE;
+
+  position: relative;
+  background: var(--mlr-cream);
+  padding: 32px 16px 0;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.mlr-hint {
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  margin: 0 0 28px;
+  font-family: "Caveat", cursive; font-size: 30px; font-weight: 500;
+  color: var(--mlr-line);
+}
+
+.mlr-jars {
+  position: relative; z-index: 1;
+  display: flex; justify-content: center; align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 64px;
+  margin: 0; padding: 0; list-style: none;
+}
+
+/* L'étagère */
+.mlr-hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 166px; background: var(--mlr-shelf);
+  border-top: 2.5px solid var(--mlr-line);
+}
+.mlr-hero { padding-bottom: 156px; } /* le pied des bocaux se pose sur l'étagère */
+
+/* ---------- Bocal ---------- */
+.mlr-jar {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  width: 290px;
+  text-decoration: none; color: inherit;
+  transition: opacity .4s ease, filter .4s ease, transform .5s cubic-bezier(.3,1.3,.5,1);
+}
+.mlr-jar:focus-visible { outline: none; }
+.mlr-jar:focus-visible .mlr-body { box-shadow: 0 0 0 4px var(--mlr-cream), 0 0 0 7px var(--mlr-coral); }
+
+/* Les autres bocaux pâlissent quand on en survole un */
+@media (hover: hover) {
+  .mlr-jars:hover .mlr-jar:not(:hover) { opacity: .55; filter: saturate(.5); }
+}
+
+.mlr-lid {
+  position: relative; z-index: 2;
+  width: 176px; height: 34px; box-sizing: border-box;
+  border: 2.5px solid var(--mlr-line); border-radius: 10px;
+  background: repeating-linear-gradient(90deg, var(--mlr-cream) 0 10px, #E3F0E8 10px 12px);
+  transform-origin: 12% 100%;
+  transition: transform .5s cubic-bezier(.3,1.5,.5,1);
+}
+.mlr-neck {
+  width: 196px; height: 14px; box-sizing: border-box;
+  border-left: 2.5px solid var(--mlr-line); border-right: 2.5px solid var(--mlr-line);
+}
+.mlr-body {
+  position: relative;
+  width: 280px; height: 340px; box-sizing: border-box;
+  border: 2.5px solid var(--mlr-line);
+  border-radius: 40px 40px 66px 66px;
+  overflow: hidden;
+  background: rgba(255,255,255,.55);
+}
+.mlr-shadow {
+  width: 240px; height: 14px; margin-top: -4px;
+  border-radius: 50%; background: rgba(47,94,70,.12);
+}
+
+/* Reflets du verre */
+.mlr-body::before, .mlr-body::after {
+  content: ""; position: absolute; z-index: 3; left: 24px; width: 12px;
+  border-radius: 8px; background: rgba(255,255,255,.7);
+}
+.mlr-body::before { top: 34px; height: 150px; }
+.mlr-body::after  { top: 198px; height: 22px; }
+
+/* ---------- Les formes qui tombent ---------- */
+.mlr-pile {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity .25s ease;
+}
+.mlr-pile > span {
+  position: absolute;
+  /* position de départ : au-dessus du goulot, tournée */
+  transform: translateY(-470px) rotate(calc(var(--r, 0deg) - 110deg));
+  transition: transform 0s;
+}
+
+/* Pile, de bas en haut : position, taille, forme, rotation finale, ordre de chute (--i) */
+.mlr-pile > span:nth-child(1)  { --i:0;  --r:0deg;    left:-6px;  bottom:-8px;  width:110px; height:102px; border-radius:50% 46% 52% 48% / 54% 50% 48% 46%; }
+.mlr-pile > span:nth-child(2)  { --i:1;  --r:-8deg;   left:94px;  bottom:-4px;  width:126px; height:66px;  border-radius:999px; }
+.mlr-pile > span:nth-child(3)  { --i:2;  --r:12deg;   left:198px; bottom:-6px;  width:88px;  height:84px;  border-radius:50% 46% 52% 48% / 54% 50% 48% 46%; }
+.mlr-pile > span:nth-child(4)  { --i:3;  --r:18deg;   left:112px; bottom:58px;  width:74px;  height:74px;  border-radius:30%; }
+.mlr-pile > span:nth-child(5)  { --i:4;  --r:22deg;   left:0;     bottom:88px;  width:112px; height:58px;  border-radius:999px; }
+.mlr-pile > span:nth-child(6)  { --i:5;  --r:-10deg;  left:180px; bottom:74px;  width:98px;  height:49px;  border-radius:999px 999px 0 0; }
+.mlr-pile > span:nth-child(7)  { --i:6;  --r:0deg;    left:108px; bottom:128px; width:72px;  height:68px;  border-radius:50% 46% 52% 48% / 54% 50% 48% 46%; }
+.mlr-pile > span:nth-child(8)  { --i:7;  --r:8deg;    left:194px; bottom:124px; width:72px;  height:72px;  border-radius:0 100% 0 100%; }
+.mlr-pile > span:nth-child(9)  { --i:8;  --r:-14deg;  left:-4px;  bottom:150px; width:120px; height:60px;  border-radius:999px; }
+.mlr-pile > span:nth-child(10) { --i:9;  --r:30deg;   left:74px;  bottom:182px; width:92px;  height:86px;  border-radius:50% 46% 52% 48% / 54% 50% 48% 46%; }
+.mlr-pile > span:nth-child(11) { --i:10; --r:-20deg;  left:174px; bottom:190px; width:66px;  height:66px;  border-radius:30%; }
+.mlr-pile > span:nth-child(12) { --i:11; --r:0deg;    left:228px; bottom:236px; width:46px;  height:46px;  border-radius:50%; }
+.mlr-pile > span:nth-child(13) { --i:12; --r:10deg;   left:4px;   bottom:222px; width:104px; height:52px;  border-radius:999px; }
+.mlr-pile > span:nth-child(14) { --i:13; --r:170deg;  left:112px; bottom:258px; width:88px;  height:44px;  border-radius:999px 999px 0 0; }
+.mlr-pile > span:nth-child(15) { --i:14; --r:-6deg;   left:196px; bottom:270px; width:62px;  height:58px;  border-radius:50% 46% 52% 48% / 54% 50% 48% 46%; }
+
+/* Couleurs : 1 couleur dominante par bocal + 2 en touches */
+.mlr-jar { --main: var(--mlr-green); --alt1: var(--mlr-yellow); --alt2: var(--mlr-coral); }
+.mlr-jar--podcast     { --main: var(--mlr-yellow); --alt1: var(--mlr-green);  --alt2: var(--mlr-coral); }
+.mlr-jar--experiences { --main: var(--mlr-coral);  --alt1: var(--mlr-yellow); --alt2: var(--mlr-green); }
+.mlr-pile > span:nth-child(odd)    { background: var(--main); }
+.mlr-pile > span:nth-child(4n+2)   { background: var(--alt1); }
+.mlr-pile > span:nth-child(4n)     { background: var(--alt2); }
+
+/* ---------- Étiquette et textes ---------- */
+.mlr-label {
+  position: absolute; z-index: 5; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  padding: 12px 24px;
+  border: 2px solid var(--mlr-line); border-radius: 8px;
+  background: var(--mlr-cream);
+  font-weight: 700; font-size: 24px; letter-spacing: .08em;
+  color: var(--mlr-green-dark); white-space: nowrap; text-align: center;
+  transition: top .5s cubic-bezier(.45,0,.2,1), transform .5s ease;
+}
+.mlr-label small {
+  display: block; margin-top: -2px;
+  font-family: "Caveat", cursive; font-weight: 500; font-size: 20px; letter-spacing: 0;
+  color: var(--mlr-coral-dark);
+}
+.mlr-chip {
+  position: absolute; z-index: 5; left: 50%;
+  padding: 6px 12px; border-radius: 8px;
+  background: var(--mlr-cream); color: var(--mlr-ink);
+  font-size: 15px; font-weight: 600; white-space: nowrap;
+  opacity: 0; transform: translate(-50%, 14px) scale(.92);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.mlr-chip--l1 { bottom: 142px; }
+.mlr-chip--l2 { bottom: 104px; }
+.mlr-cta {
+  bottom: 30px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px; border-radius: 999px;
+  background: var(--mlr-green-dark); color: var(--mlr-cream); font-size: 14px;
+}
+
+/* =========================================================
+   ÉTAT "REMPLI" : au survol, au focus clavier,
+   ou classe .is-open (ajoutée en JS sur écran tactile)
+   ========================================================= */
+.mlr-jar:is(:hover, :focus-visible, .is-open) { transform: translateY(-6px); }
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-lid { transform: translate(-22px, -30px) rotate(-18deg); }
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-pile { opacity: 1; transition: opacity 0s; }
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-pile > span {
+  transform: rotate(var(--r, 0deg));
+  transition: transform .75s cubic-bezier(.3,1.32,.55,1) calc(var(--i) * 70ms);
+}
+/* Le texte apparaît au rythme du remplissage : bouton, ligne 2, ligne 1, puis l'étiquette monte */
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-chip { opacity: 1; transform: translate(-50%, 0); }
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-cta     { transition-delay: .75s; }
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-chip--l2 { transition-delay: .98s; }
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-chip--l1 { transition-delay: 1.2s; }
+.mlr-jar:is(:hover, :focus-visible, .is-open) .mlr-label {
+  top: 16%; transform: translate(-50%, -50%) rotate(0);
+  transition-delay: 1.45s;
+}
+
+/* Petits écrans : bocaux empilés, chacun sur sa propre petite étagère */
+@media (max-width: 720px) {
+  .mlr-hero { padding-bottom: 40px; }
+  .mlr-hero::after { display: none; }
+  .mlr-jars { flex-direction: column; align-items: center; gap: 40px; }
+  .mlr-shadow { width: 100%; height: 0; margin-top: 0; border-radius: 0; border-top: 2.5px solid var(--mlr-line); background: none; }
+}
+
+/* Mouvement réduit : bocaux directement remplis, sans animation */
+@media (prefers-reduced-motion: reduce) {
+  .mlr-jar, .mlr-lid, .mlr-pile, .mlr-pile > span, .mlr-label, .mlr-chip { transition: none !important; }
+}
+</style>
+</head>
+<body style="margin:0">
+
+<section class="mlr-hero" aria-label="Nos trois activités">
+  <p class="mlr-hint" aria-hidden="true">
+    Choisissez votre bocal
+    <svg width="44" height="34" viewBox="0 0 44 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6c14-4 30 2 34 22"/><path d="M30 24l7 5 3-8"/></svg>
+  </p>
+
+  <ul class="mlr-jars">
+    <li>
+      <a class="mlr-jar mlr-jar--studio" href="/studio">
+        <div class="mlr-lid" aria-hidden="true"></div>
+        <div class="mlr-neck" aria-hidden="true"></div>
+        <div class="mlr-body">
+          <div class="mlr-pile" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="mlr-label">STUDIO<small>de l’idée au micro</small></span>
+          <span class="mlr-chip mlr-chip--l1">On crée ton podcast,</span>
+          <span class="mlr-chip mlr-chip--l2">de l’idée à la mise en ligne.</span>
+          <span class="mlr-chip mlr-cta">Découvrir le studio
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </div>
+        <div class="mlr-shadow" aria-hidden="true"></div>
+      </a>
+    </li>
+    <li>
+      <a class="mlr-jar mlr-jar--podcast" href="/podcast">
+        <div class="mlr-lid" aria-hidden="true"></div>
+        <div class="mlr-neck" aria-hidden="true"></div>
+        <div class="mlr-body">
+          <div class="mlr-pile" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="mlr-label">PODCAST<small>un épisode par mois</small></span>
+          <span class="mlr-chip mlr-chip--l1">Celles et ceux qui</span>
+          <span class="mlr-chip mlr-chip--l2">changent l’alimentation.</span>
+          <span class="mlr-chip mlr-cta">Écouter les épisodes
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </div>
+        <div class="mlr-shadow" aria-hidden="true"></div>
+      </a>
+    </li>
+    <li>
+      <a class="mlr-jar mlr-jar--experiences" href="/experiences">
+        <div class="mlr-lid" aria-hidden="true"></div>
+        <div class="mlr-neck" aria-hidden="true"></div>
+        <div class="mlr-body">
+          <div class="mlr-pile" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="mlr-label">EXPÉRIENCES<small>à partager</small></span>
+          <span class="mlr-chip mlr-chip--l1">Ateliers, dégustations</span>
+          <span class="mlr-chip mlr-chip--l2">et team-building.</span>
+          <span class="mlr-chip mlr-cta">Voir l’agenda
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </div>
+        <div class="mlr-shadow" aria-hidden="true"></div>
+      </a>
+    </li>
+  </ul>
+</section>
+
+<script>
+/* Écrans tactiles (pas de survol) : les bocaux se remplissent tout seuls,
+   l'un après l'autre, quand la section entre dans l'écran.
+   Mouvement réduit : remplis immédiatement. */
+(function () {
+  var jars = document.querySelectorAll('.mlr-jar');
+  if (!jars.length) return;
+  var noHover = window.matchMedia('(hover: none)').matches;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { jars.forEach(function (j) { j.classList.add('is-open'); }); return; }
+  if (!noHover || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      jars.forEach(function (j, i) { setTimeout(function () { j.classList.add('is-open'); }, i * 450); });
+      io.disconnect();
+    });
+  }, { threshold: 0.35 });
+  io.observe(document.querySelector('.mlr-jars'));
+})();
+</script>
+</body>
+</html>

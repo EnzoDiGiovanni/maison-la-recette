@@ -5,30 +5,14 @@ import SiteHeader from '@/components/site-header';
 
 type Props = ComponentProps<typeof SiteHeader> & {
     children: ReactNode;
-    /**
-     * Partie de l'en-tête en rouge : le titre par défaut, le sous-titre sur
-     * l'étape de réservation.
-     */
-    accent?: 'title' | 'subtitle';
 };
 
-export default function SiteLayout({
-    children,
-    title,
-    subtitle,
-    accent,
-    ...header
-}: Props) {
+export default function SiteLayout({ children, ...header }: Props) {
     const { flash } = usePage();
 
     return (
         <>
-            <SiteHeader
-                {...header}
-                title={title}
-                subtitle={subtitle}
-                accent={accent}
-            />
+            <SiteHeader {...header} />
 
             {flash.success && <p role="status">{flash.success}</p>}
 

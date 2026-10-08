@@ -55,13 +55,13 @@ export default function AccountDialog({ open, onClose }: Props) {
                 <h2>Inscrivez-vous</h2>
                 <Link
                     href={login.url()}
-                    className="account-dialog__button account-dialog__button--green"
+                    className="account-dialog__button account-dialog__button--cream"
                 >
                     continuez avec une adresse mail
                 </Link>
                 <button
                     type="button"
-                    className="account-dialog__button account-dialog__button--cream"
+                    className="account-dialog__button account-dialog__button--outline"
                 >
                     continuer avec google
                 </button>
@@ -73,7 +73,7 @@ export default function AccountDialog({ open, onClose }: Props) {
                 <h2>Connectez-vous</h2>
                 <Link
                     href={login.url()}
-                    className="account-dialog__button account-dialog__button--green"
+                    className="account-dialog__button account-dialog__button--cream"
                 >
                     Se connecter
                 </Link>
