@@ -1,7 +1,8 @@
-import { Link, router } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
+import { useState } from 'react';
+import CancelDialog from '@/components/account/cancel-dialog';
 import StatusPill from '@/components/account/status-pill';
 import { formatDate, formatPrice } from '@/lib/format';
-import { cancel } from '@/routes/dashboard/bookings';
 import { listing } from '@/routes/experiences';
 import type { Booking } from '@/types';
 
@@ -30,11 +31,7 @@ function parts(value: string) {
 export default function BookingCard({ booking, tone }: Props) {
     const date = parts(booking.session.starts_at);
 
-    function cancelBooking() {
-        if (window.confirm('Annuler cette réservation ?')) {
-            router.patch(cancel.url(booking.id), {}, { preserveScroll: true });
-        }
-    }
+    const [isCancelOpen, setIsCancelOpen] = useState(false);
 
     return (
         <li className={`booking-card booking-card--${tone}`}>
@@ -77,13 +74,20 @@ export default function BookingCard({ booking, tone }: Props) {
             <div className="booking-card__footer">
                 <StatusPill status={booking.status} />
                 {booking.can_cancel && (
-                    <button
-                        type="button"
-                        className="link-button"
-                        onClick={cancelBooking}
-                    >
-                        Annuler
-                    </button>
+                    <>
+                        <button
+                            type="button"
+                            className="link-button"
+                            onClick={() => setIsCancelOpen(true)}
+                        >
+                            Annuler
+                        </button>
+                        <CancelDialog
+                            booking={booking}
+                            open={isCancelOpen}
+                            onClose={() => setIsCancelOpen(false)}
+                        />
+                    </>
                 )}
             </div>
         </li>

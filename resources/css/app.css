@@ -26,6 +26,7 @@
 @import './components/forms/account-form.css';
 
 @import './components/account/booking-card.css';
+@import './components/account/cancel-dialog.css';
 @import './components/account/inquiry-card.css';
 @import './components/account/status-pill.css';
 

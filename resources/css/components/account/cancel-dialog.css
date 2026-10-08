@@ -1,0 +1,82 @@
+/* Fenêtre de confirmation d'annulation d'une réservation */
+.cancel-dialog {
+    position: fixed;
+    inset: 0;
+    width: min(88vw, 30rem);
+    margin: auto;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1.5px solid var(--primary-color);
+    border-radius: 2rem;
+    background: var(--accent-color);
+    color: var(--text-color);
+    text-align: center;
+}
+
+/* Page floutée derrière la fenêtre, comme pour le compte chou. */
+.cancel-dialog::backdrop {
+    background: rgb(255 248 238 / 0.45);
+    backdrop-filter: blur(6px);
+}
+
+.cancel-dialog[open] {
+    display: grid;
+    justify-items: center;
+    gap: clamp(0.9rem, 2.4vw, 1.4rem);
+    animation: dialog-in 0.3s ease-out;
+}
+
+.cancel-dialog__title {
+    margin: 0;
+    color: var(--red-color);
+    font-size: clamp(1.3rem, 3.2vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* Rappel de la réservation sur un billet jaune. */
+.cancel-dialog__recap {
+    display: grid;
+    justify-self: stretch;
+    gap: 0.2em;
+    margin: 0;
+    padding: clamp(0.8rem, 2vw, 1.2rem);
+    border-radius: 1rem;
+    background: var(--yellow-card);
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    line-height: 1.45;
+}
+
+.cancel-dialog__recap strong {
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.cancel-dialog__recap span::first-letter {
+    text-transform: uppercase;
+}
+
+.cancel-dialog__text {
+    margin: 0;
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+}
+
+.cancel-dialog__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.cancel-dialog__actions .btn {
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+}
+
+.cancel-dialog__confirm {
+    border-color: var(--red-color);
+    background: var(--red-color);
+}
+
+.cancel-dialog__confirm:hover {
+    background: transparent;
+    color: var(--red-color);
+}
