@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>la recette</title>
+        <item>
+            <title>[EXTRAIT 1 - Jean-Marie Pédron ] - Les algues vont-elles arriver dans nos assiettes demain ?</title>
+            <guid isPermaLink="false">guid-extrait</guid>
+            <pubDate>Mon, 05 Oct 2026 04:00:00 +0000</pubDate>
+            <enclosure url="https://audio.ausha.co/extrait.mp3" length="1" type="audio/mpeg"/>
+            <link>https://podcast.ausha.co/la-recette/extrait-1</link>
+            <itunes:episodeType>bonus</itunes:episodeType>
+            <itunes:season>3</itunes:season>
+            <itunes:episode>26</itunes:episode>
+        </item>
+        <item>
+            <title>Jean Marie Pédron, cueilleur d'algues : celui qui donne le goût des algues</title>
+            <guid isPermaLink="false">guid-pedron</guid>
+            <description><![CDATA[<p>Direction une ferme marine &amp; ses algues.</p><p><br></p><p>Un épisode enregistré les pieds dans l’eau.</p><p>🎧Production, réalisation, montage : Julie Van Ossel </p><p>💚Envie de changer le monde en mangeant ?</p><br/><p>Hébergé par Ausha.</p>]]></description>
+            <pubDate>Mon, 28 Sep 2026 04:00:00 +0000</pubDate>
+            <enclosure url="https://audio.ausha.co/pedron.mp3?t=1" length="1" type="audio/mpeg"/>
+            <link>https://podcast.ausha.co/la-recette/jean-marie-pedron</link>
+            <itunes:image href="https://image.ausha.co/pedron.jpeg"/>
+            <itunes:duration>53:18</itunes:duration>
+            <itunes:episodeType>full</itunes:episodeType>
+            <itunes:season>3</itunes:season>
+            <itunes:episode>25</itunes:episode>
+        </item>
+        <item>
+            <title>REDIFFUSION - Kelly Frank, experte des aliments ultra-transformés</title>
+            <guid isPermaLink="false">guid-rediffusion</guid>
+            <link>https://podcast.ausha.co/la-recette/rediffusion-kelly-frank</link>
+            <itunes:episodeType>bonus</itunes:episodeType>
+        </item>
+        <item>
+            <title>Charles Guirriec, fondateur de Poiscaille : Celui qui démocratise la pêche durable</title>
+            <guid isPermaLink="false">guid-guirriec</guid>
+            <description><![CDATA[<p>D'où vient le poisson ?</p>]]></description>
+            <pubDate>Mon, 01 Jun 2026 04:00:00 +0000</pubDate>
+            <enclosure url="https://audio.ausha.co/guirriec.mp3" length="1" type="audio/mpeg"/>
+            <link>https://podcast.ausha.co/la-recette/la-peche-durable</link>
+            <itunes:duration>1:06:38</itunes:duration>
+            <itunes:episodeType>full</itunes:episodeType>
+            <itunes:season>3</itunes:season>
+            <itunes:episode>1</itunes:episode>
+        </item>
+        <item>
+            <title>La recette : avant-goût</title>
+            <guid isPermaLink="false">guid-trailer</guid>
+            <link>https://podcast.ausha.co/la-recette/avant-gout</link>
+            <itunes:episodeType>trailer</itunes:episodeType>
+        </item>
+    </channel>
+</rss>

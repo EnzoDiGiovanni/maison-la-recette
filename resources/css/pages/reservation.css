@@ -1,0 +1,262 @@
+/* Réservation d'une date : infos à gauche, résumé et carte verte à droite */
+.reservation-page {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-areas:
+        'intro text'
+        'facts card';
+    align-items: start;
+    gap: clamp(1.5rem, 3.5vw, 3.25rem) clamp(1.5rem, 4vw, 4rem);
+    max-width: 66rem;
+    margin-inline: auto;
+    padding: clamp(3rem, 7vw, 6.5rem) clamp(0rem, 4vw, 4rem)
+        clamp(1rem, 3vw, 3rem);
+    font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+}
+
+.reservation-page__intro {
+    grid-area: intro;
+}
+
+.reservation-page__title {
+    margin: 0;
+    font-size: clamp(1.25rem, 1.9vw, 1.75rem);
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.reservation-page__tagline {
+    margin: 0.15em 0 0.5em;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    font-style: italic;
+    line-height: 1.35;
+}
+
+.reservation-page__date {
+    margin: 0.2em 0 0;
+    color: var(--primary-color);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.reservation-page__date time {
+    display: block;
+    color: inherit;
+    font-size: inherit;
+}
+
+.reservation-page__date time::first-letter {
+    text-transform: uppercase;
+}
+
+.reservation-page__seats {
+    margin: 0.9em 0 0;
+}
+
+.reservation-page__text {
+    grid-area: text;
+    margin: 0;
+    font-size: clamp(0.85rem, 1.05vw, 1rem);
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.reservation-page__facts {
+    display: grid;
+    grid-area: facts;
+    gap: clamp(1rem, 1.8vw, 1.6rem);
+    margin: 0;
+}
+
+.reservation-page__facts dt {
+    color: var(--primary-color);
+    font-size: inherit;
+    font-weight: 500;
+}
+
+.reservation-page__facts dd {
+    margin: 0.3em 0 0;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* Carte verte : choix du nombre de places et bouton vers le paiement */
+.reservation-card {
+    grid-area: card;
+    max-width: 23rem;
+    padding: clamp(1.25rem, 2vw, 1.9rem) clamp(1.5rem, 2.6vw, 2.5rem)
+        clamp(1.1rem, 1.6vw, 1.5rem);
+    border-radius: clamp(1.5rem, 2.4vw, 2.25rem);
+    background: var(--primary-color);
+}
+
+.reservation-card__title {
+    max-width: 11em;
+    margin: 0 0 1.2em;
+    font-size: inherit;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.reservation-card form {
+    display: block;
+    max-width: none;
+}
+
+.reservation-card label {
+    margin: 0;
+    font-size: 0.85em;
+    font-weight: 400;
+}
+
+/* Liste déroulante soulignée, avec son chevron crème à droite. */
+.reservation-card__select {
+    position: relative;
+}
+
+.reservation-card__select::after {
+    position: absolute;
+    top: 50%;
+    right: 0.4em;
+    width: 0.6em;
+    height: 0.6em;
+    border-right: 1.5px solid var(--accent-color);
+    border-bottom: 1.5px solid var(--accent-color);
+    content: '';
+    pointer-events: none;
+    transform: translateY(-75%) rotate(45deg);
+}
+
+.reservation-card select {
+    width: 100%;
+    padding: 0.35em 1.6em 0.35em 0;
+    border: 0;
+    border-bottom: 1.5px solid var(--accent-color);
+    border-radius: 0;
+    appearance: none;
+    background: transparent;
+    color: inherit;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.reservation-card__submit {
+    display: block;
+    margin: clamp(1.4rem, 2.4vw, 2.2rem) auto 0;
+    padding: 0.35em 1em;
+    border: 1.5px solid var(--accent-color);
+    border-radius: 999px;
+    background: var(--accent-color);
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.15s,
+        color 0.15s;
+}
+
+.reservation-card__submit:hover {
+    background: transparent;
+    color: var(--accent-color);
+}
+
+.reservation-card select:focus-visible,
+.reservation-card__submit:focus-visible {
+    outline: 2px solid var(--text-color);
+    outline-offset: 2px;
+}
+
+.reservation-card__note {
+    margin: 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.reservation-card__note a {
+    color: inherit;
+    font-weight: 600;
+    text-underline-offset: 3px;
+}
+
+/* Sous la réservation : programme et galerie, sur toute la largeur */
+.reservation-page__more {
+    grid-column: 1 / -1;
+    margin-top: clamp(0.5rem, 2vw, 2rem);
+}
+
+.reservation-page__heading {
+    margin: 0 0 clamp(0.8rem, 1.6vw, 1.5rem);
+    color: var(--primary-color);
+    font-size: clamp(1.05rem, 1.9vw, 1.8rem);
+    font-weight: 500;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+/* « Au programme » : étapes numérotées en rouge, sur un filet vert */
+main ol.reservation-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 1.7vw, 1.75rem);
+    margin: 0;
+    counter-reset: step;
+}
+
+.reservation-steps li {
+    padding-top: clamp(0.6rem, 1vw, 0.9rem);
+    border-top: 1.5px solid var(--primary-color);
+    font-size: clamp(0.85rem, 1.05vw, 1rem);
+    line-height: 1.5;
+    counter-increment: step;
+}
+
+.reservation-steps li::before {
+    display: block;
+    margin-bottom: 0.15em;
+    color: var(--red-color);
+    font-size: clamp(1.3rem, 2vw, 1.9rem);
+    font-weight: 500;
+    line-height: 1.2;
+    content: counter(step, decimal-leading-zero);
+}
+
+/* « En images » : mosaïque de photos arrondies */
+main ul.reservation-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.6rem, 1.2vw, 1.2rem);
+    margin: 0;
+}
+
+.reservation-gallery img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin: 0;
+    border-radius: clamp(0.8rem, 1.4vw, 1.3rem);
+    object-fit: cover;
+}
+
+@media (max-width: 760px) {
+    .reservation-page {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'intro'
+            'text'
+            'facts'
+            'card';
+        padding-inline: 0;
+    }
+
+    .reservation-page__text {
+        text-align: left;
+    }
+
+    main ol.reservation-steps {
+        grid-template-columns: 1fr;
+    }
+
+    main ul.reservation-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

@@ -1,0 +1,79 @@
+/* =========================================================
+   PIED DE PAGE : COMMUN À TOUTES LES PAGES
+========================================================= */
+
+/* footer.site-footer : passe devant la remise à zéro de la page d'accueil. */
+
+footer.site-footer {
+    max-width: none;
+
+    margin: clamp(60px, 10vh, 140px) clamp(8px, 1vw, 18px) 0;
+
+    padding: clamp(16px, 1.6vw, 30px) clamp(20px, 4vw, 80px);
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 14px clamp(24px, 4vw, 80px);
+
+    border-top: 0;
+
+    border-radius: clamp(10px, 1vw, 18px) clamp(10px, 1vw, 18px) 0 0;
+
+    background: var(--primary-color);
+
+    color: #ffffff;
+
+    font-size: clamp(11px, 0.95vw, 18px);
+
+    line-height: 1.5;
+}
+
+.site-footer a {
+    color: inherit;
+
+    font-weight: inherit;
+
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    opacity: 0.7;
+}
+
+.site-footer__brand a {
+    display: block;
+}
+
+.site-footer nav {
+    flex: 1;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+
+    gap: 8px clamp(16px, 3vw, 60px);
+
+    max-width: clamp(320px, 62vw, 1100px);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+    footer.site-footer {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .site-footer nav {
+        justify-content: center;
+    }
+}

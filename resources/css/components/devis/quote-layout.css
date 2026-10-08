@@ -1,0 +1,53 @@
+/* Deux colonnes : formulaire à gauche, grande photo arrondie à droite. */
+.contact-split {
+    display: grid;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: stretch;
+    margin-block: clamp(1.5rem, 4vw, 3rem);
+}
+
+@media (min-width: 900px) {
+    .contact-split {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    }
+}
+
+.contact-split__form {
+    max-width: 30rem;
+}
+
+.contact-split__title {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    font-weight: 700;
+}
+
+.contact-split__subtitle {
+    margin: 0.15em 0 clamp(1.75rem, 4vw, 3rem);
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    font-weight: 600;
+}
+
+/* Panneau photo à droite, coins arrondis. */
+.contact-visual {
+    position: relative;
+    min-height: 16rem;
+    overflow: hidden;
+    border-radius: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.contact-visual__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (min-width: 900px) {
+    .contact-visual {
+        position: sticky;
+        top: var(--gutter);
+        min-height: calc(100svh - 2 * var(--gutter));
+    }
+}

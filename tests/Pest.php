@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /*
@@ -15,7 +17,7 @@ use Tests\TestCase;
 */
 
 pest()->extend(TestCase::class)
- // ->use(RefreshDatabase::class)
+    ->use(RefreshDatabase::class)
     ->in('Feature');
 
 /*
@@ -47,4 +49,17 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+/**
+ * The seeders import the episodes from Ausha: tests that seed read the
+ * fixture feed instead, and never reach the network or the real disk.
+ */
+function fakeAushaFeed(): void
+{
+    Storage::fake('public');
+    Http::fake([
+        'feed.ausha.co/*' => Http::response((string) file_get_contents(base_path('tests/Fixtures/ausha-feed.xml'))),
+        'image.ausha.co/*' => Http::response('cover', 200, ['Content-Type' => 'image/jpeg']),
+    ]);
 }

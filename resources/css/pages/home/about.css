@@ -1,0 +1,9 @@
+/* =========================================================
+   À PROPOS DE MOI : TEXTE À GAUCHE, PHOTO À DROITE
+========================================================= */
+
+@media (max-width: 600px) {
+    .about-section {
+        flex-direction: column-reverse;
+    }
+}

@@ -1,0 +1,251 @@
+/*
+ * En-tête du site : logo | titre | réseaux + burger
+ *                   menu déplié, pleine largeur
+ */
+.site-header {
+    --subtitle-size: clamp(0.85rem, 1.7vw, 1.75rem);
+
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+        'brand   heading actions'
+        'menu    menu    menu';
+    align-items: center;
+    column-gap: clamp(1.25rem, 4vw, 5rem);
+    padding: clamp(1.4rem, 4vh, 3rem) var(--header-gutter, var(--gutter)) 0;
+    border-bottom: 0;
+    color: var(--header-color);
+}
+
+.site-header a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Logo */
+.site-header__brand {
+    grid-area: brand;
+    justify-self: start;
+    display: block;
+}
+
+.site-header__brand img {
+    display: block;
+    width: auto;
+    height: clamp(3.1rem, 5vw, 6rem);
+}
+
+/* Titre et son éventuel sous-titre, aligné à gauche dessous. */
+.site-header__heading {
+    position: relative;
+    grid-area: heading;
+}
+
+.site-header__title {
+    margin: 0;
+    font-size: clamp(1.75rem, 3.4vw, 4rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Pages intérieures : le titre est encadré de deux filets. */
+.site-header__title--framed {
+    padding: 0.14em 0.2em 0.1em;
+    border-block: 2px solid currentcolor;
+}
+
+.site-header__subtitle {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0.35em 0 0;
+    font-size: var(--subtitle-size);
+    font-weight: 500;
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Réseaux près du titre, burger au bord droit. */
+.site-header__actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(0.75rem, 2vw, 2rem);
+}
+
+.site-header__socials {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.6rem, 1.2vw, 1.4rem);
+}
+
+.site-header__socials a {
+    display: flex;
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.site-header__socials a:hover {
+    opacity: 0.7;
+    transform: scale(1.15);
+}
+
+.site-header__socials svg {
+    width: clamp(0.9rem, 1.3vw, 1.4rem);
+    height: auto;
+}
+
+/* Bouton burger : trois barres qui se croisent quand le menu est ouvert. */
+.site-header__burger {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.site-header__burger-bar {
+    display: block;
+    width: 1.4rem;
+    height: 2px;
+    border-radius: 2px;
+    background: currentcolor;
+    transition:
+        transform 0.25s ease,
+        opacity 0.2s ease;
+}
+
+/* État ouvert : les barres forment une croix. */
+.site-header__burger[aria-expanded='true']
+    .site-header__burger-bar:nth-child(1) {
+    transform: translateY(0.45rem) rotate(45deg);
+}
+
+.site-header__burger[aria-expanded='true']
+    .site-header__burger-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.site-header__burger[aria-expanded='true']
+    .site-header__burger-bar:nth-child(3) {
+    transform: translateY(-0.45rem) rotate(-45deg);
+}
+
+/*
+ * Menu déroulé : seconde barre pleine largeur sous la navbar. Elle se déplie
+ * et se replie en douceur : la rangée de grille passe de 0fr à 1fr.
+ */
+.site-header__menu {
+    display: grid;
+    grid-area: menu;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    overflow: hidden;
+    border-top: 1.5px solid transparent;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    visibility: hidden;
+    transition:
+        grid-template-rows 0.35s ease,
+        margin-top 0.35s ease,
+        border-color 0.35s ease,
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0s 0.35s;
+}
+
+.site-header__menu[data-open] {
+    grid-template-rows: 1fr;
+    margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+    border-color: var(--header-color);
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+/* Avec un sous-titre sous le titre, la barre s'ouvre plus bas pour le dégager. */
+.site-header:has(.site-header__subtitle) .site-header__menu[data-open] {
+    margin-top: calc(
+        clamp(0.75rem, 1.5vw, 1.25rem) + 1.45 * var(--subtitle-size)
+    );
+}
+
+.site-header__menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.5rem clamp(1rem, 3vw, 3rem);
+    /* Sans hauteur minimale, la rangée de grille se referme complètement. */
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* L'espace vertical est porté par les items : un padding sur la liste
+   l'empêcherait de se replier jusqu'à zéro. */
+.site-header__menu li {
+    padding-block: clamp(0.6rem, 1.5vw, 1rem);
+}
+
+.site-header__menu a {
+    font-size: clamp(0.75rem, 1.6vw, 1rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.site-header__menu a[aria-current] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+    /* Logo et burger sur la première ligne, titre centré dessous. */
+    .site-header {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            'brand   actions'
+            'heading heading'
+            'menu    menu';
+        row-gap: 0.9rem;
+    }
+
+    .site-header__heading {
+        justify-self: center;
+    }
+
+    .site-header__brand img {
+        height: 3rem;
+    }
+
+    .site-header__title {
+        font-size: 1.5rem;
+    }
+
+    /* La seconde barre défile horizontalement si les liens sont trop nombreux. */
+    .site-header__menu ul {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+}

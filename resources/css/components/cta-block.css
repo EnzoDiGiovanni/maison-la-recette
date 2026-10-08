@@ -1,0 +1,24 @@
+/* Encart vert d'appel à l'action */
+.account-cta {
+    width: min(100%, 48.5%);
+    min-width: min(100%, 18rem);
+    margin: clamp(1.5rem, 3.5vw, 3rem) auto;
+    padding: clamp(1.25rem, 2.6vw, 2.5rem) 1.5rem;
+    border-radius: clamp(1rem, 2.6vw, 2.25rem);
+    background: var(--primary-color);
+    color: var(--accent-color);
+    text-align: center;
+}
+
+.account-cta h2 {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.9vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.account-cta p {
+    max-width: 30rem;
+    margin: 0.6em auto 1.4em;
+    font-size: clamp(0.85rem, 1.15vw, 1rem);
+}

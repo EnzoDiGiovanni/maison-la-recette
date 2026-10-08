@@ -1,0 +1,143 @@
+/* Blog : liste des articles, en retrait comme les pages d'expériences */
+.blog-page,
+.post-page {
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(0rem, 7.8vw, 8rem) 0;
+}
+
+.blog-page > section,
+.post-page > section {
+    margin-bottom: clamp(2.5rem, 6vw, 5.5rem);
+}
+
+/* Accroche en capitales vertes, suivie d'une phrase en texte courant. */
+.blog-page__intro {
+    max-width: 22em;
+    margin: 0 0 clamp(1.5rem, 3.5vw, 3rem);
+    color: var(--primary-color);
+    font-size: clamp(1.15rem, 2.1vw, 1.9rem);
+    font-weight: 500;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.blog-page__intro span {
+    display: block;
+    margin-top: 0.4em;
+    color: var(--text-color);
+    font-size: clamp(0.9rem, 1.25vw, 1.15rem);
+    font-weight: 400;
+    line-height: 1.5;
+    text-transform: none;
+}
+
+/* Trois cartes par rangée */
+main ul.post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 1.7vw, 1.75rem);
+    margin: 0;
+}
+
+/* Détail d'un article */
+.post-page__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    margin: 0 0 clamp(1rem, 2vw, 1.75rem);
+    color: var(--primary-color);
+    font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+/* La flèche du site, retournée pour pointer vers le retour. */
+.post-page__back svg {
+    width: 0.8em;
+    height: 0.8em;
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+.post-page__back:hover svg {
+    transform: rotate(180deg) translate(0.15em, 0.15em);
+}
+
+.post-page__back:focus-visible {
+    outline: 2px solid var(--red-color);
+    outline-offset: 4px;
+}
+
+.post-page__header {
+    margin-bottom: clamp(1.5rem, 3.5vw, 3rem);
+    padding: clamp(1.25rem, 3.4vw, 3.5rem);
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    background: var(--yellow-card);
+}
+
+.post-page__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2em 1.2em;
+    margin: 0 0 clamp(0.6rem, 1.2vw, 1.1rem);
+    color: var(--primary-color);
+    font-size: clamp(0.75rem, 1vw, 0.95rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.post-page__meta time {
+    color: inherit;
+    font-size: inherit;
+}
+
+.post-page__meta span {
+    color: var(--red-color);
+}
+
+.post-page__title {
+    max-width: 22em;
+    margin: 0;
+    text-wrap: balance;
+    font-size: clamp(1.6rem, 3.6vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.post-page__lead {
+    max-width: 40em;
+    margin: clamp(0.7rem, 1.4vw, 1.3rem) 0 0;
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.post-page__cover {
+    display: block;
+    width: 100%;
+    max-height: 34rem;
+    margin: 0 0 clamp(1.5rem, 3.5vw, 3rem);
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    object-fit: cover;
+}
+
+@media (max-width: 900px) {
+    main ul.post-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .blog-page,
+    .post-page {
+        padding-inline: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    main ul.post-grid {
+        grid-template-columns: 1fr;
+    }
+}

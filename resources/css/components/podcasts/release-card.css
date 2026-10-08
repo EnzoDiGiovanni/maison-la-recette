@@ -1,0 +1,93 @@
+/* Carte « Les sorties du mois » */
+.release-card {
+    /* Repère du marque-page (favorite-button.css), décalé du padding. */
+    --favorite-inset: clamp(0.5rem, 1.4vw, 1.25rem);
+
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgb(71 56 46 / 0.06);
+    border-radius: 0.35rem;
+    box-shadow: 0 1px 3px rgb(71 56 46 / 0.08);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.release-card:hover {
+    box-shadow: 0 6px 16px rgb(71 56 46 / 0.14);
+    transform: translateY(-3px);
+}
+
+.release-card:hover .release-card__photo {
+    transform: scale(1.05);
+}
+
+.release-card--vert {
+    background: var(--primary-color);
+}
+
+.release-card--jaune {
+    background: var(--yellow-card);
+}
+
+.release-card a {
+    display: grid;
+    grid-template-columns: minmax(0, 36%) minmax(0, 1fr);
+    gap: clamp(0.6rem, 1.8vw, 1.5rem);
+    height: 100%;
+    padding: clamp(0.5rem, 1.4vw, 1.25rem);
+}
+
+.release-card__body {
+    min-width: 0;
+    padding-top: 0.25rem;
+}
+
+.release-card__quote {
+    margin: 0 0 1em;
+    padding: 0;
+    border: 0;
+    font-size: clamp(0.65rem, 1.15vw, 1rem);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+
+.release-card__title {
+    display: block;
+    font-size: clamp(0.85rem, 1.8vw, 1.55rem);
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.release-card__teaser {
+    margin-block: 0.35em 0;
+    font-size: clamp(0.7rem, 1.4vw, 1.2rem);
+    line-height: 1.5;
+}
+
+.release-card__guest {
+    grid-column: 1 / -1;
+    justify-self: end;
+    align-self: end;
+    font-size: clamp(0.65rem, 1.3vw, 1.1rem);
+    font-weight: 500;
+}
+
+/* L'invité·e ressort sur chaque fond : crème sur le vert, rouge sur le jaune. */
+.release-card--vert .release-card__guest {
+    color: var(--accent-color);
+}
+
+.release-card--jaune .release-card__guest {
+    color: var(--red-color);
+}
+
+@media (max-width: 640px) {
+    /* Photo réduite sur très petits écrans. */
+    .release-card a {
+        grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+    }
+}

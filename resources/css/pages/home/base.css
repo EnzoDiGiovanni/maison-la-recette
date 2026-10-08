@@ -1,0 +1,67 @@
+/* =========================================================
+   COULEURS ET DIMENSIONS DE LA PAGE D'ACCUEIL
+========================================================= */
+
+.home-page {
+    --color-background: #fffdf7;
+    --color-green: #5faf88;
+    --color-orange: #e9643f;
+    --color-brown: #4a382f;
+    --color-text: #262626;
+    --color-light: #fff8eb;
+
+    /* L'en-tête s'aligne sur les marges du contenu de l'accueil. */
+    --header-gutter: 5vw;
+
+    /* Largeur du contenu : 90vw = 5 % de marge de chaque côté */
+    --content-width: 90vw;
+}
+
+/* =========================================================
+   BASE
+========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/*
+ * La page d'accueil a sa propre mise en page : on y neutralise les styles
+ * par balise du reste du site (base/draft.css, base/layout.css).
+ */
+/* L'en-tête du site garde ses propres marges. */
+.home-page :where(*:not(.site-header, .site-header *)) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.home-page > :where(section) {
+    max-width: none;
+}
+
+.home-page :where(header) {
+    border-bottom: 0;
+}
+
+.home-page :where(a) {
+    text-decoration: none;
+}
+
+.home-page {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 0;
+
+    background: var(--color-background);
+
+    font-family: var(--font-sans);
+
+    line-height: normal;
+
+    overflow-x: hidden;
+}

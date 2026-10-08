@@ -1,0 +1,59 @@
+/* Boutons pilule */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: start;
+    margin: 0;
+    padding: 0.5em 1.4em;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 999px;
+    background: var(--primary-color);
+    color: var(--accent-color);
+    font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 0.15s,
+        color 0.15s;
+}
+
+.btn:hover,
+.btn--ghost {
+    background: transparent;
+    color: var(--primary-color);
+}
+
+.btn--ghost:hover {
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.btn--light {
+    border-color: var(--accent-color);
+    background: transparent;
+    color: var(--accent-color);
+}
+
+.btn--light:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.btn:focus-visible,
+.link-button:focus-visible {
+    outline: 2px solid var(--red-color);
+    outline-offset: 2px;
+}
+
+.link-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}

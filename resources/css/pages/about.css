@@ -1,0 +1,261 @@
+/* Page À propos : en retrait comme les pages d'expériences */
+.about-page {
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(0rem, 7.8vw, 8rem) 0;
+}
+
+.about-page > section {
+    margin-bottom: clamp(2.5rem, 6vw, 5.5rem);
+}
+
+.about-page__text {
+    max-width: 44rem;
+    margin: clamp(1rem, 2vw, 1.75rem) 0 0;
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+    line-height: 1.7;
+}
+
+/* Accroche en capitales vertes, puis les trois valeurs en pastilles */
+.about-intro__lead {
+    max-width: 24em;
+    margin: 0;
+    color: var(--primary-color);
+    font-size: clamp(1.3rem, 2.9vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.25;
+    text-transform: uppercase;
+    text-wrap: balance;
+}
+
+.about-intro__text {
+    max-width: 40em;
+    margin: clamp(0.7rem, 1.4vw, 1.3rem) 0 0;
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+main ul.about-intro__values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: clamp(1rem, 2vw, 1.75rem) 0 0;
+}
+
+.about-intro__values li {
+    padding: 0.3em 1em;
+    border: 1.5px solid var(--red-color);
+    border-radius: 999px;
+    color: var(--red-color);
+    font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+    font-weight: 500;
+}
+
+/* Trois constats chiffrés : jaune, vert, rouge */
+main ul.about-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 1.7vw, 1.75rem);
+    margin: 0;
+}
+
+.about-facts li {
+    padding: clamp(1.1rem, 2.2vw, 2.2rem);
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    background: var(--yellow-card);
+    font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.about-facts li:nth-child(2) {
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.about-facts li:nth-child(3) {
+    background: var(--salmon-card);
+    color: var(--accent-color);
+}
+
+.about-facts strong {
+    display: block;
+    margin-bottom: 0.25em;
+    font-size: clamp(1.9rem, 4.2vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1.05;
+}
+
+/* Mission : encart vert, trois verbes numérotés */
+.about-mission {
+    padding: clamp(1.5rem, 4vw, 4rem);
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.about-mission__kicker {
+    margin: 0 0 0.6em;
+    font-size: clamp(0.8rem, 1.05vw, 1rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.about-mission__title {
+    margin: 0;
+    font-size: clamp(1.5rem, 3.4vw, 3.1rem);
+    font-weight: 600;
+    line-height: 1.15;
+    text-wrap: balance;
+}
+
+main ol.about-mission__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 3rem);
+    margin: clamp(1.5rem, 3.4vw, 3.25rem) 0 0;
+    counter-reset: mission;
+}
+
+.about-mission__list li {
+    padding-top: clamp(0.8rem, 1.4vw, 1.3rem);
+    border-top: 1.5px solid var(--accent-color);
+    font-size: clamp(0.9rem, 1.15vw, 1.1rem);
+    line-height: 1.55;
+    counter-increment: mission;
+}
+
+.about-mission__list li::before {
+    display: block;
+    margin-bottom: 0.5em;
+    color: var(--yellow-card);
+    font-size: clamp(0.85rem, 1.05vw, 1rem);
+    font-weight: 600;
+    content: '0' counter(mission);
+}
+
+.about-mission__list strong {
+    display: block;
+    margin-bottom: 0.3em;
+    font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+/* Champs d'action : trois cartes bordées avec leur lien */
+main ul.about-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 1.7vw, 1.75rem);
+    margin: 0;
+}
+
+.about-fields li {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 0.9vw, 0.9rem);
+    padding: clamp(1.1rem, 2vw, 2rem);
+    border: 1.5px solid var(--primary-color);
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.about-fields li:hover {
+    box-shadow: 0 10px 24px rgb(97 175 137 / 0.25);
+    transform: translateY(-3px);
+}
+
+.about-fields h3 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: clamp(1.15rem, 2vw, 1.8rem);
+    font-weight: 500;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.about-fields p {
+    margin: 0;
+    font-size: clamp(0.9rem, 1.15vw, 1.1rem);
+    line-height: 1.55;
+}
+
+.about-fields a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 0.5em;
+    color: var(--red-color);
+    font-size: clamp(0.9rem, 1.15vw, 1.1rem);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.about-fields a svg {
+    width: 0.7em;
+    height: 0.7em;
+    transition: transform 0.3s ease;
+}
+
+.about-fields a:hover svg {
+    transform: translate(0.15em, 0.15em);
+}
+
+.about-fields a:focus-visible {
+    outline: 2px solid var(--red-color);
+    outline-offset: 4px;
+}
+
+/* La fondatrice : portrait à gauche, son parcours à droite */
+.about-founder {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.about-founder__photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    margin: 0;
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    background: var(--placeholder-grey);
+    object-fit: cover;
+}
+
+.about-founder__title {
+    margin: 0 0 clamp(0.8rem, 1.6vw, 1.5rem);
+    color: var(--primary-color);
+    font-size: clamp(1.15rem, 2.1vw, 1.9rem);
+    font-weight: 500;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.about-founder__body p {
+    margin: 0 0 1.1em;
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+    line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+    .about-page {
+        padding-inline: 0;
+    }
+
+    main ul.about-facts,
+    main ol.about-mission__list,
+    main ul.about-fields,
+    .about-founder {
+        grid-template-columns: 1fr;
+    }
+
+    .about-founder__photo {
+        max-width: 18rem;
+    }
+}

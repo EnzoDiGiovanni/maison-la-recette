@@ -1,0 +1,10 @@
+/* Formulaire de contact simple : colonne étroite centrée. */
+.contact-simple {
+    max-width: 32rem;
+    margin: clamp(1.5rem, 4vw, 3rem) auto;
+}
+
+.contact-simple__intro {
+    margin: 0.4rem 0 clamp(1.5rem, 3vw, 2.25rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+}

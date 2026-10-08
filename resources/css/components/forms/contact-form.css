@@ -1,0 +1,108 @@
+/* Champs minimalistes : juste un trait sous le champ. */
+.contact-form {
+    display: grid;
+    gap: clamp(1.4rem, 3vw, 2.25rem);
+    /* Neutralise le max-width: 32rem de draft.css sur les form. */
+    max-width: none;
+}
+
+.contact-form .field {
+    display: grid;
+    gap: 0.2rem;
+}
+
+.contact-form label,
+.contact-form .field__label {
+    margin: 0;
+    color: var(--text-color);
+    font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+    font-weight: 500;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.35em 0;
+    border: 0;
+    border-bottom: 1px solid rgb(71 56 46 / 0.5);
+    border-radius: 0;
+    background: transparent;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    transition: border-color 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-bottom-color: var(--primary-color);
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form select {
+    cursor: pointer;
+}
+
+.contact-form [role='alert'] {
+    margin: 0;
+    color: var(--red-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Champs côte à côte sur écrans larges. */
+.contact-form__row {
+    display: grid;
+    gap: clamp(1.4rem, 3vw, 2.25rem);
+}
+
+@media (min-width: 640px) {
+    .contact-form__row {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+/* Bouton d'envoi : pilule verte pleine largeur. */
+.contact-form__submit {
+    width: 100%;
+    margin-top: clamp(0.5rem, 1.5vw, 1rem);
+    padding: 0.65em 1em;
+    border: 0;
+    border-radius: 999px;
+    background: var(--primary-color);
+    color: var(--accent-color);
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.contact-form__submit:hover:not(:disabled) {
+    box-shadow: 0 4px 14px rgb(97 175 137 / 0.45);
+    transform: translateY(-2px);
+}
+
+.contact-form__submit:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+/* Lien e-mail alternatif sous le bouton. */
+.contact-form__alt {
+    margin: 0;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.contact-form__alt a {
+    color: var(--primary-color);
+    font-weight: 600;
+}

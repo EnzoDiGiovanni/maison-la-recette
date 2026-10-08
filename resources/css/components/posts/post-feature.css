@@ -1,0 +1,78 @@
+/* Article à la une : visuel à gauche, texte sur fond jaune à droite */
+.post-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    overflow: hidden;
+    border-radius: clamp(1.5rem, 2.6vw, 2.5rem);
+    background: var(--yellow-card);
+}
+
+.post-feature__media {
+    height: 100%;
+    min-height: clamp(12rem, 26vw, 24rem);
+}
+
+.post-feature:hover .post-media__arrow {
+    transform: translate(0.3rem, 0.3rem);
+}
+
+.post-feature__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: clamp(0.6rem, 1.2vw, 1.2rem);
+    padding: clamp(1.25rem, 3.2vw, 3.25rem);
+}
+
+.post-feature__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2em 1.2em;
+    margin: 0;
+    color: var(--primary-color);
+    font-size: clamp(0.75rem, 1vw, 0.95rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.post-feature__meta time {
+    color: inherit;
+    font-size: inherit;
+}
+
+.post-feature__meta span {
+    color: var(--red-color);
+}
+
+.post-feature__title {
+    margin: 0;
+    text-wrap: balance;
+    font-size: clamp(1.3rem, 2.6vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.post-feature__text {
+    max-width: 34em;
+    margin: 0;
+    font-size: clamp(0.9rem, 1.25vw, 1.15rem);
+    line-height: 1.5;
+}
+
+/* Sur le jaune, le bouton survolé garde un fond crème plutôt que transparent. */
+.post-feature .btn:hover {
+    background: var(--accent-color);
+}
+
+@media (max-width: 760px) {
+    .post-feature {
+        grid-template-columns: 1fr;
+    }
+
+    .post-feature__media {
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+    }
+}
