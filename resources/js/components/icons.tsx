@@ -18,6 +18,51 @@ export function MusicIcon(props: IconProps) {
     );
 }
 
+export function LinkedinIcon(props: IconProps) {
+    return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+            <path d="M5 2h14a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3Zm2.4 6.6a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8ZM6.2 18h2.4V9.8H6.2V18Zm4.2 0h2.4v-4.3c0-1.2.5-1.9 1.5-1.9s1.4.7 1.4 1.9V18h2.4v-5.1c0-2.2-1.2-3.3-2.9-3.3-1.3 0-2 .7-2.4 1.3V9.8h-2.4V18Z" />
+        </svg>
+    );
+}
+
+export function InstagramIcon(props: IconProps) {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            {...props}
+        >
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+        </svg>
+    );
+}
+
+export function MicIcon(props: IconProps) {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            {...props}
+        >
+            <rect x="9" y="2" width="6" height="12" rx="3" />
+            <path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8" />
+        </svg>
+    );
+}
+
 export function MenuIcon(props: IconProps) {
     return (
         <svg

@@ -1,7 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { MusicIcon, SpotifyIcon } from '@/components/icons';
-import { about, contact, dashboard, home, login } from '@/routes';
+import { InstagramIcon, LinkedinIcon, MicIcon } from '@/components/icons';
+import { about, contact, dashboard, home, login, studio } from '@/routes';
 import { index as experiencesIndex } from '@/routes/experiences';
 import {
     index as podcastsIndex,
@@ -30,6 +30,7 @@ export default function SiteHeader({
     const links = [
         { label: 'Podcast', url: podcastsIndex.url() },
         { label: 'Offres podcast', url: podcastOffers.url() },
+        { label: 'Studio', url: studio.url() },
         { label: 'Expériences', url: experiencesIndex.url() },
         { label: 'Blog', url: postsIndex.url() },
         { label: 'À propos', url: about.url() },
@@ -39,9 +40,8 @@ export default function SiteHeader({
             : { label: 'Connexion', url: login.url() },
     ];
 
-    // Sans lien dédié, les icônes renvoient vers le smartlink Ausha.
-    const spotifyUrl = settings.link_spotify ?? settings.link_ausha;
-    const appleUrl = settings.link_apple_podcasts ?? settings.link_ausha;
+    // Le micro renvoie vers le smartlink Ausha, sinon vers la page podcast.
+    const listenUrl = settings.link_ausha;
 
     return (
         <header className="site-header">
@@ -75,15 +75,24 @@ export default function SiteHeader({
             )}
 
             <div className="site-header__actions">
-                {spotifyUrl && (
-                    <a href={spotifyUrl} aria-label="Écouter sur Spotify">
-                        <SpotifyIcon />
+                {settings.link_linkedin && (
+                    <a href={settings.link_linkedin} aria-label="LinkedIn">
+                        <LinkedinIcon />
                     </a>
                 )}
-                {appleUrl && (
-                    <a href={appleUrl} aria-label="Écouter sur Apple Podcasts">
-                        <MusicIcon />
+                {settings.link_instagram && (
+                    <a href={settings.link_instagram} aria-label="Instagram">
+                        <InstagramIcon />
                     </a>
+                )}
+                {listenUrl ? (
+                    <a href={listenUrl} aria-label="Écouter le podcast">
+                        <MicIcon />
+                    </a>
+                ) : (
+                    <Link href={podcastsIndex.url()} aria-label="Les podcasts">
+                        <MicIcon />
+                    </Link>
                 )}
                 <button
                     type="button"

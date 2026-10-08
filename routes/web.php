@@ -2,6 +2,7 @@
 
 use App\Enums\ExperienceType;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\StudioController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BookingController;
@@ -28,6 +29,7 @@ Route::get('/blog', [PostController::class, 'index'])->name('posts.index');
 Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/a-propos', AboutController::class)->name('about');
+Route::get('/studio', StudioController::class)->name('studio');
 
 Route::get('/contact', [InquiryController::class, 'create'])->name('contact');
 Route::get('/devis-experience', [InquiryController::class, 'createExperienceQuote'])->name('contact.quote.experience');

@@ -16,6 +16,8 @@ class SettingSeeder extends Seeder
             'podcast_total_listens' => '+ de 50 000',
             'podcast_episodes_count' => '+ 40',
             'link_ausha' => 'https://smartlink.ausha.co/la-recette',
+            'link_instagram' => 'https://www.instagram.com/larecette_maison/',
+            'link_linkedin' => 'https://www.linkedin.com/company/la-recette-les-ingredients-du-changement/home/',
             'contact_email' => 'larecette@ecomail.fr',
             'about_text' => <<<'TEXT'
                 Journaliste, j'ai travaillé pendant 15 ans en télévision et réalisé de nombreux reportages pour Arte, France TV, M6 et Euronews, principalement sur des sujets en lien avec l'alimentation.
