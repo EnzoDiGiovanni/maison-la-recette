@@ -1,13 +1,13 @@
 /* CSS variables */
 :root {
-    --primary-color: #5faf88;
-    --secondary-color: #90c55a;
-    --accent-color: #fff8eb;
-    --red-color: #e0271c;
-    --text-color: #2f2f2f;
-    --yellow-card: #f4d681;
-    --salmon-card: #f3b49c;
-    --placeholder-grey: #d9d9d9;
+    --primary-color: #61af89;
+    --secondary-color: #2aa0bf;
+    --accent-color: #fff8ee;
+    --red-color: #f05445;
+    --text-color: #47382e;
+    --yellow-card: #fcc13d;
+    --salmon-card: #f05445;
+    --placeholder-grey: #2aa0bf;
     --font: sans-serif;
     /* Marge latérale proportionnelle à l'écran, comme sur la maquette. */
     --gutter: clamp(1rem, 3.6vw, 3.5rem);

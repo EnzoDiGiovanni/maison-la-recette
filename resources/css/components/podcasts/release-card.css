@@ -6,16 +6,16 @@
     position: relative;
     min-width: 0;
     overflow: hidden;
-    border: 1px solid rgb(0 0 0 / 0.06);
+    border: 1px solid rgb(71 56 46 / 0.06);
     border-radius: 0.35rem;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+    box-shadow: 0 1px 3px rgb(71 56 46 / 0.08);
     transition:
         transform 0.25s ease,
         box-shadow 0.25s ease;
 }
 
 .release-card:hover {
-    box-shadow: 0 6px 16px rgb(0 0 0 / 0.14);
+    box-shadow: 0 6px 16px rgb(71 56 46 / 0.14);
     transform: translateY(-3px);
 }
 

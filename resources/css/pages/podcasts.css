@@ -45,5 +45,5 @@ main ul.release-grid {
 .load-more:hover,
 .load-more:focus-visible {
     background: var(--primary-color);
-    color: #fff;
+    color: var(--accent-color);
 }

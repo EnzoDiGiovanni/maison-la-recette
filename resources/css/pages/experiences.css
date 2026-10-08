@@ -41,7 +41,7 @@ main ul.experience-grid {
 }
 
 .experience-card:hover {
-    box-shadow: 0 10px 24px rgb(95 175 136 / 0.25);
+    box-shadow: 0 10px 24px rgb(97 175 137 / 0.25);
     transform: translateY(-3px);
 }
 
@@ -163,7 +163,7 @@ main ul.past-slider__track {
 
 .past-card__button:hover {
     background: var(--primary-color);
-    color: #fff;
+    color: var(--accent-color);
 }
 
 .past-card__button:focus-visible,
@@ -195,7 +195,7 @@ main ul.past-slider__track {
 
 .past-slider__next:hover {
     background: var(--primary-color);
-    color: #fff;
+    color: var(--accent-color);
 }
 
 .past-slider__next svg {

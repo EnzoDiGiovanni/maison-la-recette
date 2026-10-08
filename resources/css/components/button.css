@@ -9,7 +9,7 @@
     border: 1.5px solid var(--primary-color);
     border-radius: 999px;
     background: var(--primary-color);
-    color: #fff;
+    color: var(--accent-color);
     font-size: clamp(0.9rem, 1.3vw, 1.1rem);
     font-weight: 500;
     text-decoration: none;
@@ -27,17 +27,17 @@
 
 .btn--ghost:hover {
     background: var(--primary-color);
-    color: #fff;
+    color: var(--accent-color);
 }
 
 .btn--light {
-    border-color: #fff;
+    border-color: var(--accent-color);
     background: transparent;
-    color: #fff;
+    color: var(--accent-color);
 }
 
 .btn--light:hover {
-    background: #fff;
+    background: var(--accent-color);
     color: var(--primary-color);
 }
 

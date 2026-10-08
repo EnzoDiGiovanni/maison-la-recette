@@ -6,7 +6,7 @@
     padding: clamp(1rem, 2.6vw, 2.5rem) 1.5rem;
     border-radius: clamp(1rem, 2.6vw, 2.25rem);
     background: var(--primary-color);
-    color: #fff;
+    color: var(--accent-color);
     text-align: center;
 }
 
@@ -24,10 +24,10 @@
 .podcast-cta button,
 .podcast-cta a.podcast-cta__button {
     padding: 0.4em 1.1em;
-    border: 1.5px solid #fff;
+    border: 1.5px solid var(--accent-color);
     border-radius: 999px;
     background: transparent;
-    color: #fff;
+    color: var(--accent-color);
     font-size: clamp(0.7rem, 1.4vw, 1.2rem);
     font-weight: 500;
     cursor: default;
@@ -45,7 +45,7 @@
 }
 
 .podcast-cta:hover {
-    box-shadow: 0 10px 24px rgb(95 175 136 / 0.35);
+    box-shadow: 0 10px 24px rgb(97 175 137 / 0.35);
     transform: translateY(-2px);
 }
 
@@ -59,7 +59,7 @@
 
 .podcast-cta button:hover,
 .podcast-cta a.podcast-cta__button:hover {
-    background: #fff;
+    background: var(--accent-color);
     color: var(--primary-color);
 }
 

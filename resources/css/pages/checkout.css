@@ -15,10 +15,10 @@
 
 .checkout-summary {
     padding: clamp(1.1rem, 2.2vw, 2rem);
-    border: 1px solid rgb(0 0 0 / 0.06);
+    border: 1px solid rgb(71 56 46 / 0.06);
     border-radius: 0.35rem;
     background: var(--yellow-card);
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+    box-shadow: 0 1px 3px rgb(71 56 46 / 0.08);
 }
 
 .checkout-summary__title {
@@ -39,7 +39,7 @@
     justify-content: space-between;
     gap: 1rem;
     padding-block: 0.6em;
-    border-bottom: 1px solid rgb(47 47 47 / 0.25);
+    border-bottom: 1px solid rgb(71 56 46 / 0.25);
 }
 
 .checkout-summary__lines dt {

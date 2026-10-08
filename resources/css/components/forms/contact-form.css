@@ -25,7 +25,7 @@
     width: 100%;
     padding: 0.35em 0;
     border: 0;
-    border-bottom: 1px solid #8a8a7a;
+    border-bottom: 1px solid rgb(71 56 46 / 0.5);
     border-radius: 0;
     background: transparent;
     color: var(--text-color);
@@ -76,7 +76,7 @@
     border: 0;
     border-radius: 999px;
     background: var(--primary-color);
-    color: #fff;
+    color: var(--accent-color);
     font-size: clamp(0.95rem, 2vw, 1.05rem);
     font-weight: 600;
     cursor: pointer;
@@ -86,7 +86,7 @@
 }
 
 .contact-form__submit:hover:not(:disabled) {
-    box-shadow: 0 4px 14px rgb(95 175 136 / 0.45);
+    box-shadow: 0 4px 14px rgb(97 175 137 / 0.45);
     transform: translateY(-2px);
 }
 
