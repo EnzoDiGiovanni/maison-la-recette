@@ -1,0 +1,36 @@
+/* Visuel d'un article : photo de couverture ou aplat de couleur avec flèche */
+.post-media {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0;
+    padding: clamp(0.9rem, 1.6vw, 1.6rem);
+    background: var(--primary-color);
+    color: var(--accent-color);
+    object-fit: cover;
+}
+
+/* Une photo remplit tout le cadre : pas de marge intérieure. */
+img.post-media {
+    padding: 0;
+}
+
+.post-media--jaune {
+    background: var(--yellow-card);
+    color: var(--primary-color);
+}
+
+.post-media--bleu {
+    background: var(--secondary-color);
+}
+
+.post-media--rouge {
+    background: var(--salmon-card);
+}
+
+.post-media__arrow {
+    width: clamp(2rem, 4.5vw, 4rem);
+    height: auto;
+    transition: transform 0.3s ease;
+}

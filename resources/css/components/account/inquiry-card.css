@@ -1,0 +1,44 @@
+/* Demande de devis ou de contact, jaune ou saumon.
+   Type, titre et méta reprennent les classes .booking-card__*. */
+.inquiry-card {
+    padding: clamp(0.9rem, 1.6vw, 1.5rem);
+    border: 1px solid rgb(71 56 46 / 0.06);
+    border-radius: 0.35rem;
+    box-shadow: 0 1px 3px rgb(71 56 46 / 0.08);
+}
+
+.inquiry-card--jaune {
+    background: var(--yellow-card);
+}
+
+.inquiry-card--saumon {
+    background: var(--salmon-card);
+}
+
+.inquiry-card__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.6em;
+}
+
+.inquiry-card__message {
+    display: -webkit-box;
+    margin: 0.8em 0 0;
+    overflow: hidden;
+    font-size: clamp(0.85rem, 1.15vw, 1rem);
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+.inquiry-card__sent {
+    margin: 0.8em 0 0;
+    color: var(--primary-color);
+    font-size: clamp(0.75rem, 1.05vw, 0.9rem);
+    font-weight: 500;
+    text-align: right;
+}

@@ -3,6 +3,15 @@ export type Option = {
     label: string;
 };
 
+export type Speaker = {
+    id: number;
+    name: string;
+    /** Fonction ou structure, par exemple « Cheffe étoilée ». */
+    role: string | null;
+    bio: string | null;
+    photo_url: string | null;
+};
+
 export type Podcast = {
     id: number;
     title: string;
@@ -11,18 +20,34 @@ export type Podcast = {
     number: number | null;
     /** Lien vers la page d'écoute. */
     link: string;
+    /** Fichier audio de l'épisode, importé depuis Ausha. */
+    audio_url: string | null;
+    /** Durée en secondes. */
+    duration: number | null;
     /** Code HTML du lecteur à intégrer, collé depuis le back-office. */
     iframe: string | null;
+    image_url: string | null;
     summary: string | null;
+    /** Phrase marquante de l'intervenant, sans guillemets. */
+    quote: string | null;
+    /** Intervenant de l'épisode, null si non renseigné. */
+    speaker: Speaker | null;
     /** Date au format AAAA-MM-JJ. */
     published_at: string | null;
     is_featured: boolean;
+    /** Dans la liste « à écouter plus tard » du compte connecté. */
+    is_favorite: boolean;
 };
 
 export type Experience = {
     id: number;
     /** value : atelier | food_tour | immersion. */
-    type: Option;
+    type: Option & {
+        /** Segment de la page du format : « ateliers ». */
+        slug: string;
+        /** Intitulé au pluriel : « Les ateliers ». */
+        plural_label: string;
+    };
     title: string;
     slug: string;
     tagline: string | null;
@@ -36,6 +61,21 @@ export type Experience = {
     photo_urls: string[];
 };
 
+/** Format d'expérience et sa page de liste : /experiences/ateliers. */
+export type ExperienceTypeLink = {
+    slug: string;
+    /** Intitulé au pluriel : « Les ateliers ». */
+    label: string;
+};
+
+/** Date d'expérience déjà passée. */
+export type PastEvent = {
+    id: number;
+    /** Date et heure au format ISO 8601. */
+    starts_at: string;
+    experience: Experience;
+};
+
 export type ExperienceSession = {
     id: number;
     /** Date et heure au format ISO 8601. */
@@ -47,11 +87,20 @@ export type ExperienceSession = {
     price: number;
 };
 
+/** Date ouverte à la réservation, avec l'expérience qu'elle programme. */
+export type UpcomingSession = ExperienceSession & {
+    experience: Experience;
+};
+
 export type Testimonial = {
     id: number;
     author_name: string;
     author_role: string | null;
     quote: string;
+    /** Note sur 5. */
+    rating: number;
+    /** Expérience sur laquelle porte l'avis, null pour un avis général. */
+    experience_title: string | null;
     experience_type: string | null;
 };
 
@@ -90,3 +139,62 @@ export type Settings = Partial<
         string | null
     >
 >;
+
+/** Compte client affiché sur /dashboard. */
+export type Account = {
+    name: string;
+    email: string;
+    phone: string | null;
+    company: string | null;
+    /** value : particulier | entreprise. */
+    type: Option;
+    /** Seuls les particuliers réservent en ligne. */
+    can_book_online: boolean;
+    /** Lien vers le back-office, uniquement pour le rôle admin. */
+    admin_url: string | null;
+    /** Date au format AAAA-MM-JJ. */
+    member_since: string | null;
+};
+
+export type Booking = {
+    id: number;
+    /** value : pending | paid | cancelled | refunded. */
+    status: Option;
+    seats: number;
+    /** Montant total en euros. */
+    amount: number;
+    /** Date du paiement (de démonstration), null si non payée. */
+    paid_at: string | null;
+    created_at: string | null;
+    is_upcoming: boolean;
+    can_cancel: boolean;
+    session: {
+        id: number;
+        /** Date et heure au format ISO 8601. */
+        starts_at: string;
+        location: string | null;
+    };
+    experience: {
+        title: string;
+        slug: string;
+        type: string;
+        /** Segment de la page du format : « ateliers ». */
+        type_slug: string;
+        is_published: boolean;
+    };
+};
+
+/** Demande de contact ou de devis envoyée depuis un compte. */
+export type Inquiry = {
+    id: number;
+    type: Option;
+    /** value : new | contacted | quoted | won | lost | closed. */
+    status: Option;
+    experience_type: string | null;
+    participants: number | null;
+    /** Date au format AAAA-MM-JJ. */
+    desired_date: string | null;
+    venue: string | null;
+    message: string;
+    created_at: string | null;
+};

@@ -1,103 +1,69 @@
 import { Head, Link } from '@inertiajs/react';
+import BusinessCard from '@/components/experiences/business-card';
+import PhotoDialog from '@/components/experiences/photo-dialog';
+import { ArrowDownRightIcon } from '@/components/icons';
+import Cover from '@/components/podcasts/cover';
 import SiteLayout from '@/layouts/site-layout';
-import { formatPrice } from '@/lib/format';
-import { contact } from '@/routes';
-import { show } from '@/routes/experiences';
-import type { Experience, Testimonial } from '@/types';
+import { agenda, listing } from '@/routes/experiences';
+import type { Experience, ExperienceTypeLink } from '@/types';
 
 type Props = {
-    experiences: Experience[];
-    testimonials: Testimonial[];
+    /** Formats qui ont au moins une expérience publiée. */
+    types: ExperienceTypeLink[];
+    /** Expérience dont la photo illustre le menu, null si rien n'est publié. */
+    spotlight: Experience | null;
 };
 
-export default function ExperiencesIndex({ experiences, testimonials }: Props) {
-    // Un bloc par format (atelier, food tour, immersion), dans l'ordre d'apparition.
-    const types = experiences
-        .map((experience) => experience.type)
-        .filter(
-            (type, position, all) =>
-                all.findIndex((other) => other.value === type.value) ===
-                position,
-        );
-
+export default function ExperiencesIndex({ types, spotlight }: Props) {
     return (
-        <SiteLayout>
+        <SiteLayout title="Expériences">
             <Head title="Expériences" />
 
-            <h1>Les expériences</h1>
-            <p>
-                Des expériences clés en main et sur mesure, co-construites avec
-                des professionnel·les de l'alimentation et de la gastronomie
-                durable.
-            </p>
+            <div className="experiences-menu">
+                <h1 className="sr-only">Les expériences Maison La recette</h1>
 
-            {types.map((type) => (
-                <section key={type.value}>
-                    <h2>{type.label}</h2>
-                    <ul>
-                        {experiences
-                            .filter(
-                                (experience) =>
-                                    experience.type.value === type.value,
-                            )
-                            .map((experience) => (
-                                <li key={experience.id}>
-                                    {experience.cover_image_url && (
-                                        <img
-                                            src={experience.cover_image_url}
-                                            alt=""
-                                        />
-                                    )}
-                                    <Link href={show.url(experience)}>
-                                        {experience.title}
+                <BusinessCard />
+
+                <section className="experiences-menu__public">
+                    <h2 className="experiences-menu__heading">
+                        Expériences ouvertes à tous·tes
+                    </h2>
+
+                    <div className="experiences-menu__visual">
+                        <Cover
+                            src={spotlight?.cover_image_url}
+                            className="experiences-menu__photo"
+                        />
+                        {spotlight && (
+                            <PhotoDialog
+                                experience={spotlight}
+                                className="btn btn--ghost"
+                            >
+                                Voir les photos
+                            </PhotoDialog>
+                        )}
+                    </div>
+
+                    <nav aria-label="Formats d'expériences">
+                        <ul className="experiences-menu__links">
+                            {types.map((type) => (
+                                <li key={type.slug}>
+                                    <Link href={listing.url(type.slug)}>
+                                        {type.label}
+                                        <ArrowDownRightIcon />
                                     </Link>
-                                    {experience.tagline && (
-                                        <p>{experience.tagline}</p>
-                                    )}
-                                    <p>
-                                        {experience.duration_label}
-                                        {experience.location &&
-                                            ` · ${experience.location}`}
-                                    </p>
-                                    <p>
-                                        {experience.price_from === null
-                                            ? 'Sur devis'
-                                            : `À partir de ${formatPrice(experience.price_from)} par personne`}
-                                    </p>
                                 </li>
                             ))}
-                    </ul>
+                            <li className="experiences-menu__agenda">
+                                <Link href={agenda.url()}>
+                                    Agenda
+                                    <ArrowDownRightIcon />
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
                 </section>
-            ))}
-
-            <section>
-                <h2>Pour les entreprises</h2>
-                <p>
-                    Dans vos locaux, chez nos partenaires ou en immersion :
-                    teambuildings, séminaires, afterworks, déjeuners.
-                </p>
-                <Link
-                    href={contact.url({ query: { type: 'devis_experience' } })}
-                >
-                    Demander un devis
-                </Link>
-            </section>
-
-            <section>
-                <h2>Avis de nos client·es</h2>
-                <ul>
-                    {testimonials.map((testimonial) => (
-                        <li key={testimonial.id}>
-                            <blockquote>{testimonial.quote}</blockquote>
-                            <p>
-                                {testimonial.author_name}
-                                {testimonial.author_role &&
-                                    `, ${testimonial.author_role}`}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+            </div>
         </SiteLayout>
     );
 }

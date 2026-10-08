@@ -1,72 +1,38 @@
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import type { ReactNode } from 'react';
-import { about, contact, home } from '@/routes';
-import { index as experiencesIndex } from '@/routes/experiences';
-import {
-    index as podcastsIndex,
-    offers as podcastOffers,
-} from '@/routes/podcasts';
-import { index as postsIndex } from '@/routes/posts';
+import SiteFooter from '@/components/site-footer';
+import SiteHeader from '@/components/site-header';
 
-export default function SiteLayout({ children }: { children: ReactNode }) {
-    const { settings } = usePage().props;
+type Props = {
+    children: ReactNode;
+    /** Titre encadré affiché au centre de la barre de navigation. */
+    title?: string;
+    /** Sous-titre affiché sous le titre encadré. */
+    subtitle?: string;
+    /**
+     * Partie de l'en-tête en rouge : le titre par défaut, le sous-titre sur
+     * l'étape de réservation.
+     */
+    accent?: 'title' | 'subtitle';
+};
+
+export default function SiteLayout({
+    children,
+    title,
+    subtitle,
+    accent,
+}: Props) {
     const { flash } = usePage();
-
-    const socialLinks = [
-        { label: 'Instagram', url: settings.link_instagram },
-        { label: 'LinkedIn', url: settings.link_linkedin },
-    ].filter((link) => link.url);
 
     return (
         <>
-            <header>
-                <Link href={home.url()}>Maison La recette</Link>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link href={podcastsIndex.url()}>Podcast</Link>
-                        </li>
-                        <li>
-                            <Link href={podcastOffers.url()}>
-                                Offres podcast
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={experiencesIndex.url()}>
-                                Expériences
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={postsIndex.url()}>Blog</Link>
-                        </li>
-                        <li>
-                            <Link href={about.url()}>À propos</Link>
-                        </li>
-                        <li>
-                            <Link href={contact.url()}>Contact</Link>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+            <SiteHeader title={title} subtitle={subtitle} accent={accent} />
 
             {flash.success && <p role="status">{flash.success}</p>}
 
             <main>{children}</main>
 
-            <footer>
-                {settings.contact_email && (
-                    <a href={`mailto:${settings.contact_email}`}>
-                        {settings.contact_email}
-                    </a>
-                )}
-                <ul>
-                    {socialLinks.map((link) => (
-                        <li key={link.label}>
-                            <a href={link.url ?? undefined}>{link.label}</a>
-                        </li>
-                    ))}
-                </ul>
-            </footer>
+            <SiteFooter />
         </>
     );
 }

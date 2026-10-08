@@ -1,86 +1,170 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
+import { useState } from 'react';
+import GuestCard from '@/components/podcasts/guest-card';
+import PodcastCta from '@/components/podcasts/podcast-cta';
+import PodcastSlider from '@/components/podcasts/podcast-slider';
+import PodcastTile from '@/components/podcasts/podcast-tile';
+import ReleaseCard from '@/components/podcasts/release-card';
+import SectionTitle from '@/components/section-title';
+import useReveal from '@/hooks/use-reveal';
 import SiteLayout from '@/layouts/site-layout';
-import { formatDate } from '@/lib/format';
-import { show } from '@/routes/podcasts';
+import { isExtract, podcastGuest } from '@/lib/podcast';
 import type { Podcast } from '@/types';
 
 type Props = {
     podcasts: Podcast[];
 };
 
+/** Épisodes affichés d'emblée, puis ajoutés à chaque « Charger plus ». */
+const PAGE_SIZE = 10;
+
+/** Damier des grandes cartes : vert/jaune puis jaune/vert. */
+function tone(position: number): 'vert' | 'jaune' {
+    return (position + Math.floor(position / 2)) % 2 === 0 ? 'vert' : 'jaune';
+}
+
+type Guest = { name: string; photoUrl: string | null; podcast: Podcast };
+
 export default function PodcastsIndex({ podcasts }: Props) {
-    const { settings } = usePage().props;
+    const [visible, setVisible] = useState(PAGE_SIZE);
+    useReveal();
 
-    const seasons = [...new Set(podcasts.map((podcast) => podcast.season))];
+    // Les épisodes arrivent du plus récent au plus ancien.
+    const extracts = podcasts.filter(isExtract);
+    const episodes = podcasts.filter((podcast) => !isExtract(podcast));
 
-    const stats = [
-        { label: 'Note moyenne', value: settings.podcast_rating },
-        { label: 'Avis', value: settings.podcast_reviews_count },
-        { label: "Taux d'écoute moyen", value: settings.podcast_listen_rate },
-        { label: 'Écoutes', value: settings.podcast_total_listens },
-        { label: 'Épisodes', value: settings.podcast_episodes_count },
-    ].filter((stat) => stat.value);
+    // Épisodes marqués « à la une » dans le back-office.
+    const featured = episodes
+        .filter((podcast) => podcast.is_featured)
+        .slice(0, 5);
 
-    const platforms = [
-        { label: 'Ausha', url: settings.link_ausha },
-        { label: 'Spotify', url: settings.link_spotify },
-        { label: 'Apple Podcasts', url: settings.link_apple_podcasts },
-        { label: 'Deezer', url: settings.link_deezer },
-        { label: 'YouTube', url: settings.link_youtube },
-    ].filter((platform) => platform.url);
+    // Sorties du mois : le mois en cours ou, s'il n'a encore aucun épisode,
+    // le dernier mois qui en compte (AAAA-MM, les épisodes sont déjà triés).
+    const latestMonth = episodes
+        .find((podcast) => podcast.published_at)
+        ?.published_at?.slice(0, 7);
+    const monthReleases = episodes.filter(
+        (podcast) =>
+            latestMonth !== undefined &&
+            podcast.published_at?.startsWith(latestMonth),
+    );
+    const month = latestMonth
+        ? new Intl.DateTimeFormat('fr-FR', {
+              month: 'long',
+              timeZone: 'UTC',
+          }).format(new Date(`${latestMonth}-01T00:00:00Z`))
+        : '';
+
+    // Intervenant·es sans doublons, dans l'ordre des épisodes.
+    const guests = [
+        ...new Map(
+            episodes.flatMap((podcast): [string, Guest][] => {
+                const name = podcastGuest(podcast);
+
+                return name
+                    ? [
+                          [
+                              name,
+                              {
+                                  name,
+                                  photoUrl: podcast.speaker?.photo_url ?? null,
+                                  podcast,
+                              },
+                          ],
+                      ]
+                    : [];
+            }),
+        ).values(),
+    ];
 
     return (
-        <SiteLayout>
+        <SiteLayout title="Podcast">
             <Head title="Podcast" />
 
-            <h1>Le podcast La recette</h1>
-            <p>
-                La recette donne la parole à des producteur·ices, chef·fes,
-                artisan·es ou entrepreneur·ses engagé·es.
-            </p>
+            <div className="podcast-page">
+                <h1 className="sr-only">Le podcast La recette</h1>
 
-            <dl>
-                {stats.map((stat) => (
-                    <div key={stat.label}>
-                        <dt>{stat.label}</dt>
-                        <dd>{stat.value}</dd>
-                    </div>
-                ))}
-            </dl>
-
-            <ul>
-                {platforms.map((platform) => (
-                    <li key={platform.label}>
-                        <a href={platform.url ?? undefined}>{platform.label}</a>
-                    </li>
-                ))}
-            </ul>
-
-            {seasons.map((season) => (
-                <section key={season ?? 'hors-saison'}>
-                    <h2>
-                        {season === null ? 'Hors saison' : `Saison ${season}`}
-                    </h2>
-                    <ul>
-                        {podcasts
-                            .filter((podcast) => podcast.season === season)
-                            .map((podcast) => (
-                                <li key={podcast.id}>
-                                    <Link href={show.url(podcast)}>
-                                        {podcast.number !== null &&
-                                            `#${podcast.number} `}
-                                        {podcast.title}
-                                    </Link>
-                                    {podcast.published_at && (
-                                        <time dateTime={podcast.published_at}>
-                                            {formatDate(podcast.published_at)}
-                                        </time>
-                                    )}
-                                </li>
+                {featured.length > 0 && (
+                    <section className="reveal">
+                        <SectionTitle>Podcasts à la une</SectionTitle>
+                        <ul className="podcast-row">
+                            {featured.map((podcast) => (
+                                <PodcastTile
+                                    key={podcast.id}
+                                    podcast={podcast}
+                                />
                             ))}
+                        </ul>
+                    </section>
+                )}
+
+                <div className="reveal">
+                    <PodcastCta />
+                </div>
+
+                {monthReleases.length > 0 && (
+                    <section className="reveal">
+                        <SectionTitle>
+                            {/* « d'octobre », « de septembre ». */}
+                            Les podcasts{' '}
+                            {/^[aeiouéèh]/i.test(month) ? "d'" : 'de '}
+                            {month}
+                        </SectionTitle>
+                        <ul className="release-grid">
+                            {monthReleases.map((podcast, position) => (
+                                <ReleaseCard
+                                    key={podcast.id}
+                                    podcast={podcast}
+                                    tone={tone(position)}
+                                />
+                            ))}
+                        </ul>
+                    </section>
+                )}
+
+                {extracts.length > 0 && (
+                    <section className="reveal">
+                        <SectionTitle>Les extraits</SectionTitle>
+                        <PodcastSlider label="extraits">
+                            {extracts.map((podcast) => (
+                                <PodcastTile
+                                    key={podcast.id}
+                                    podcast={podcast}
+                                />
+                            ))}
+                        </PodcastSlider>
+                    </section>
+                )}
+
+                <section className="reveal">
+                    <SectionTitle>Tous les podcasts</SectionTitle>
+                    <ul className="podcast-row podcast-row--wrap">
+                        {episodes.slice(0, visible).map((podcast) => (
+                            <PodcastTile key={podcast.id} podcast={podcast} />
+                        ))}
                     </ul>
+                    {visible < episodes.length && (
+                        <button
+                            type="button"
+                            className="load-more"
+                            onClick={() => setVisible(visible + PAGE_SIZE)}
+                        >
+                            Charger 10 de plus
+                        </button>
+                    )}
                 </section>
-            ))}
+
+                {guests.length > 0 && (
+                    <section className="reveal">
+                        <SectionTitle>Les intervenants</SectionTitle>
+                        <PodcastSlider label="intervenants">
+                            {guests.map((guest) => (
+                                <GuestCard key={guest.name} {...guest} />
+                            ))}
+                        </PodcastSlider>
+                    </section>
+                )}
+            </div>
         </SiteLayout>
     );
 }

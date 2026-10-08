@@ -1,11 +1,86 @@
-@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700&display=swap');
+@import 'tailwindcss';
 
-@import "./components/base.css";
-@import "./components/header.css";
-@import "./components/hero.css";
-@import "./components/split-section.css";
-@import "./components/values.css";
-@import "./components/quote.css";
-@import "./components/about.css";
-@import "./components/contact.css";
-@import "./components/back-to-top.css";
+/*
+ * Un fichier par composant ou par page, rangé comme resources/js :
+ * components/podcasts/podcast-tile.tsx → components/podcasts/podcast-tile.css.
+ * Chaque fichier ne style que son propre bloc (.podcast-tile, .podcast-tile__*).
+ */
+
+/* Base : variables, mise en page globale, utilitaires, animations */
+@import './base/draft.css';
+@import './base/variables.css';
+@import './base/layout.css';
+@import './base/utilities.css';
+@import './base/motion.css';
+
+/* Composants partagés */
+@import './components/site-header.css';
+@import './components/flash.css';
+@import './components/section-title.css';
+@import './components/button.css';
+@import './components/cta-block.css';
+@import './components/account-empty.css';
+
+@import './components/forms/field.css';
+@import './components/forms/contact-form.css';
+@import './components/forms/account-form.css';
+
+@import './components/account/booking-card.css';
+@import './components/account/cancel-dialog.css';
+@import './components/account/inquiry-card.css';
+@import './components/account/status-pill.css';
+
+@import './components/devis/quote-layout.css';
+
+@import './components/experiences/business-card.css';
+@import './components/experiences/photo-dialog.css';
+@import './components/experiences/past-slider.css';
+@import './components/experiences/review-list.css';
+@import './components/experiences/upcoming-card.css';
+
+@import './components/podcasts/account-dialog.css';
+@import './components/podcasts/cover.css';
+@import './components/podcasts/favorite-button.css';
+@import './components/podcasts/guest-card.css';
+@import './components/podcasts/podcast-cta.css';
+@import './components/podcasts/podcast-row.css';
+@import './components/podcasts/podcast-slider.css';
+@import './components/podcasts/podcast-tile.css';
+@import './components/podcasts/release-card.css';
+
+@import './components/posts/post-body.css';
+@import './components/posts/post-feature.css';
+@import './components/posts/post-media.css';
+@import './components/posts/post-tile.css';
+
+/* Pages */
+@import './pages/about.css';
+@import './pages/auth.css';
+@import './pages/checkout.css';
+@import './pages/contact.css';
+@import './pages/dashboard.css';
+@import './pages/experiences.css';
+@import './pages/home/base.css';
+@import './pages/home/header.css';
+@import './pages/home/hero.css';
+@import './pages/home/split-section.css';
+@import './pages/home/values.css';
+@import './pages/home/quote.css';
+@import './pages/home/about.css';
+@import './pages/home/contact.css';
+@import './pages/home/back-to-top.css';
+@import './pages/podcast-show.css';
+@import './pages/podcasts.css';
+@import './pages/posts.css';
+@import './pages/reservation.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@theme {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+}

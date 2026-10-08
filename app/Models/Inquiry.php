@@ -7,10 +7,12 @@ use App\Enums\InquiryStatus;
 use App\Enums\InquiryType;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
+ * @property int|null $user_id
  * @property InquiryType $type
  * @property string $name
  * @property string $email
@@ -25,10 +27,21 @@ use Illuminate\Support\Carbon;
  * @property string|null $internal_notes
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read User|null $user
  */
-#[Fillable(['type', 'name', 'email', 'phone', 'company', 'experience_type', 'participants', 'desired_date', 'venue', 'message', 'status', 'internal_notes'])]
+#[Fillable(['user_id', 'type', 'name', 'email', 'phone', 'company', 'experience_type', 'participants', 'desired_date', 'venue', 'message', 'status', 'internal_notes'])]
 class Inquiry extends Model
 {
+    /**
+     * The customer account the request was sent from, if any.
+     *
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

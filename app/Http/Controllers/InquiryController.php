@@ -14,19 +14,26 @@ use Inertia\Response;
 class InquiryController extends Controller
 {
     /**
-     * The contact page, also used for quote requests (?type=devis_experience).
+     * Simple contact page. Old ?type=devis_* links land on the right quote form.
      */
-    public function create(Request $request): Response
+    public function create(Request $request): Response|RedirectResponse
     {
-        $type = InquiryType::tryFrom($request->string('type')->toString()) ?? InquiryType::Contact;
+        $type = InquiryType::tryFrom($request->string('type')->toString());
 
-        return Inertia::render('contact', [
-            'defaultType' => $type->value,
+        return match ($type) {
+            InquiryType::ExperienceQuote => to_route('contact.quote.experience'),
+            InquiryType::PodcastQuote => to_route('contact.quote.podcast'),
+            default => Inertia::render('contact'),
+        };
+    }
+
+    /**
+     * Quote form for corporate experiences; the format can be preset from an experience page.
+     */
+    public function createExperienceQuote(Request $request): Response
+    {
+        return Inertia::render('devis/experience', [
             'defaultExperienceType' => ExperienceType::tryFrom($request->string('experience_type')->toString())?->value,
-            'inquiryTypes' => array_map(
-                fn (InquiryType $case): array => ['value' => $case->value, 'label' => $case->getLabel()],
-                InquiryType::cases(),
-            ),
             'experienceTypes' => array_map(
                 fn (ExperienceType $case): array => ['value' => $case->value, 'label' => $case->getLabel()],
                 ExperienceType::cases(),
@@ -34,12 +41,21 @@ class InquiryController extends Controller
         ]);
     }
 
+    /**
+     * Quote form for corporate podcasts.
+     */
+    public function createPodcastQuote(): Response
+    {
+        return Inertia::render('devis/podcast');
+    }
+
     public function store(StoreInquiryRequest $request): RedirectResponse
     {
-        Inquiry::query()->create($request->validated());
+        // Sent from an account: the request then shows up in the customer's dashboard.
+        Inquiry::query()->create([...$request->validated(), 'user_id' => $request->user()?->id]);
 
         Inertia::flash('success', 'Merci ! Votre message a bien été envoyé. Nous vous répondons sous 48 h.');
 
-        return to_route('contact');
+        return back();
     }
 }

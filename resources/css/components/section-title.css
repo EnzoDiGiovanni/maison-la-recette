@@ -1,0 +1,29 @@
+/* Titres de section verts avec flèche */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    margin-block: 0 clamp(0.5rem, 1.2vw, 1rem);
+    color: var(--primary-color);
+    font-size: clamp(0.9rem, 1.9vw, 1.6rem);
+    font-weight: 500;
+}
+
+.section-title__accent {
+    color: var(--red-color);
+    font-weight: 600;
+}
+
+.section-title__arrow {
+    width: 0.6em;
+    height: 0.6em;
+}
+
+/* La flèche du titre bouge pour inviter au scroll. */
+.section-title__arrow {
+    transition: transform 0.3s ease;
+}
+
+section:hover .section-title__arrow {
+    transform: translate(0.15em, 0.15em);
+}

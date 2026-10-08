@@ -19,7 +19,12 @@ class ExperienceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => ['value' => $this->type->value, 'label' => $this->type->getLabel()],
+            'type' => [
+                'value' => $this->type->value,
+                'label' => $this->type->getLabel(),
+                'slug' => $this->type->slug(),
+                'plural_label' => $this->type->pluralLabel(),
+            ],
             'title' => $this->title,
             'slug' => $this->slug,
             'tagline' => $this->tagline,

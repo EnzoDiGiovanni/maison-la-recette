@@ -14,23 +14,20 @@ class PodcastController extends Controller
     {
         return Inertia::render('podcasts/index', [
             'podcasts' => PodcastResource::collection(
-                Podcast::query()->orderByDesc('season')->orderByDesc('number')->latest('published_at')->get(),
+                Podcast::query()->published()->with('speaker')->latest('published_at')->latest('id')->get(),
             )->resolve($request),
         ]);
     }
 
     public function show(Request $request, Podcast $podcast): Response
     {
+        abort_unless($podcast->is_published, 404);
+
         return Inertia::render('podcasts/show', [
             'podcast' => PodcastResource::make($podcast)->resolve($request),
+            'otherPodcasts' => PodcastResource::collection(
+                Podcast::query()->published()->with('speaker')->whereKeyNot($podcast->getKey())->latest('published_at')->latest('id')->limit(6)->get(),
+            )->resolve($request),
         ]);
-    }
-
-    /**
-     * The B2B offers built around the podcast: sponsoring, studio, events.
-     */
-    public function offers(): Response
-    {
-        return Inertia::render('podcasts/offers');
     }
 }

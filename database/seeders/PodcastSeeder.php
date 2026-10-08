@@ -3,15 +3,22 @@
 namespace Database\Seeders;
 
 use App\Models\Podcast;
+use App\Models\Speaker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class PodcastSeeder extends Seeder
 {
     /**
+     * The guests are real people: no words are put in their mouths.
+     */
+    private const string PLACEHOLDER_QUOTE = 'Citation d\'exemple, à remplacer par une phrase marquante de l\'épisode.';
+
+    /**
      * Demo episodes built from the guests shown in the client's presentation.
      * Seasons, numbers and dates are placeholders; the iframe is left empty
-     * until the real embed codes are pasted in the back office.
+     * until the real embed codes are pasted in the back office. Each one is
+     * linked to its intervenant from SpeakerSeeder.
      */
     public function run(): void
     {
@@ -27,7 +34,7 @@ class PodcastSeeder extends Seeder
         foreach ($podcasts as $index => [$guest, $theme, $season, $number, $hook]) {
             $title = "{$guest} — {$theme}";
 
-            Podcast::query()->firstOrCreate(
+            $podcast = Podcast::query()->firstOrCreate(
                 ['slug' => Str::slug("{$guest} {$theme}")],
                 [
                     'title' => $title,
@@ -39,6 +46,14 @@ class PodcastSeeder extends Seeder
                     'is_featured' => $index >= count($podcasts) - 2,
                 ],
             );
+
+            // Also fills demo podcasts seeded before intervenants existed.
+            if ($podcast->speaker_id === null && $podcast->quote === null) {
+                $podcast->update([
+                    'speaker_id' => Speaker::query()->where('name', $guest)->value('id'),
+                    'quote' => self::PLACEHOLDER_QUOTE,
+                ]);
+            }
         }
     }
 }

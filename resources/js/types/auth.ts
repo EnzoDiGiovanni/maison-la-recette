@@ -1,14 +1,17 @@
+export type AccountType = 'particulier' | 'entreprise';
+
+/** Compte connecté, partagé sur toutes les pages. */
 export type User = {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+    phone: string | null;
+    /** Structure, renseignée pour les comptes entreprise. */
+    company: string | null;
+    account_type: AccountType;
 };
 
 export type Auth = {
-    user: User;
+    /** null pour un visiteur non connecté. */
+    user: User | null;
 };

@@ -1,0 +1,46 @@
+/* Encart jaune « Pour les entreprises » du menu expériences */
+.business-card {
+    display: grid;
+    gap: clamp(0.6rem, 1.2vw, 1.1rem);
+    padding: clamp(1.4rem, 2.6vw, 2.4rem) clamp(1.4rem, 3.4vw, 3.2rem)
+        clamp(1.6rem, 3vw, 2.8rem);
+    border-radius: clamp(1rem, 1.6vw, 1.5rem);
+    border: 4px solid var(--yellow-card);
+    font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+    line-height: 1.5;
+}
+
+.business-card__title {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: clamp(1.15rem, 2vw, 1.8rem);
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.business-card p {
+    margin: 0;
+}
+
+.business-card p + p {
+    margin-top: 0.9em;
+}
+
+main ul.business-card__list {
+    display: block;
+    margin: 0;
+    padding-left: 1.6em;
+    list-style: disc;
+}
+
+.business-card .btn {
+    justify-self: center;
+    margin-top: 0.6em;
+}
+
+/* Sur le jaune, le survol reste lisible : fond crème, texte brun. */
+.business-card .btn--light:hover {
+    color: var(--text-color);
+}

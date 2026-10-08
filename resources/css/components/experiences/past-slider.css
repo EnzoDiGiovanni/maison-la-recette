@@ -1,0 +1,139 @@
+/* « Expériences passées » : rangée défilante de cartes jaunes */
+.past-slider {
+    position: relative;
+}
+
+main ul.past-slider__track {
+    display: flex;
+    gap: clamp(1rem, 1.7vw, 1.75rem);
+    margin: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.past-slider__track::-webkit-scrollbar {
+    display: none;
+}
+
+.past-card {
+    display: grid;
+    flex: 0 0 calc((100% - 2 * clamp(1rem, 1.7vw, 1.75rem)) / 3);
+    grid-template-rows: 1fr auto;
+    gap: clamp(0.6rem, 1vw, 1rem);
+    scroll-snap-align: start;
+}
+
+.past-card__panel {
+    overflow: hidden;
+    border-radius: clamp(1.25rem, 2vw, 2rem);
+    background: var(--yellow-card);
+}
+
+.past-card__photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 21 / 4;
+    margin: 0;
+    background: var(--placeholder-grey);
+    object-fit: cover;
+}
+
+.past-card__body {
+    padding: clamp(0.6rem, 0.9vw, 0.9rem) clamp(1rem, 1.4vw, 1.4rem)
+        clamp(0.8rem, 1.1vw, 1.1rem);
+}
+
+.past-card__title {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.25vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.past-card__meta {
+    margin: 0.15em 0 0;
+    font-size: clamp(0.8rem, 1vw, 0.95rem);
+}
+
+.past-card__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 0.3em 1em;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--primary-color);
+    font-size: clamp(0.9rem, 1.15vw, 1.1rem);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.past-card__button svg {
+    width: 0.6em;
+    height: 0.6em;
+}
+
+.past-card__button:hover {
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.past-card__button:focus-visible,
+.past-slider__next:focus-visible {
+    outline: 2px solid var(--red-color);
+    outline-offset: 2px;
+}
+
+.past-slider__next {
+    position: absolute;
+    /* Centré sur les cartes, sans compter le bouton « Voir les photos ». */
+    top: calc((100% - 3.2em) / 2);
+    left: calc(100% + clamp(0.75rem, 3vw, 3.25rem));
+    display: grid;
+    place-items: center;
+    width: clamp(1.75rem, 3vw, 3rem);
+    aspect-ratio: 1;
+    padding: 0;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.past-slider__next:hover {
+    background: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.past-slider__next svg {
+    width: 70%;
+    height: 70%;
+}
+
+@media (max-width: 760px) {
+    .past-card {
+        flex-basis: 78%;
+    }
+
+    .past-card__photo {
+        aspect-ratio: 4 / 1;
+    }
+
+    /* Plus de marge libre : la flèche se pose sur le bord de la rangée. */
+    .past-slider__next {
+        right: -0.5rem;
+        left: auto;
+        width: 2.25rem;
+    }
+}

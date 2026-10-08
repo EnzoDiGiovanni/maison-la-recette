@@ -15,13 +15,14 @@ use App\Models\Inquiry;
 use App\Models\Podcast;
 use App\Models\Post;
 use App\Models\Setting;
+use App\Models\Speaker;
 use App\Models\Testimonial;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 
 it('seeds demo data for every resource without duplicating on a second run', function () {
     $counts = fn (): array => [
-        Podcast::count(), Experience::count(), ExperienceSession::count(), Booking::count(),
+        Podcast::count(), Speaker::count(), Experience::count(), ExperienceSession::count(), Booking::count(),
         Inquiry::count(), Testimonial::count(), Post::count(), Setting::count(), User::count(),
     ];
 
@@ -73,4 +74,16 @@ it('refuses to seed in production', function () {
     expect(fn () => app(DatabaseSeeder::class)->run())->toThrow(RuntimeException::class);
 
     expect(User::count())->toBe(0);
+});
+
+it('links every seeded podcast to its intervenant, including ones seeded earlier', function () {
+    $this->seed();
+
+    Podcast::query()->update(['speaker_id' => null, 'quote' => null]);
+    Podcast::where('slug', 'nadia-sammut-cheffe-etoilee')->update(['quote' => 'Citation saisie à la main.']);
+
+    $this->seed();
+
+    expect(Podcast::whereNull('speaker_id')->pluck('slug')->all())->toBe(['nadia-sammut-cheffe-etoilee'])
+        ->and(Podcast::where('slug', 'charles-guirriec-la-peche-durable')->firstOrFail()->speaker->name)->toBe('Charles Guirriec');
 });

@@ -1,38 +1,21 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import type { FormEvent } from 'react';
+import TextField from '@/components/forms/text-field';
+import TextareaField from '@/components/forms/textarea-field';
+import useReveal from '@/hooks/use-reveal';
 import SiteLayout from '@/layouts/site-layout';
 import { store } from '@/routes/contact';
-import type { Option } from '@/types';
 
-type Props = {
-    /** Type présélectionné, repris du paramètre ?type= de l'URL. */
-    defaultType: string;
-    defaultExperienceType: string | null;
-    inquiryTypes: Option[];
-    experienceTypes: Option[];
-};
+export default function Contact() {
+    useReveal();
+    const { settings } = usePage().props;
 
-export default function Contact({
-    defaultType,
-    defaultExperienceType,
-    inquiryTypes,
-    experienceTypes,
-}: Props) {
     const form = useForm({
-        type: defaultType,
+        type: 'contact',
         name: '',
         email: '',
-        phone: '',
-        company: '',
-        experience_type: defaultExperienceType ?? '',
-        participants: '',
-        desired_date: '',
-        venue: '',
         message: '',
     });
-
-    const isExperienceQuote = form.data.type === 'devis_experience';
-    const isQuote = form.data.type !== 'contact';
 
     function submit(event: FormEvent) {
         event.preventDefault();
@@ -44,195 +27,64 @@ export default function Contact({
     }
 
     return (
-        <SiteLayout>
+        <SiteLayout title="Contact">
             <Head title="Contact" />
 
-            <h1>Contact et demande de devis</h1>
+            <div className="contact-simple reveal">
+                <h1 className="contact-split__title">Contact</h1>
+                <p className="contact-simple__intro">
+                    Une question, une idée, un projet&nbsp;? Écrivez-nous, nous
+                    vous répondons sous 48&nbsp;h.
+                </p>
 
-            <form onSubmit={submit}>
-                <div>
-                    <label htmlFor="type">Votre demande</label>
-                    <select
-                        id="type"
-                        value={form.data.type}
-                        onChange={(event) =>
-                            form.setData('type', event.target.value)
-                        }
-                    >
-                        {inquiryTypes.map((type) => (
-                            <option key={type.value} value={type.value}>
-                                {type.label}
-                            </option>
-                        ))}
-                    </select>
-                    {form.errors.type && <p role="alert">{form.errors.type}</p>}
-                </div>
-
-                <div>
-                    <label htmlFor="name">Nom</label>
-                    <input
+                <form className="contact-form" onSubmit={submit}>
+                    <TextField
                         id="name"
+                        label="Nom"
                         required
                         value={form.data.name}
-                        onChange={(event) =>
-                            form.setData('name', event.target.value)
-                        }
+                        onChange={(value) => form.setData('name', value)}
+                        error={form.errors.name}
                     />
-                    {form.errors.name && <p role="alert">{form.errors.name}</p>}
-                </div>
 
-                <div>
-                    <label htmlFor="email">E-mail</label>
-                    <input
+                    <TextField
                         id="email"
+                        label="Mail"
                         type="email"
                         required
                         value={form.data.email}
-                        onChange={(event) =>
-                            form.setData('email', event.target.value)
-                        }
+                        onChange={(value) => form.setData('email', value)}
+                        error={form.errors.email}
                     />
-                    {form.errors.email && (
-                        <p role="alert">{form.errors.email}</p>
-                    )}
-                </div>
 
-                <div>
-                    <label htmlFor="phone">Téléphone</label>
-                    <input
-                        id="phone"
-                        type="tel"
-                        value={form.data.phone}
-                        onChange={(event) =>
-                            form.setData('phone', event.target.value)
-                        }
-                    />
-                    {form.errors.phone && (
-                        <p role="alert">{form.errors.phone}</p>
-                    )}
-                </div>
-
-                {isQuote && (
-                    <div>
-                        <label htmlFor="company">Structure</label>
-                        <input
-                            id="company"
-                            value={form.data.company}
-                            onChange={(event) =>
-                                form.setData('company', event.target.value)
-                            }
-                        />
-                        {form.errors.company && (
-                            <p role="alert">{form.errors.company}</p>
-                        )}
-                    </div>
-                )}
-
-                {isExperienceQuote && (
-                    <>
-                        <div>
-                            <label htmlFor="experience_type">
-                                Format souhaité
-                            </label>
-                            <select
-                                id="experience_type"
-                                value={form.data.experience_type}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'experience_type',
-                                        event.target.value,
-                                    )
-                                }
-                            >
-                                <option value="">Je ne sais pas encore</option>
-                                {experienceTypes.map((type) => (
-                                    <option key={type.value} value={type.value}>
-                                        {type.label}
-                                    </option>
-                                ))}
-                            </select>
-                            {form.errors.experience_type && (
-                                <p role="alert">
-                                    {form.errors.experience_type}
-                                </p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="participants">
-                                Nombre de participant·es
-                            </label>
-                            <input
-                                id="participants"
-                                type="number"
-                                min={1}
-                                value={form.data.participants}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'participants',
-                                        event.target.value,
-                                    )
-                                }
-                            />
-                            {form.errors.participants && (
-                                <p role="alert">{form.errors.participants}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="desired_date">Date souhaitée</label>
-                            <input
-                                id="desired_date"
-                                type="date"
-                                value={form.data.desired_date}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'desired_date',
-                                        event.target.value,
-                                    )
-                                }
-                            />
-                            {form.errors.desired_date && (
-                                <p role="alert">{form.errors.desired_date}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="venue">Lieu souhaité</label>
-                            <input
-                                id="venue"
-                                value={form.data.venue}
-                                onChange={(event) =>
-                                    form.setData('venue', event.target.value)
-                                }
-                            />
-                            {form.errors.venue && (
-                                <p role="alert">{form.errors.venue}</p>
-                            )}
-                        </div>
-                    </>
-                )}
-
-                <div>
-                    <label htmlFor="message">Message</label>
-                    <textarea
+                    <TextareaField
                         id="message"
+                        label="Votre message"
                         required
-                        rows={6}
+                        rows={5}
                         value={form.data.message}
-                        onChange={(event) =>
-                            form.setData('message', event.target.value)
-                        }
+                        onChange={(value) => form.setData('message', value)}
+                        error={form.errors.message}
                     />
-                    {form.errors.message && (
-                        <p role="alert">{form.errors.message}</p>
-                    )}
-                </div>
 
-                <button type="submit" disabled={form.processing}>
-                    Envoyer
-                </button>
-            </form>
+                    <button
+                        type="submit"
+                        className="contact-form__submit"
+                        disabled={form.processing}
+                    >
+                        Envoyer le message
+                    </button>
+
+                    {settings.contact_email && (
+                        <p className="contact-form__alt">
+                            Vous préférez l'e-mail&nbsp;?{' '}
+                            <a href={`mailto:${settings.contact_email}`}>
+                                {settings.contact_email}
+                            </a>
+                        </p>
+                    )}
+                </form>
+            </div>
         </SiteLayout>
     );
 }
