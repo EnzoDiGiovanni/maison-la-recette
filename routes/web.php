@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\StudioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -27,6 +28,7 @@ Route::get('/blog', [PostController::class, 'index'])->name('posts.index');
 Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/a-propos', AboutController::class)->name('about');
+Route::get('/studio', StudioController::class)->name('studio');
 
 Route::get('/contact', [InquiryController::class, 'create'])->name('contact');
 Route::get('/devis-experience', [InquiryController::class, 'createExperienceQuote'])->name('contact.quote.experience');

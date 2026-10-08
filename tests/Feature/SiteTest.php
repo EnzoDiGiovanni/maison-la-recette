@@ -154,6 +154,9 @@ it('renders the about and contact pages', function () {
     $this->get(route('about'))
         ->assertInertia(fn (Assert $page) => $page->component('about')->has('settings.about_text'));
 
+    $this->get(route('studio'))
+        ->assertInertia(fn (Assert $page) => $page->component('studio'));
+
     $this->get(route('contact'))
         ->assertInertia(fn (Assert $page) => $page->component('contact'));
 

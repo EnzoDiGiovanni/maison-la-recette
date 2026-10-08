@@ -20,17 +20,23 @@ export function initSiteLoader(): void {
 
     const hide = () => {
         loader.classList.add('site-loader--hidden');
-        video?.pause();
+
+        if (video) {
+            video.pause();
+            video.currentTime = 0;
+        }
     };
 
     const show = () => {
-        // Sans source (animations réduites), l'image fixe reste affichée.
-        if (video?.src) {
-            video.currentTime = 0;
-            void video.play().catch(() => {});
+        loader.classList.remove('site-loader--hidden');
+
+        if (!video) {
+            return;
         }
 
-        loader.classList.remove('site-loader--hidden');
+        video.loop = false;
+        video.currentTime = 0;
+        void video.play().catch(() => {});
     };
 
     // Première page de la session : l'animation du logo est jouée en entier.
@@ -51,7 +57,7 @@ export function initSiteLoader(): void {
             window.clearTimeout(fallback);
             video.removeEventListener('ended', endIntro);
             video.removeEventListener('error', endIntro);
-            video.loop = true;
+            video.loop = false;
             hide();
         };
         const fallback = window.setTimeout(endIntro, INTRO_TIMEOUT_MS);

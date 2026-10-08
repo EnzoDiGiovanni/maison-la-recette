@@ -33,6 +33,10 @@
 
 @import './components/devis/quote-layout.css';
 
+@import './components/studio/studio-intro.css';
+@import './components/studio/studio-timeline.css';
+@import './components/studio/step-card.css';
+
 @import './components/experiences/business-card.css';
 @import './components/experiences/photo-dialog.css';
 @import './components/experiences/past-slider.css';
