@@ -1,37 +1,53 @@
-main ol.studio-timeline__steps {
-    --photo-width: clamp(15rem, 22vw, 18rem);
+/* Frise Studio : un trait vertical traverse les photos jusqu'au bouton devis. */
+.studio-timeline {
+    --photo-width: clamp(11rem, 25vw, 22rem);
+    --inset: clamp(0rem, 4.3vw, 4rem);
 
     position: relative;
+    margin-top: clamp(2.5rem, 6vw, 5rem);
+    padding: clamp(4rem, 12vw, 9rem) clamp(0rem, 8vw, 9rem)
+        clamp(2rem, 6vw, 5rem) var(--inset);
+}
+
+.studio-timeline::before {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    bottom: clamp(3rem, 7vw, 6rem);
+    left: calc(var(--inset) + var(--photo-width) / 2);
+
+    width: 1px;
+    background: var(--primary-color);
+}
+
+main ol.studio-timeline__steps {
     display: grid;
-    gap: clamp(2.25rem, 5vw, 4rem);
+    gap: clamp(2.5rem, 11vw, 8rem);
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-main ol.studio-timeline__steps::before {
-    content: '';
-
-    position: absolute;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    left: calc(var(--photo-width) / 2);
-
-    width: 1px;
-    background: rgba(91, 181, 141, 0.9);
-
-    z-index: 0;
-}
-
-main ol.studio-timeline__steps > li {
-    position: relative;
-    z-index: 1;
-}
-
+/* Bouton centré sur le trait, qui vient s'y terminer. */
 main .studio-timeline__cta {
     position: relative;
-    z-index: 1;
-    margin-top: 0.5rem;
-    margin-left: calc(var(--photo-width) / 2 - 5.5rem);
+    display: flex;
     width: fit-content;
+    margin-top: clamp(3rem, 8vw, 6rem);
+    margin-left: calc(var(--photo-width) / 2);
+    padding: 0.7em 1.1em;
+    font-size: clamp(1rem, 1.9vw, 1.5rem);
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+main .studio-timeline__cta:hover {
+    background: var(--accent-color);
+}
+
+@media (max-width: 640px) {
+    .studio-timeline {
+        --photo-width: min(100%, 18rem);
+    }
 }

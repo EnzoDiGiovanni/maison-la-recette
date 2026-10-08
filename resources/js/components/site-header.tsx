@@ -5,21 +5,18 @@ import { about, contact, dashboard, home, login, studio } from '@/routes';
 import { index as experiencesIndex } from '@/routes/experiences';
 import { index as podcastsIndex } from '@/routes/podcasts';
 import { index as postsIndex } from '@/routes/posts';
+import logoImg from '../../images/logo.png';
 
 type Props = {
-    /** Titre encadré au centre de la barre, ex. « Podcast ». */
+    /** Titre au centre de la barre, ex. « Podcast ». */
     title?: string;
     /** Sous-titre sous le titre, ex. « Les ateliers ». */
     subtitle?: string;
-    /** Partie en rouge : le titre par défaut, ou le sous-titre. */
-    accent?: 'title' | 'subtitle';
+    /** Accueil : le titre est le h1 de la page, sans les deux filets. */
+    isHome?: boolean;
 };
 
-export default function SiteHeader({
-    title,
-    subtitle,
-    accent = 'title',
-}: Props) {
+export default function SiteHeader({ title, subtitle, isHome = false }: Props) {
     const { url, props } = usePage();
     const { settings, auth } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,55 +38,57 @@ export default function SiteHeader({
 
     return (
         <header className="site-header">
-            <Link href={home.url()} className="site-header__brand">
-                Maison La recette
+            <Link
+                href={home.url()}
+                className="site-header__brand"
+                aria-label="Maison La recette, accueil"
+            >
+                <img src={logoImg} alt="Maison La recette" />
             </Link>
 
             {title && (
                 <div className="site-header__heading">
-                    <p
-                        className={
-                            accent === 'title'
-                                ? 'site-header__title site-header__title--accent'
-                                : 'site-header__title'
-                        }
-                    >
-                        {title}
-                    </p>
-                    {subtitle && (
-                        <p
-                            className={
-                                accent === 'subtitle'
-                                    ? 'site-header__subtitle site-header__subtitle--accent'
-                                    : 'site-header__subtitle'
-                            }
-                        >
-                            {subtitle}
+                    {isHome ? (
+                        <h1 className="site-header__title">{title}</h1>
+                    ) : (
+                        <p className="site-header__title site-header__title--framed">
+                            {title}
                         </p>
+                    )}
+                    {subtitle && (
+                        <p className="site-header__subtitle">{subtitle}</p>
                     )}
                 </div>
             )}
 
             <div className="site-header__actions">
-                {settings.link_linkedin && (
-                    <a href={settings.link_linkedin} aria-label="LinkedIn">
-                        <LinkedinIcon />
-                    </a>
-                )}
-                {settings.link_instagram && (
-                    <a href={settings.link_instagram} aria-label="Instagram">
-                        <InstagramIcon />
-                    </a>
-                )}
-                {listenUrl ? (
-                    <a href={listenUrl} aria-label="Écouter le podcast">
-                        <MicIcon />
-                    </a>
-                ) : (
-                    <Link href={podcastsIndex.url()} aria-label="Les podcasts">
-                        <MicIcon />
-                    </Link>
-                )}
+                <div className="site-header__socials">
+                    {settings.link_linkedin && (
+                        <a href={settings.link_linkedin} aria-label="LinkedIn">
+                            <LinkedinIcon />
+                        </a>
+                    )}
+                    {settings.link_instagram && (
+                        <a
+                            href={settings.link_instagram}
+                            aria-label="Instagram"
+                        >
+                            <InstagramIcon />
+                        </a>
+                    )}
+                    {listenUrl ? (
+                        <a href={listenUrl} aria-label="Écouter le podcast">
+                            <MicIcon />
+                        </a>
+                    ) : (
+                        <Link
+                            href={podcastsIndex.url()}
+                            aria-label="Les podcasts"
+                        >
+                            <MicIcon />
+                        </Link>
+                    )}
+                </div>
                 <button
                     type="button"
                     className="site-header__burger"

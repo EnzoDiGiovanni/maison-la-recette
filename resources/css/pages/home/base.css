@@ -10,8 +10,8 @@
     --color-text: #262626;
     --color-light: #fff8eb;
 
-    /* Couleur du header (logo, titre, menu, icônes) */
-    --color-header: var(--color-orange);
+    /* L'en-tête s'aligne sur les marges du contenu de l'accueil. */
+    --header-gutter: 5vw;
 
     /* Largeur du contenu : 90vw = 5 % de marge de chaque côté */
     --content-width: 90vw;
@@ -29,7 +29,8 @@ html {
  * La page d'accueil a sa propre mise en page : on y neutralise les styles
  * par balise du reste du site (base/draft.css, base/layout.css).
  */
-.home-page :where(*) {
+/* L'en-tête du site garde ses propres marges. */
+.home-page :where(*:not(.site-header, .site-header *)) {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -58,7 +59,7 @@ html {
 
     background: var(--color-background);
 
-    font-family: 'Hanken Grotesk', Arial, Helvetica, sans-serif;
+    font-family: var(--font-sans);
 
     line-height: normal;
 

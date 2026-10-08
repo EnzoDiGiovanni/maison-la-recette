@@ -10,6 +10,9 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         $settings = [
+            'banner_enabled' => '1',
+            'banner_link_label' => 'Inscris-toi',
+            'banner_text' => 'et lance-toi dans les défis durables de Maison La Recette',
             'podcast_rating' => '4,9/5',
             'podcast_reviews_count' => '70',
             'podcast_listen_rate' => '75 %',

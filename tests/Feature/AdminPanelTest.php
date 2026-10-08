@@ -190,6 +190,23 @@ it('saves the site settings', function () {
         ->and(Setting::get('inconnu', 'défaut'))->toBe('défaut');
 });
 
+it('switches the home banner on and off', function () {
+    Livewire::test(ManageSettings::class)
+        ->fillForm(['banner_enabled' => false, 'banner_text' => 'Nouveau défi en octobre'])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    expect(Setting::get('banner_enabled'))->toBe('0')
+        ->and(Setting::get('banner_text'))->toBe('Nouveau défi en octobre');
+
+    Livewire::test(ManageSettings::class)
+        ->assertSchemaStateSet(['banner_enabled' => false])
+        ->fillForm(['banner_enabled' => true])
+        ->call('save');
+
+    expect(Setting::get('banner_enabled'))->toBe('1');
+});
+
 it('refuses to delete a session or an experience that has bookings', function () {
     $session = $this->records[ExperienceSessionResource::class];
     $experience = $this->records[ExperienceResource::class];

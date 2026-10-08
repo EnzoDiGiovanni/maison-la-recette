@@ -1,11 +1,11 @@
 /* =========================================================
-   LE PROJET
+   SECTIONS PHOTO + TEXTE : LE PROJET, À PROPOS DE MOI
 ========================================================= */
 
 .split-section {
     width: var(--content-width);
 
-    margin: 0 auto;
+    margin: clamp(70px, 14vh, 180px) auto 0;
 
     display: flex;
 
@@ -14,28 +14,69 @@
     justify-content: center;
 
     gap: clamp(30px, 6vw, 140px);
+
+    scroll-margin-top: 40px;
 }
 
-.project-section {
-    margin-top: clamp(70px, 14vh, 180px);
-}
+/* PHOTO + FORMES VERTES DERRIÈRE */
 
-/* IMAGES (utilisées aussi dans À propos) */
-
-.split-image-wrap {
+.split-media {
     position: relative;
+
+    isolation: isolate;
 
     width: clamp(220px, 32vw, 640px);
 
-    aspect-ratio: 245 / 200;
-
     flex-shrink: 0;
+}
+
+.split-media::before,
+.split-media::after {
+    position: absolute;
+
+    z-index: -1;
+
+    width: 58%;
+    height: 62%;
+
+    border-radius: clamp(28px, 4vw, 80px);
+
+    background: var(--color-green);
+}
+
+/* Le projet : une forme qui dépasse en haut à gauche. */
+
+.project-section .split-media::before {
+    content: '';
+
+    top: -10%;
+    left: -9%;
+}
+
+/* À propos : une forme en haut à droite, une en bas à gauche. */
+
+.about-section .split-media::before {
+    content: '';
+
+    top: -10%;
+    right: -9%;
+}
+
+.about-section .split-media::after {
+    content: '';
+
+    bottom: -10%;
+    left: -9%;
+}
+
+.split-image-wrap {
+    width: 100%;
+
+    aspect-ratio: 245 / 200;
 
     border-radius: clamp(20px, 2vw, 40px);
 
     overflow: hidden;
-
-    background: transparent;
 }
 
 .split-image {
@@ -58,13 +99,13 @@
 }
 
 .split-content h2 {
-    position: relative;
-
     margin-bottom: clamp(18px, 2vw, 36px);
 
     padding-bottom: clamp(12px, 1.2vw, 22px);
 
-    color: var(--color-green);
+    border-bottom: 1px solid var(--color-green);
+
+    color: var(--color-orange);
 
     font-size: clamp(22px, 3vw, 56px);
 
@@ -77,18 +118,24 @@
     white-space: nowrap;
 }
 
-.split-content h2::after {
-    content: '';
+.split-content h3 {
+    margin-bottom: clamp(10px, 1vw, 20px);
 
-    position: absolute;
+    color: var(--color-brown);
 
-    left: 0;
-    bottom: 0;
+    font-size: clamp(20px, 2.4vw, 46px);
 
-    width: 100%;
-    height: 1px;
+    font-weight: 700;
 
-    background: var(--color-green);
+    line-height: 1.05;
+
+    letter-spacing: -0.3px;
+}
+
+.split-content h3 span {
+    display: block;
+
+    color: var(--color-green);
 }
 
 .split-content p {
@@ -99,6 +146,14 @@
     font-weight: 400;
 
     line-height: 1.65;
+
+    text-align: justify;
+
+    hyphens: auto;
+}
+
+.split-content p + p {
+    margin-top: 1.65em;
 }
 
 /* RESPONSIVE */
@@ -107,21 +162,23 @@
     .split-section {
         flex-direction: column;
 
-        gap: 26px;
-    }
+        gap: 60px;
 
-    .project-section {
         margin-top: 70px;
     }
 
-    .split-image-wrap,
+    .split-media {
+        width: 84%;
+    }
+
     .split-content {
         width: 100%;
 
         max-width: none;
     }
 
-    .split-content h2 {
+    .split-content h2,
+    .split-content h3 {
         font-size: 24px;
     }
 

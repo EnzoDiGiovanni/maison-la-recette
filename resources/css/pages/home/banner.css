@@ -1,0 +1,119 @@
+/* =========================================================
+   BANNIÈRE DÉFILANTE : FIXÉE EN BAS DE L'ÉCRAN
+========================================================= */
+
+/* Hauteur de la bannière : la page et le bouton « haut » lui laissent la place. */
+
+.home-page:has(.home-banner) {
+    --banner-padding: clamp(8px, 0.75vw, 14px);
+    --banner-font-size: clamp(12px, 1.05vw, 18px);
+    --banner-height: calc(var(--banner-font-size) + 2 * var(--banner-padding));
+
+    padding-bottom: var(--banner-height);
+}
+
+.home-page:has(.home-banner) .back-to-top {
+    bottom: calc(var(--banner-height) + clamp(12px, 1.5vw, 28px));
+}
+
+.home-banner {
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+
+    z-index: 60;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background: var(--color-green);
+
+    color: #ffffff;
+
+    font-size: var(--banner-font-size);
+
+    font-weight: 500;
+
+    line-height: 1;
+}
+
+/*
+ * La piste contient deux fois la même série de messages : en la décalant
+ * d'une moitié, la boucle reprend sans à-coup.
+ */
+
+.home-banner__track {
+    display: flex;
+
+    width: max-content;
+
+    animation: home-banner-scroll 60s linear infinite;
+}
+
+.home-banner:hover .home-banner__track,
+.home-banner:focus-within .home-banner__track {
+    animation-play-state: paused;
+}
+
+.home-banner__item {
+    flex-shrink: 0;
+
+    padding: var(--banner-padding) 0;
+
+    white-space: nowrap;
+}
+
+.home-banner__item::after {
+    content: '·';
+
+    margin: 0 0.45em;
+}
+
+.home-banner__message {
+    display: inline;
+}
+
+.home-banner a {
+    color: inherit;
+
+    text-decoration: underline;
+
+    text-underline-offset: 0.2em;
+}
+
+.home-banner a:hover {
+    opacity: 0.7;
+}
+
+@keyframes home-banner-scroll {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Animations réduites : le message reste fixe, sans répétition. */
+
+@media (prefers-reduced-motion: reduce) {
+    .home-banner__track {
+        width: auto;
+
+        justify-content: center;
+
+        animation: none;
+    }
+
+    .home-banner__item {
+        white-space: normal;
+
+        padding-inline: 5vw;
+
+        text-align: center;
+    }
+
+    .home-banner__item:not(:first-child),
+    .home-banner__item::after {
+        display: none;
+    }
+}

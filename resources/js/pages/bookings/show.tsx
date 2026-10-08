@@ -36,11 +36,7 @@ export default function BookingsShow({ experience, session }: Props) {
     }
 
     return (
-        <SiteLayout
-            title="Expériences"
-            subtitle="Réservation"
-            accent="subtitle"
-        >
+        <SiteLayout title="Expériences" subtitle="Réservation">
             <Head title={`Réservation · ${experience.title}`} />
 
             <div className="reservation-page">

@@ -38,6 +38,7 @@
 
 .account-dialog__section {
     display: grid;
+    width: 100%;
     justify-items: center;
     gap: clamp(0.5rem, 1.5vw, 0.9rem);
 }
@@ -50,8 +51,11 @@
 
 .account-dialog__button {
     /* Pilules de même largeur, texte toujours sur une ligne. */
+    box-sizing: border-box;
+    justify-self: center;
     width: min(100%, 20rem);
-    padding: 0.55em 1.2em;
+    margin: 0;
+    padding: 0.55em 0.8em;
     border: 0;
     border-radius: 999px;
     font-size: clamp(0.9rem, 2.4vw, 1.15rem);
@@ -68,14 +72,22 @@
     transform: translateY(-2px);
 }
 
-.account-dialog__button--green {
-    background: var(--secondary-color);
+/* Sélecteurs doublés : les pages (.podcast-page a…) imposent la couleur des liens. */
+.account-dialog .account-dialog__button--cream {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.account-dialog .account-dialog__button--outline {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--accent-color);
     color: var(--accent-color);
 }
 
-.account-dialog__button--cream {
-    background: var(--accent-color);
-    color: var(--secondary-color);
+.account-dialog__button--outline:hover {
+    box-shadow:
+        inset 0 0 0 1.5px var(--accent-color),
+        0 4px 10px rgb(71 56 46 / 0.18);
 }
 
 /* Séparateur « ou » avec deux traits fins. */
@@ -117,7 +129,8 @@
 }
 
 /* Les boutons de la fenêtre compte sont aussi des liens */
-a.account-dialog__button {
+.account-dialog a.account-dialog__button {
+    font-weight: 600;
     display: inline-block;
     text-align: center;
     text-decoration: none;
