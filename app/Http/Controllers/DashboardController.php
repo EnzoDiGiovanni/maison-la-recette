@@ -7,6 +7,7 @@ use App\Http\Resources\BookingResource;
 use App\Http\Resources\InquiryResource;
 use App\Http\Resources\PodcastResource;
 use App\Models\Booking;
+use App\Models\Podcast;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class DashboardController extends Controller
             ->sortByDesc(fn (Booking $booking) => $booking->session->starts_at)
             ->values();
 
+        $favoritePodcasts = $user->favoritePodcasts()->published()->with('speaker')->get();
+
         return Inertia::render('dashboard', [
             'account' => [
                 'name' => $user->name,
@@ -42,8 +45,11 @@ class DashboardController extends Controller
                 'admin_url' => $user->isAdmin() ? route('filament.admin.pages.dashboard') : null,
                 'member_since' => $user->created_at?->toDateString(),
             ],
-            'favoritePodcasts' => PodcastResource::collection(
-                $user->favoritePodcasts()->published()->with('speaker')->get(),
+            'favoritePodcasts' => PodcastResource::collection($favoritePodcasts)->resolve($request),
+            // Episodes not saved yet: the featured ones first, then the latest.
+            'suggestedPodcasts' => PodcastResource::collection(
+                Podcast::query()->published()->with('speaker')->whereKeyNot($favoritePodcasts->modelKeys())
+                    ->orderByDesc('is_featured')->latest('published_at')->latest('id')->limit(3)->get(),
             )->resolve($request),
             'bookings' => BookingResource::collection($bookings)->resolve($request),
             'inquiries' => InquiryResource::collection(

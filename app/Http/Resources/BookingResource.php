@@ -26,6 +26,7 @@ class BookingResource extends JsonResource
             'is_upcoming' => $this->session->starts_at->isFuture(),
             'can_cancel' => $this->isCancellable(),
             'session' => [
+                'id' => $this->session->id,
                 'starts_at' => $this->session->starts_at->toIso8601String(),
                 'location' => $this->session->location ?? $this->session->experience->location,
             ],
